@@ -43,21 +43,23 @@ export default {
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      let imageUrl = URL.createObjectURL(file.raw);
+      let imageUrl = 'http://p7.highstreet.top/' + res.key;
       this.$emit("update:state", imageUrl);
       this.$emit("change");
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      console.log(file.type);
+      const typeList = ['image/gif', "image/jpeg", "image/png"]
+      const isJPG = typeList.includes(file.type);
+      // const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传头像图片只能是 JPG、PNG、GIF 格式!");
       }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
+      // if (!isLt2M) {
+      //   this.$message.error("上传头像图片大小不能超过 2MB!");
+      // }
+      return isJPG;
     }
   }
 };

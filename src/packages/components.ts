@@ -1,3 +1,19 @@
+import Banner from './Banner';
+import ImageGroup from './ImageGroup';
+import GoodsList from './GoodsList';
+
+// const components = [
+//     Banner,
+//     ImageGroup,
+//     GoodsList,
+// ];
+
+
+// components.forEach(v => {
+//     v.methods.getConfig();
+// })
+// console.log(Banner);
+
 interface CompInfo {
     name: string; // 名称
     key: string; // 参数名，与传入组件的参数对应
@@ -39,7 +55,7 @@ const components: Components[] = [
                     {
                         name: '图片1', key: 'url1', child: [
                             { name: '图片', key: 'url', default: '', type: 'fileupload' },
-                            { name: '弹出框图片', key: 'alert', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: '弹出框图片', key: 'alert', default: '', type: 'fileupload', accept: 'clickEvent' },
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
@@ -48,7 +64,7 @@ const components: Components[] = [
                     {
                         name: '图片2', key: 'url2', child: [
                             { name: '图片', key: 'url', default: '', type: 'fileupload' },
-                            { name: '弹出框图片', key: 'alert', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: '弹出框图片', key: 'alert', default: '', type: 'fileupload', accept: 'clickEvent' },
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
@@ -57,7 +73,7 @@ const components: Components[] = [
                     {
                         name: '图片3', key: 'url3', child: [
                             { name: '图片', key: 'url', default: '', type: 'fileupload' },
-                            { name: '弹出框图片', key: 'alert', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: '弹出框图片', key: 'alert', default: '', type: 'fileupload', accept: 'clickEvent' },
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
@@ -66,7 +82,7 @@ const components: Components[] = [
                     {
                         name: '图片4', key: 'url4', child: [
                             { name: '图片', key: 'url', default: '', type: 'fileupload' },
-                            { name: '弹出框图片', key: 'alert', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: '弹出框图片', key: 'alert', default: '', type: 'fileupload', accept: 'clickEvent' },
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },

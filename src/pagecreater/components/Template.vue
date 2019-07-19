@@ -143,7 +143,7 @@ export default {
           console.log(err);
         },
         complete(r) {
-          me.pageurl = `${BASE["out"]}/pagetemplate.html?pageid=${r.key}#/`;
+          me.pageurl = `${BASE["out"]}/pagetemplate?pageid=${r.key}`;
         }
       });
     },

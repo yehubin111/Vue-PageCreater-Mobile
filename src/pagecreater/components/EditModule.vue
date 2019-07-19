@@ -15,13 +15,6 @@
     <template v-if="infotype == 'fileupload'">
       <p class="title">{{infotitle}}</p>
       <file-upload :state.sync="state" @change="editComponent"></file-upload>
-      <!-- <el-input
-        class="navinput"
-        v-model="state"
-        :placeholder="type"
-        type="text"
-        @input="editComponent"
-      />-->
     </template>
     <!-- 单选框 -->
     <template v-if="infotype == 'radio'">

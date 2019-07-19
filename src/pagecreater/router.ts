@@ -12,9 +12,6 @@ const router =  new Router({
         path: '/',
         name: 'index',
         component: index,
-        // redirect: to => {
-        //     return '/index';
-        // }
     }, {
         path: '/preview',
         name: 'preview',

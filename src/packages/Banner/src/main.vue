@@ -14,17 +14,39 @@ export default {
   name: "HsBanner",
   props: {
     url: {
-      type: String
+      type: String,
+      default: ""
     },
     marginTop: {
-      type: String
+      type: String,
+      default: "0px"
     }
   },
-  computed: {
-    bannerurl() {
-      return this.url
-        ? this.url
-        : "http://p7.highstreet.top/FnflM1EXyD3c0x_Wf4KXGAY6HVyo";
+  data() {
+    return {
+      keyOption: {
+        url: { name: "图片", type: "fileupload" },
+        marginTop: { name: "上边距", type: "input" }
+      }
+    };
+  },
+  computed: {},
+  methods: {
+    getConfig() {
+      let options = {
+        url: this.url,
+        marginTop: this.marginTop
+      };
+      let arr = [];
+      Object.keys(options).forEach(v => {
+        let obj = {
+          ...this.keyOption[v],
+          key: v,
+          default: this[v].default
+        }
+        arr.push(obj);
+      })
+      return arr; 
     }
   }
 };

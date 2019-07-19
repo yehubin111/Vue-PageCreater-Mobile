@@ -6,9 +6,9 @@ import index from './components/Template.vue';
 Vue.use(Router);
 
 export default new Router({
-    // mode: 'history',
+    mode: 'history',
     routes: [{
-        path: '/',
+        path: '/pagetemplate',
         name: 'index',
         component: index,
     }],
