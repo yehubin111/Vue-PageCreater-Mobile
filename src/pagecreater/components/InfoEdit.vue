@@ -1,18 +1,30 @@
 <template>
   <div class="infoedit">
-    <div class="navinfo" v-for="i in infolist" :key="i">
-      <template v-if="typeof propslist[i] == 'object'">
-        <p class="objtitle">{{getTitle(i)}}</p>
-        <info-edit
-          :propslist="config[i]"
-          :info="getInfo(i)"
-          :index="index"
+    <div class="commonedit" :style="{'background-color': bgcolor ? '#f3f3f3':'#fff'}">
+      <div class="navinfo" v-for="i in infolist" :key="i">
+        <template v-if="typeof propslist[i] == 'object'">
+          <p class="objtitle">{{getTitle(i)}}</p>
+          <info-edit
+            :propslist="config[i]"
+            :info="getInfo(i)"
+            :index="index"
+            :type="i"
+            :bind="bindconfig"
+            :accept="getAccept(i)"
+            :bgcolor="!bgcolor"
+            @editGlobal="_edit"
+            @editComponent="_edit"
+          ></info-edit>
+        </template>
+        <edit-module
+          v-else
+          :config="config"
+          :info="info"
           :type="i"
-          @editGlobal="_edit"
-          @editComponent="_edit"
-        ></info-edit>
-      </template>
-      <edit-module v-else :config="config" :info="info" :type="i" @editComponent="_editInfo"></edit-module>
+          @editComponent="_editInfo"
+          :bind="bind"
+        ></edit-module>
+      </div>
     </div>
   </div>
 </template>
@@ -20,26 +32,42 @@
 <script>
 import { typeJudge } from "@/assets/common";
 
-import EditModule from './EditModule';
+import EditModule from "./EditModule";
 export default {
-  name: 'InfoEdit',
+  name: "InfoEdit",
   components: {
     EditModule
   },
   props: {
+    // 当层props对象
     propslist: {
       type: Object | Array,
       required: true
     },
+    // 全局配置 or 组件配置
     index: {
       type: Number,
       required: true
     },
+    // 当层info对象
     info: {
       type: Array,
       required: true
     },
+    // key
     type: {
+      type: String
+    },
+    // 斑马色
+    bgcolor: {
+      type: Boolean
+    },
+    // 向下影响参数
+    bind: {
+      type: Object
+    },
+    // 向上受影响参数
+    accept: {
       type: String
     }
   },
@@ -51,22 +79,38 @@ export default {
   computed: {
     infolist() {
       this.config = Object.assign({}, this.propslist);
-      return Object.keys(this.propslist);
+      // maxcount bind
+      let i = Object.keys(this.propslist);
+      let maxcount = i.length;
+      if (Array.isArray(this.info)) {
+        maxcount = this.bindconfig[this.accept];
+      }
+      return i.slice(0, maxcount);
+    },
+    bindconfig() {
+      // 提取带有绑定的数据props
+      let bindinfo = this.info.filter(v => v.bind).map(v => v.key);
+      let obj = {};
+      bindinfo.forEach(v => {
+        obj[v] = this.config[v];
+      });
+      return Object.assign(this.bind ? this.bind : {}, obj);
     }
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     // valueChange(i) {
 
     //   console.log(i);
     // },
     getTitle(i) {
-      return this.info.find(v => v.key == i)['name'];
+      return this.info.find(v => v.key == i)["name"];
     },
     getInfo(i) {
-      return this.info.find(v => v.key == i)['child'];
+      return this.info.find(v => v.key == i)["child"];
+    },
+    getAccept(i) {
+      return this.info.find(v => v.key == i)["accept"];
     },
     typeCheck(data, type) {
       return typeJudge(data, type);
@@ -93,25 +137,28 @@ export default {
       }
     }
   },
-  watch: {
-    
-  }
+  watch: {}
 };
 </script>
 
 <style lang="less" scoped>
 .infoedit {
-  flex-basis: 300px;
+  flex-basis: 360px;
   box-sizing: border-box;
-  padding: 20px;
+  // padding: 20px;
   height: 100%;
-  background-color: #fafafa;
-  border-left: 1px solid #f3f3f3;
-  .navinfo {
-    margin-bottom: 10px;
-    .objtitle {
-      font-size: 12px;
-      color: #999;
+  // background-color: #fafafa;
+  // border-left: 1px solid #f3f3f3;
+  .commonedit {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    .navinfo {
+      margin-bottom: 10px;
+      .objtitle {
+        font-size: 12px;
+        line-height: 30px;
+      }
     }
   }
 }

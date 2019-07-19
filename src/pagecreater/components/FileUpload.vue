@@ -1,0 +1,90 @@
+<template>
+  <div class="fileupload">
+    <el-upload
+      class="avatar-uploader"
+      action="http://up.qiniu.com"
+      :data="otherData"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :headers="headerOptions"
+      :before-upload="beforeAvatarUpload"
+    >
+      <div class="imageshow">
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height: 178px;"></i>
+      </div>
+    </el-upload>
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+export default {
+  props: {
+    state: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      headerOptions: {}
+    };
+  },
+  computed: {
+    ...mapState(["qiniutoken"]),
+    otherData() {
+      return {
+        token: this.qiniutoken
+      };
+    },
+    imageUrl() {
+        return this.state;
+    }
+  },
+  methods: {
+    handleAvatarSuccess(res, file) {
+      let imageUrl = URL.createObjectURL(file.raw);
+      this.$emit("update:state", imageUrl);
+      this.$emit("change");
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    }
+  }
+};
+</script>
+<style lang="less">
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 40px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  display: block;
+  width: 100%;
+}
+</style>
+<style>
+</style>

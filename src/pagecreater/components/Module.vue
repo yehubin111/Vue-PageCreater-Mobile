@@ -1,10 +1,10 @@
 <template>
-  <draggable tag="div" class="box" :list="data" group="people" @change="dragModule">
+  <draggable tag="div" class="box" :list="componentsconfig" group="people" @change="dragModule" :options="dragOptions">
     <div
       class="module"
       :class="{on: index == i}"
       @click="selectComponent(i)"
-      v-for="(temp, i) in data"
+      v-for="(temp, i) in componentsconfig"
       :key="i"
     >
       <component :is="temp.moduleName" v-bind="temp.props"></component>
@@ -19,7 +19,7 @@
 import draggable from "vuedraggable/src/vuedraggable";
 export default {
   props: {
-    data: {
+    componentsconfig: {
       type: Array,
       required: true
     },
@@ -31,19 +31,22 @@ export default {
   components: {
     draggable
   },
+  data() {
+    return {
+      dragOptions: {
+        animation: 200,
+        group: 'description',
+        // disabled: !this.edit,
+        ghostClass: 'dragger-on'
+      }
+    }
+  },
   methods: {
     selectComponent(i) {
       this.$emit("selectComponent", i);
     },
     dragModule({ moved }) {
-      let i = 0;
-      if (this.index == moved.newIndex) {
-        i = moved.oldIndex;
-      }
-      if (this.index == moved.oldIndex) {
-        i = moved.newIndex;
-      }
-      this.selectComponent(i);
+      this.$emit("dragComponent", moved.oldIndex, moved.newIndex);
     },
     delComponent(i) {
       this.$emit("delComponent", i);
@@ -53,6 +56,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.dragger-on {
+  opacity: .5;
+  background-color: #c8ebfb;
+}
 .module {
   position: relative;
   .modulectrl {

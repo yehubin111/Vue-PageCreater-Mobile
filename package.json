@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
+    "test": "vue-cli-service build --mode testing",
     "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
@@ -12,6 +13,7 @@
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
     "element-ui": "^2.10.1",
+    "postcss-px-to-viewport": "^1.1.1",
     "qiniu-js": "^2.5.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import index from './components/Template.vue';
+import preview from './components/PreviewFrame.vue';
 
 Vue.use(Router);
 
@@ -14,6 +15,10 @@ const router =  new Router({
         // redirect: to => {
         //     return '/index';
         // }
+    }, {
+        path: '/preview',
+        name: 'preview',
+        component: preview,
     }],
 });
 

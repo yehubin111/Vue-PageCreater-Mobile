@@ -46,8 +46,9 @@
 
 <script>
 import axios from "axios";
-import { debounceFc } from "../../plugins";
-import { toGoodsDetial } from "../../phonePlugins";
+import { debounceFc } from "@/assets/common";
+import { toGoodsDetial } from "@/packages/phonePlugins";
+import { URL } from "@/assets/url";
 export default {
   name: "HsGoodsList",
   props: {
@@ -72,8 +73,7 @@ export default {
   data() {
     return {
       list: [],
-      url:
-        "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset=0&pageSize={count}"
+      url: URL.goodslist
     };
   },
   computed: {

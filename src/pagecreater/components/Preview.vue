@@ -2,9 +2,10 @@
   <div class="preview">
     <div class="backimage">
       <p class="title">{{globalconfig.title ? globalconfig.title : '标题'}}</p>
-      <div class="page" :style="globalconfig.styles">
+      <!-- <div class="page" :style="globalconfig.styles">
         <module :data="data" @selectComponent="selectComponent" @delComponent="delComponent" :index="index"></module>
-      </div>
+      </div> -->
+      <iframe :src="frameurl" frameborder="0" class="page" @load="onLoad" ref="frame"></iframe>
     </div>
     <div class="createurl">
       <transition name="fade">
@@ -22,9 +23,10 @@
 </template>
 
 <script>
-import Module from "./Module";
-import { textCopy } from '@/assets/common';
 
+import { textCopy } from '@/assets/common';
+import { getBaseUrl } from "@/assets/url";
+let BASE = getBaseUrl();
 export default {
   props: {
     globalconfig: {
@@ -44,11 +46,11 @@ export default {
     }
   },
   components: {
-    Module
+    // Module
   },
   data() {
     return {
-      
+      frameurl: `${location.href}preview`
     };
   },
   computed: {},
@@ -63,18 +65,21 @@ export default {
     }
   },
   methods: {
+    onLoad() {
+      this.$emit('frameOnLoad', this.$refs.frame);
+    },
     getConfig() {
       this.$emit("getConfig");
     },
     toCreate() {
       this.$emit('qiniuUpload');
     },
-    selectComponent(idx) {
-      this.$emit("selectComponent", idx);
-    },
-    delComponent(idx) {
-      this.$emit("delComponent", idx);
-    }
+    // selectComponent(idx) {
+    //   this.$emit("selectComponent", idx);
+    // },
+    // delComponent(idx) {
+    //   this.$emit("delComponent", idx);
+    // }
   }
 };
 </script>

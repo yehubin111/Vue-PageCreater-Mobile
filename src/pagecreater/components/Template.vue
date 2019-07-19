@@ -10,11 +10,14 @@
       @selectComponent="selectComponent"
       @getConfig="getConfig"
       @qiniuUpload="qiniuUpload"
+      @frameOnLoad="frameOnLoad"
     ></preview>
     <info-edit
+      class="editmodule"
       :propslist="editprops"
       :info="editinfo"
       :index="index"
+      :bgcolor="true"
       @editGlobal="editGlobal"
       @editComponent="editComponent"
     ></info-edit>
@@ -24,10 +27,12 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { Msgsuccess } from "@/assets/plugins";
-import { typeJudge, getUUID, getBaseUrl } from "@/assets/common";
+import { typeJudge, getUUID, debounceFc } from "@/assets/common";
+import { getBaseUrl, URL } from "@/assets/url";
+let BASE = getBaseUrl();
 import { globalInfo } from "../regular";
 import axios from "axios";
-import * as qiniu from 'qiniu-js';
+import * as qiniu from "qiniu-js";
 
 import ComponentNav from "./ComponentNav";
 import Preview from "./Preview";
@@ -45,27 +50,78 @@ export default {
       editprops: {},
       globalinfo: globalInfo,
       globalconfig: {},
-      qiniutoken: '',
-      pageurl: ''
+      pageurl: "",
+      framename: "",
+      frameurl: "",
+      fullscreenLoading: null
     };
   },
   created() {
     this.globalconfig = this.initConfig(this.globalinfo);
     // 获取七牛云token
     this.getQiniuToken();
+    // 加载iframe
+    this.fullscreenLoading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)"
+    });
+  },
+  mounted() {
+    window.addEventListener("message", this.onMessage);
+  },
+  beforeDestroy: function() {
+    window.removeEventListener("message", this.onMessage);
   },
   computed: {
-    ...mapState(["componentsconfig"])
+    ...mapState(["componentsconfig", "qiniutoken"])
   },
   methods: {
     ...mapMutations([
       "ADD_COMPONENTCONFIG",
       "EDIT_COMPONENTCONFIG",
-      "DEL_COMPONENTCONFIG"
+      "DEL_COMPONENTCONFIG",
+      "DRAG_COMPONENTCONFIG",
+      "SET_QINIUTOKEN"
     ]),
+    debounceFunc: (() => {
+      return debounceFc(function(argu) {
+        this.framePostMessage(argu);
+      }, 300);
+    })(),
+    frameOnLoad(name, url) {
+      this.framename = name;
+      this.frameurl = url;
+      this.fullscreenLoading.close();
+      console.log("iframe 加载完毕");
+      // 初始化传参
+      this.framePostMessage({ type: "initGlobal", config: this.globalconfig });
+    },
+    framePostMessage(data) {
+      if (!this.framename) return;
+      this.framename.contentWindow.postMessage(data, this.frameurl);
+    },
+    onMessage(msg) {
+      // console.group("父组件 收到消息");
+      let index = msg.data["index"];
+      let type = msg.data["type"];
+      let componentsconfig = msg.data["componentsconfig"];
+      switch (type) {
+        case "selectComponent":
+          this.selectComponent(index);
+          break;
+        case "delComponent":
+          this.delComponent(index);
+          break;
+        case "dragComponent":
+          this.dragComponent(componentsconfig, index);
+          break;
+      }
+    },
     getQiniuToken() {
-      axios.get("/mgr_yuncang/common/getQiniuToken").then(res => {
-        this.qiniutoken = res.data.token;
+      axios.get(URL.qiniutoken).then(res => {
+        this.SET_QINIUTOKEN(res.data.token);
       });
     },
     qiniuUpload() {
@@ -87,7 +143,7 @@ export default {
           console.log(err);
         },
         complete(r) {
-          me.pageurl = `${getBaseUrl()}/pagetemplate/?pageid=${r.key}#/`;
+          me.pageurl = `${BASE["out"]}/pagetemplate.html?pageid=${r.key}#/`;
         }
       });
     },
@@ -100,15 +156,6 @@ export default {
           this.$set(config, v.key, v.default);
         }
       });
-
-      // Object.keys(info).forEach(v => {
-      //   if (typeJudge(info[v], "Array")) {
-      //     this.$set(config, v, info[v].map(n => this.initConfig(n)));
-      //   } else if (!typeJudge(info[v], "Object")) this.$set(config, v, info[v]);
-      //   else {
-      //     this.$set(config, v, this.initConfig(info[v]));
-      //   }
-      // });
       return config;
     },
     // 获取配置
@@ -120,19 +167,32 @@ export default {
       console.log(config);
       Msgsuccess("请打开Chrome Devtools查看");
     },
+    // 更换组件位置
+    dragComponent(config, index) {
+      this.DRAG_COMPONENTCONFIG({ config });
+      this.index = index;
+      this.selectComponent(this.index);
+    },
     // 添加组件
     addComponent(n) {
       let res = JSON.parse(n);
       res.props = this.initConfig(res.info);
       this.ADD_COMPONENTCONFIG(res);
       this.index = this.componentsconfig.length - 1;
-      console.log(res);
       this.editprops = res.props;
       this.editinfo = res.info;
+      //
+      this.framePostMessage({
+        type: "addComponent",
+        config: res,
+        index: this.index
+      });
     },
     // 编辑组件
     editComponent(config, type) {
       this.EDIT_COMPONENTCONFIG({ index: this.index, config });
+      //
+      this.debounceFunc({ type: "editComponent", config, index: this.index });
     },
     // 选择组件
     selectComponent(idx) {
@@ -146,14 +206,13 @@ export default {
     },
     // 删除组件
     delComponent(idx) {
-      console.log(idx);
-      this.DEL_COMPONENTCONFIG(idx);
       if (this.index == idx) {
-        this.selectComponent(-1);
+        this.index = -1;
       } else if (this.index > idx) {
         this.index--;
-        this.selectComponent(this.index);
       }
+      this.DEL_COMPONENTCONFIG(idx);
+      this.selectComponent(this.index);
     },
     // 编辑全局配置
     holeConfig() {
@@ -163,6 +222,8 @@ export default {
     },
     editGlobal(config) {
       this.globalconfig = Object.assign(this.globalconfig, config);
+      // 编辑全局
+      this.debounceFunc({ type: "editGlobal", config: this.globalconfig });
     }
   }
 };
@@ -174,5 +235,11 @@ export default {
   height: 100vh;
   position: absolute;
   width: 100%;
+}
+.editmodule {
+  padding: 10px;
+  background-color: #fafafa;
+  border: 1px solid #f3f3f3;
+  overflow-y: auto;
 }
 </style>

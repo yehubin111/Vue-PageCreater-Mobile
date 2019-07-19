@@ -38,13 +38,13 @@ module.exports = {
                     '^/api_yuncang': '/api_yuncang'
                 }
             },
-            '/mgr_yuncang': {
-                target: 'http://dev-mgr-yuncang.highstreet.top',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/mgr_yuncang': '/mgr_yuncang'
-                }
-            },
+            // '/mgr_yuncang': {
+            //     target: 'http://dev-mgr-yuncang.highstreet.top',
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/mgr_yuncang': '/mgr_yuncang'
+            //     }
+            // },
         }
     }
 }

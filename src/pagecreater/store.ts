@@ -1,16 +1,21 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { MutationTree } from 'vuex';
 
 Vue.use(Vuex);
 
 interface State {
     componentsconfig: any[];
+    qiniutoken: string;
+}
+interface DragComponentConfig {
+    config: any[];
 }
 
 const state: State = {
     componentsconfig: [],
+    qiniutoken: '',
 };
-const mutations = {
+const mutations: MutationTree<State> = {
     // tslint:disable-next-line:no-shadowed-variable
     ADD_COMPONENTCONFIG(state: State, config: any) {
         state.componentsconfig.push(config);
@@ -23,6 +28,14 @@ const mutations = {
     // tslint:disable-next-line:no-shadowed-variable
     DEL_COMPONENTCONFIG(state: State, index: number) {
         state.componentsconfig.splice(index, 1);
+    },
+    // tslint:disable-next-line:no-shadowed-variable
+    DRAG_COMPONENTCONFIG(state: State, { config }: DragComponentConfig) {
+        state.componentsconfig = config;
+    },
+    // tslint:disable-next-line:no-shadowed-variable
+    SET_QINIUTOKEN(state: State, token) {
+        state.qiniutoken = token;
     },
 };
 const actions = {

@@ -1,17 +1,23 @@
 <template>
-  <div class="imagelist" :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding-left': bothPadding, 'padding-right': bothPadding,'margin-top': marginTop }">
-    <div class="image" v-for="(img, index) in imageList" :key="index" @click="clickCallback(index)">
-      <img v-if="img" :src="img" alt />
+  <div
+    class="imagelist"
+    :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding-left': bothPadding, 'padding-right': bothPadding,'margin-top': marginTop }"
+  >
+    <div class="image" v-for="(img, index) in imageList" :key="index" @click="clickCallback(img)">
+      <img v-if="img.url" :src="img.url" alt />
       <div class="default" v-else>
         <p :style="{'font-size': count > 3 ? '12px' : '14px'}">
           <span>图片</span>
         </p>
       </div>
     </div>
+    <alert-module :alertimg="alertimg" :alertwidth="alertwidth" :status.sync="alertstatus"></alert-module>
   </div>
 </template>
 
 <script>
+import { toGoodsDetial, toTopic } from "@/packages/phonePlugins";
+import AlertModule from '@/packages/components/AlertModule';
 export default {
   name: "HsImageGroup",
   props: {
@@ -31,11 +37,20 @@ export default {
     },
     marginTop: {
       type: String
+    },
+    clickEvent: {
+      type: String
     }
+  },
+  components: {
+    AlertModule
   },
   data() {
     return {
-    }
+      alertimg: '',
+      alertwidth: '',
+      alertstatus: false
+    };
   },
   computed: {
     imageList() {
@@ -43,15 +58,28 @@ export default {
     },
     columns() {
       let arr = [];
-      while(arr.length < this.count) {
-        arr.push('1fr');
+      while (arr.length < this.count) {
+        arr.push("1fr");
       }
-      return arr.join(' ');
+      return arr.join(" ");
     }
   },
   methods: {
     clickCallback(i) {
-      this.$emit("click", i);
+      console.log(i);
+      switch (this.clickEvent) {
+        case "alert":
+          this.alertstatus = true;
+          this.alertimg = i.alert;
+          this.alertwidth = i.alertwidth;
+          break;
+        case "topic":
+          toTopic(i.topic);
+          break;
+        case "goodsdetail":
+          toGoodsDetial(i.goodsdetail);
+          break;
+      }
     }
   }
 };
@@ -65,7 +93,7 @@ export default {
   // justify-content: space-between;
   .image {
     width: 100%;
-    background-color: #fff;
+    // background-color: #fff;
     .default {
       box-sizing: border-box;
       padding: 10px;

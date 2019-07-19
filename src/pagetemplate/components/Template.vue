@@ -47,5 +47,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.page {
+  min-height: 100vh;
+  overflow: hidden;
+}
 </style>

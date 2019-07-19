@@ -25,3 +25,19 @@ export function toGoodsDetial(productId: string) {
         (console).log(e);
     }
 }
+
+// 参数 专题id
+export function toTopic(topicId: string) {
+    try {
+        switch (DeviceType) {
+            case 'Android':
+                (window as any).JSInterface.toTopic(topicId);
+                break;
+            case 'IOS':
+                (window as any).webkit.messageHandlers.toTopic.postMessage({ topicId });
+                break;
+        }
+    } catch (e) {
+        (console).log(e);
+    }
+}

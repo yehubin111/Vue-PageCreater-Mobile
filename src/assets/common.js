@@ -20,22 +20,6 @@ export function getUUID() {
     return (S4() + S4() + "-" + S4());
 }
 
-export function getBaseUrl() {
-    let base = '';
-    switch (process.env.NODE_ENV) {
-        case 'development':
-            base = 'http://localhost:8008'
-            break;
-        case 'test':
-            base = '';
-            break;
-        case 'production':
-            base = '';
-            break;
-    }
-    return base;
-}
-
 export function textCopy(target) {
     console.log(target);
     let clipboard = new Clipboard(target);
@@ -48,4 +32,17 @@ export function textCopy(target) {
     clipboard.on('error', function (e) {
         console.log(e);
     });
+}
+
+export function debounceFc(func, wait) {
+    let timeout;
+    return function() {
+        const me = this;
+        const argu = arguments[0];
+        if (timeout) { clearTimeout(timeout); }
+
+        timeout = setTimeout(() => {
+            func.call(me, argu);
+        }, wait);
+    };
 }
