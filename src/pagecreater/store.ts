@@ -26,6 +26,10 @@ const mutations: MutationTree<State> = {
         state.componentsconfig[index].props = Object.assign(prop, config);
     },
     // tslint:disable-next-line:no-shadowed-variable
+    SET_COMPONENTINFO(state: State, { index, info }: any) {
+        state.componentsconfig[index].info = info;
+    },
+    // tslint:disable-next-line:no-shadowed-variable
     DEL_COMPONENTCONFIG(state: State, index: number) {
         state.componentsconfig.splice(index, 1);
     },

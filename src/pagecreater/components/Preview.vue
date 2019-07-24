@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      frameurl: `${location.href}preview`
+      frameurl: `${BASE['out']}/pagecreater.html#/preview`
     };
   },
   computed: {},

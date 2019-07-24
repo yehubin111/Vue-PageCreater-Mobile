@@ -8,9 +8,11 @@
       :on-success="handleAvatarSuccess"
       :headers="headerOptions"
       :before-upload="beforeAvatarUpload"
+      :on-progress="onProgress"
     >
       <div class="imageshow">
         <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <el-progress class="circle" v-else-if="progress" type="circle" :percentage="percent"></el-progress>
         <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height: 178px;"></i>
       </div>
     </el-upload>
@@ -27,7 +29,9 @@ export default {
   },
   data() {
     return {
-      headerOptions: {}
+      headerOptions: {},
+      progress: false,
+      percent: 0
     };
   },
   computed: {
@@ -42,7 +46,12 @@ export default {
     }
   },
   methods: {
+    onProgress(e, f) {
+      this.progress = true;
+      this.percent = e.percent.toFixed(2) * 1;
+    },
     handleAvatarSuccess(res, file) {
+      this.progress = false;
       let imageUrl = 'http://p7.highstreet.top/' + res.key;
       this.$emit("update:state", imageUrl);
       this.$emit("change");
@@ -88,5 +97,10 @@ export default {
   width: 100%;
 }
 </style>
-<style>
+<style lang="less" scoped>
+.imageshow {
+  .circle {
+    padding: 20px;
+  }
+}
 </style>

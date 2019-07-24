@@ -83,7 +83,8 @@ export default {
       "EDIT_COMPONENTCONFIG",
       "DEL_COMPONENTCONFIG",
       "DRAG_COMPONENTCONFIG",
-      "SET_QINIUTOKEN"
+      "SET_QINIUTOKEN",
+      "SET_COMPONENTINFO"
     ]),
     debounceFunc: (() => {
       return debounceFc(function(argu) {
@@ -106,6 +107,7 @@ export default {
       // console.group("父组件 收到消息");
       let index = msg.data["index"];
       let type = msg.data["type"];
+      let info = msg.data["info"];
       let componentsconfig = msg.data["componentsconfig"];
       switch (type) {
         case "selectComponent":
@@ -116,6 +118,9 @@ export default {
           break;
         case "dragComponent":
           this.dragComponent(componentsconfig, index);
+          break;
+        case "initComponent":
+          this.initComponent(info);
           break;
       }
     },
@@ -143,7 +148,7 @@ export default {
           console.log(err);
         },
         complete(r) {
-          me.pageurl = `${BASE["out"]}/pagetemplate?pageid=${r.key}`;
+          me.pageurl = `${BASE["out"]}/pagetemplate.html?pageid=${r.key}#/`;
         }
       });
     },
@@ -173,6 +178,14 @@ export default {
       this.index = index;
       this.selectComponent(this.index);
     },
+    // 初始化组件props信息
+    initComponent(info) {
+      console.log(info);
+      this.editprops = this.initConfig(info);
+      this.editinfo = info;
+      this.EDIT_COMPONENTCONFIG({ index: this.index, config: this.editprops });
+      this.SET_COMPONENTINFO({ index: this.index, info: this.editinfo });
+    },
     // 添加组件
     addComponent(n) {
       let res = JSON.parse(n);
@@ -181,7 +194,7 @@ export default {
       this.index = this.componentsconfig.length - 1;
       this.editprops = res.props;
       this.editinfo = res.info;
-      //
+      // 
       this.framePostMessage({
         type: "addComponent",
         config: res,
@@ -189,7 +202,7 @@ export default {
       });
     },
     // 编辑组件
-    editComponent(config, type) {
+    editComponent(config) {
       this.EDIT_COMPONENTCONFIG({ index: this.index, config });
       //
       this.debounceFunc({ type: "editComponent", config, index: this.index });

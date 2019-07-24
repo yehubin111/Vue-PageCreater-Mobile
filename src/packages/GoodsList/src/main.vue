@@ -1,5 +1,8 @@
 <template>
-  <div class="goodslist" :style="{'padding-left': bothPadding,'padding-right': bothPadding,'margin-top': marginTop}">
+  <div
+    class="goodslist"
+    :style="{'padding-left': bothPadding,'padding-right': bothPadding,'margin-top': marginTop}"
+  >
     <div class="goodbox" :style="{'grid-gap': gap}" v-if="list.length == 0">
       <div class="default" v-for="(g,index) in defaultList" :key="index">
         <p>
@@ -16,9 +19,10 @@
       >
         <div class="img">
           <img :src="g.mainPicAddress" alt />
-          <p class="tip">
-            <span>库存{{g.leftNum}}</span>
-          </p>
+          <div class="tip">
+            <p>立省<br/><span>￥3000</span></p>
+          </div>
+          <p class="line"></p>
         </div>
         <div class="infoall">
           <div class="info">
@@ -54,44 +58,54 @@ export default {
   props: {
     linecount: {
       type: String,
-      required: true
+      default: "1"
     },
     topicid: {
       type: String,
-      required: true
+      default: ""
     },
     gap: {
-      type: String
+      type: String,
+      default: "0px"
     },
     bothPadding: {
-      type: String
+      type: String,
+      default: "0px"
     },
     marginTop: {
-      type: String
+      type: String,
+      default: "0px"
     }
   },
   data() {
     return {
       list: [],
-      url: URL.goodslist
+      url: URL.goodslist,
+      keyOption: {
+        bothPadding: { name: "左右边距", type: "input" },
+        marginTop: { name: "上边距", type: "input" },
+        topicid: { name: "专题号", type: "input" },
+        linecount: { name: "行数（一行两个）", type: "input" },
+        gap: { name: "商品间隔", type: "input" }
+      }
     };
   },
   computed: {
     defaultList() {
       let arr = [];
-      while(arr.length < this.linecount * 2) {
+      while (arr.length < this.linecount * 2) {
         arr.push("");
       }
       return arr;
     }
   },
   mounted() {
-    if(this.topicid && this.linecount) {
+    if (this.topicid && this.linecount) {
       this.debounceFunc();
     }
   },
   destroyed() {
-    console.log('destroyed');
+    console.log("destroyed");
   },
   methods: {
     debounceFunc: (() => {
@@ -114,14 +128,14 @@ export default {
   },
   watch: {
     topicid(n, o) {
-      if(n == '' || this.linecount == '') {
+      if (n == "" || this.linecount == "") {
         this.list = [];
         return;
       }
       this.debounceFunc();
     },
     linecount(n, o) {
-      if(n == '' || this.topicid == '') {
+      if (n == "" || this.topicid == "") {
         this.list = [];
         return;
       }
@@ -145,29 +159,40 @@ export default {
       position: relative;
       .img {
         width: 100%;
-        height: 167px;
+        height: 142px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 9px;
+        margin-bottom: 14px;
         position: relative;
         img {
           max-width: 100%;
           max-height: 100%;
         }
-        .tip {
-          width: 50px;
-          height: 25px;
+        .line {
+          width: 100%;
+          height: 1px;
+          background: linear-gradient(to right, #fff, #D8C5A1, #fff);
           position: absolute;
-          right: 5px;
-          top: 5px;
-          background: url("http://p7.highstreet.top/FsM8MsW7yfj04v50PBbF-zbbou00")
-            0 0 no-repeat;
-          background-size: 50px auto;
+          bottom: 0;
+          left: 0;
+        }
+        .tip {
+          width: 29px;
+          height: 33px;
+          position: absolute;
+          font-size: 10px;
+          left: 10px;
+          top: 0px;
+          background-color: #D6C39F;
+          // background: url("http://p7.highstreet.top/FsM8MsW7yfj04v50PBbF-zbbou00")
+          //   0 0 no-repeat;
+          // background-size: 50px auto;
           text-align: center;
+          color: #322D26;
           span {
-            font-size: 9px;
-            color: #a16120;
+            font-size: 8px;
+            color: #322D26;
             font-family: PingFangSC-Regular;
             font-weight: 400;
             text-align: center;
@@ -185,8 +210,8 @@ export default {
           overflow: hidden;
           text-align: left;
           .name {
-            font-size: 11px;
-            color: #222;
+            font-size: 13px;
+            color: #494238;
             width: 100%;
             height: 16px;
             overflow: hidden;

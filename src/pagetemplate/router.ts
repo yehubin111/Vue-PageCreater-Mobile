@@ -1,15 +1,33 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+// import pagetemplate from './components/Index.vue';
 import index from './components/Template.vue';
 
 Vue.use(Router);
 
 export default new Router({
-    mode: 'history',
-    routes: [{
-        path: '/pagetemplate',
-        name: 'index',
-        component: index,
-    }],
+    // mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'index',
+            component: index,
+        },
+        // {
+        //     path: '/pagetemplate',
+        //     name: 'pagetemplate',
+        //     component: pagetemplate,
+        //     redirect: () => {
+        //         return '/pagetemplate/index';
+        //     },
+        //     children: [
+        //         {
+        //             path: 'index/:pageid',
+        //             name: 'index',
+        //             component: index,
+        //         },
+        //     ],
+        // },
+    ],
 });

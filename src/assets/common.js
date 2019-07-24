@@ -1,7 +1,7 @@
 import Clipboard from 'clipboard';
 import { Msgsuccess } from './plugins';
 export function getSearch(key, url) {
-    var _sh = url ? url.match(/(?:\?)[^\#]*/g)[0].substr(1) : location.search.substr(1);
+    var _sh = url ? url.match(/(?:\?)[^\#]*/g)[0].substr(1) : decodeURIComponent(location.search.substr(1));
     if (!_sh)
         return null;
 

@@ -7,12 +7,14 @@
 </template>
 
 <script>
-import { getSearch } from "@/assets/common";
 import axios from "axios";
+import { getSearch } from '@/assets/common';
 import Module from "./Module";
+import { hsChangeTitle } from '@/packages/phonePlugins';
 export default {
   data() {
     return {
+      // href: location.href,
       configs: {},
       baseurl: "http://p7.highstreet.top" // 七牛云baseurl
     };
@@ -21,7 +23,7 @@ export default {
     Module
   },
   created() {
-    let pageid = getSearch("pageid");
+    let pageid = getSearch('pageid');
     let url = `${this.baseurl}/${pageid}`;
     axios.get(url).then(res => {
       this.configs = res.data;
@@ -42,6 +44,7 @@ export default {
   watch: {
     globalConfigs(n, o) {
       document.title = n.title;
+      hsChangeTitle(n.title);
     }
   }
 };

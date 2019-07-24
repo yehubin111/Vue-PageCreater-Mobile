@@ -5,6 +5,8 @@
       @selectComponent="selectComponent"
       @delComponent="delComponent"
       @dragComponent="dragComponent"
+      @initComponent="initComponent"
+      ref="moduleList"
       :index="index"
     ></module>
   </div>
@@ -12,6 +14,7 @@
 
 <script>
 import Module from "./Module";
+import { typeJudge } from "@/assets/common";
 export default {
   components: {
     Module
@@ -31,6 +34,24 @@ export default {
     window.removeEventListener("message", this.onMessage);
   },
   methods: {
+    initConfig(info) {
+      let config = {};
+      info.forEach(v => {
+        if (typeJudge(v.child, "Array")) {
+          this.$set(config, v.key, this.initConfig(v.child));
+        } else {
+          this.$set(config, v.key, v.default);
+        }
+      });
+      return config;
+    },
+    initComponent(info) {
+      if(this.componentsconfig[this.index].info && this.componentsconfig[this.index].info.length > 0) return;
+      
+      this.componentsconfig[this.index].info = info;
+      this.componentsconfig[this.index].props = this.initConfig(info);
+      top.postMessage({type: 'initComponent', info: info}, this.fatherurl)
+    },
     deepUpdate(origin, config) {
       Object.keys(config).forEach(v => {
         if (typeof config[v] == "object") {
@@ -55,10 +76,18 @@ export default {
           break;
         case "addComponent":
           this.componentsconfig.push(config);
+          // // 获取配置
+          // let ref = `${config['name']}-${this.componentsconfig.length - 1}`;
+          // console.log(this.$refs['moduleList'].$refs);
+          // console.log(ref);
+          // console.log(this.$refs['moduleList'].$refs[ref]);
+          // let props = this.$refs['moduleList'].$refs[ref][0].getConfig();
+          // console.log(props);
           this.index = index;
           break;
         case "editComponent":
           this.deepUpdate(this.componentsconfig[index].props, config);
+          console.log(this.componentsconfig);
           break;
       }
     },

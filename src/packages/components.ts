@@ -26,15 +26,15 @@ interface CompInfo {
 interface Components {
     name: string;
     moduleName: string;
-    info: CompInfo[];
+    info?: CompInfo[];
 }
 const components: Components[] = [
     {
         name: 'Banner',
         moduleName: 'HsBanner',
         info: [
-            { name: '图片', key: 'url', default: '', type: 'fileupload' },
-            { name: '上边距', key: 'marginTop', default: '0px', type: 'input' },
+            { name: '图片', type: 'fileupload', key: 'url', default: '' },
+            { name: '上边距', type: 'input', key: 'marginTop', default: '0px' },
         ],
     },
     {
@@ -48,7 +48,7 @@ const components: Components[] = [
             {
                 name: '点击事件',
                 key: 'clickEvent',
-                default: 'topic', type: 'radio', bind: ['alert', 'topic', 'goodsdetail'],
+                default: 'topic', type: 'radio', bind: ['alert', 'topic', 'goodsdetail', 'h5link'],
             },
             {
                 name: '图片列表', key: 'list', accept: 'count', child: [
@@ -59,6 +59,7 @@ const components: Components[] = [
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: 'h5链接', key: 'h5link', default: '', type: 'input', accept: 'clickEvent' },
                         ],
                     },
                     {
@@ -68,6 +69,7 @@ const components: Components[] = [
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: 'h5链接', key: 'h5link', default: '', type: 'input', accept: 'clickEvent' },
                         ],
                     },
                     {
@@ -77,6 +79,7 @@ const components: Components[] = [
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: 'h5链接', key: 'h5link', default: '', type: 'input', accept: 'clickEvent' },
                         ],
                     },
                     {
@@ -86,6 +89,7 @@ const components: Components[] = [
                             { name: '弹出框图片宽度', key: 'alertwidth', default: '0px', type: 'input', accept: 'clickEvent' },
                             { name: '专题编号', key: 'topic', default: '', type: 'input', accept: 'clickEvent' },
                             { name: '商品id', key: 'goodsdetail', default: '', type: 'input', accept: 'clickEvent' },
+                            { name: 'h5链接', key: 'h5link', default: '', type: 'input', accept: 'clickEvent' },
                         ],
                     },
                 ],
@@ -96,11 +100,11 @@ const components: Components[] = [
         name: 'GoodsList',
         moduleName: 'HsGoodsList',
         info: [
-            { name: '左右边距', key: 'bothPadding', default: '0px', type: 'input' },
-            { name: '上边距', key: 'marginTop', default: '0px', type: 'input' },
-            { name: '专题号', key: 'topicid', default: '', type: 'input' },
-            { name: '行数（一行两个）', key: 'linecount', default: '1', type: 'input' },
-            { name: '商品间隔', key: 'gap', default: '0px', type: 'input' },
+            { name: '左右边距', type: 'input', key: 'bothPadding', default: '0px' },
+            { name: '上边距', type: 'input', key: 'marginTop', default: '0px' },
+            { name: '专题号', type: 'input', key: 'topicid', default: '' },
+            { name: '行数（一行两个）', type: 'input', key: 'linecount', default: '1' },
+            { name: '商品间隔', type: 'input', key: 'gap', default: '0px' },
         ],
     },
 ];

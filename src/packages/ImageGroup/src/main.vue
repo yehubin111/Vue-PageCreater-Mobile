@@ -17,29 +17,32 @@
 
 <script>
 import { toGoodsDetial, toTopic } from "@/packages/phonePlugins";
-import AlertModule from '@/packages/components/AlertModule';
+import AlertModule from "@/packages/components/AlertModule";
 export default {
   name: "HsImageGroup",
   props: {
     count: {
       type: Number,
-      required: true
+      default: 1
     },
     list: {
       type: Object,
-      required: true
     },
     gap: {
-      type: String
+      type: String,
+      default: "0px"
     },
     bothPadding: {
-      type: String
+      type: String,
+      default: "0px"
     },
     marginTop: {
-      type: String
+      type: String,
+      default: "0px"
     },
     clickEvent: {
-      type: String
+      type: String,
+      default: "topic"
     }
   },
   components: {
@@ -47,9 +50,61 @@ export default {
   },
   data() {
     return {
-      alertimg: '',
-      alertwidth: '',
-      alertstatus: false
+      alertimg: "",
+      alertwidth: "",
+      alertstatus: false,
+      keyOption: {
+        bothPadding: { name: "左右边距", type: "input" },
+        marginTop: { name: "上边距", type: "input" },
+        count: { name: "数量", type: "radio", bind: ["list"] },
+        gap: { name: "图片间隔", type: "input" },
+        clickEvent: {
+          name: "点击事件",
+          type: "radio",
+          bind: ["alert", "topic", "goodsdetail"]
+        },
+        list: {
+          name: "图片列表",
+          accept: "count",
+          child: [
+            {
+              key: "url",
+              name: "图片",
+              child: [
+                { name: "图片", key: "url", default: "", type: "fileupload" },
+                {
+                  key: "alert",
+                  name: "弹出框图片",
+                  default: "",
+                  type: "fileupload",
+                  accept: "clickEvent"
+                },
+                {
+                  key: "alertwidth",
+                  name: "弹出框图片宽度",
+                  default: "0px",
+                  type: "input",
+                  accept: "clickEvent"
+                },
+                {
+                  key: "topic",
+                  name: "专题编号",
+                  default: "",
+                  type: "input",
+                  accept: "clickEvent"
+                },
+                {
+                  key: "goodsdetail",
+                  name: "商品id",
+                  default: "",
+                  type: "input",
+                  accept: "clickEvent"
+                }
+              ]
+            }
+          ]
+        }
+      }
     };
   },
   computed: {
@@ -78,6 +133,9 @@ export default {
           break;
         case "goodsdetail":
           toGoodsDetial(i.goodsdetail);
+          break;
+        case "h5link":
+          location.href = i.h5link;
           break;
       }
     }

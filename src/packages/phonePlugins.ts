@@ -41,3 +41,19 @@ export function toTopic(topicId: string) {
         (console).log(e);
     }
 }
+
+// 修改title
+export function hsChangeTitle(title: string) {
+    try {
+        switch (DeviceType) {
+            case 'Android':
+                (window as any).JSInterface.setTextTitle(title);
+                break;
+            case 'IOS':
+                (window as any).webkit.messageHandlers.TDWebKit.postMessage(title);
+                break;
+        }
+    } catch (e) {
+        (console).log(e);
+    }
+}

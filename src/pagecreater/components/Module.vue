@@ -7,7 +7,7 @@
       v-for="(temp, i) in componentsconfig"
       :key="i"
     >
-      <component :is="temp.moduleName" v-bind="temp.props"></component>
+      <component :is="temp.moduleName" v-bind="temp.props" @initConfig="initConfig"></component>
       <div class="modulectrl">
         <i class="el-icon-delete" style="color: #fff" @click.stop="delComponent(i)"></i>
       </div>
@@ -42,7 +42,12 @@ export default {
     }
   },
   methods: {
+    initConfig(info) {
+      console.log(info);
+      // this.$emit('initComponent', info);
+    },
     selectComponent(i) {
+      // console.log(this.$refs);
       this.$emit("selectComponent", i);
     },
     dragModule({ moved }) {

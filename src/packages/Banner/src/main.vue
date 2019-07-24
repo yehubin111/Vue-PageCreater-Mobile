@@ -31,23 +31,11 @@ export default {
     };
   },
   computed: {},
+  created() {
+     
+  },
   methods: {
-    getConfig() {
-      let options = {
-        url: this.url,
-        marginTop: this.marginTop
-      };
-      let arr = [];
-      Object.keys(options).forEach(v => {
-        let obj = {
-          ...this.keyOption[v],
-          key: v,
-          default: this[v].default
-        }
-        arr.push(obj);
-      })
-      return arr; 
-    }
+    
   }
 };
 </script>
