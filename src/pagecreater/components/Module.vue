@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     initConfig(info) {
-      console.log(info);
-      // this.$emit('initComponent', info);
+      // console.log(info);
+      this.$emit('initComponent', info);
     },
     selectComponent(i) {
       // console.log(this.$refs);

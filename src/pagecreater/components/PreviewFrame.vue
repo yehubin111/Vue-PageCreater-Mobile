@@ -76,13 +76,6 @@ export default {
           break;
         case "addComponent":
           this.componentsconfig.push(config);
-          // // 获取配置
-          // let ref = `${config['name']}-${this.componentsconfig.length - 1}`;
-          // console.log(this.$refs['moduleList'].$refs);
-          // console.log(ref);
-          // console.log(this.$refs['moduleList'].$refs[ref]);
-          // let props = this.$refs['moduleList'].$refs[ref][0].getConfig();
-          // console.log(props);
           this.index = index;
           break;
         case "editComponent":

@@ -53,7 +53,8 @@ export default {
       pageurl: "",
       framename: "",
       frameurl: "",
-      fullscreenLoading: null
+      fullscreenLoading: null,
+      precomponent: null
     };
   },
   created() {
@@ -84,7 +85,8 @@ export default {
       "DEL_COMPONENTCONFIG",
       "DRAG_COMPONENTCONFIG",
       "SET_QINIUTOKEN",
-      "SET_COMPONENTINFO"
+      "SET_COMPONENTINFO",
+      "SET_COMPONENTCONFIG"
     ]),
     debounceFunc: (() => {
       return debounceFc(function(argu) {
@@ -180,21 +182,20 @@ export default {
     },
     // 初始化组件props信息
     initComponent(info) {
-      console.log(info);
       this.editprops = this.initConfig(info);
       this.editinfo = info;
-      this.EDIT_COMPONENTCONFIG({ index: this.index, config: this.editprops });
+      this.SET_COMPONENTCONFIG({ index: this.index, config: this.editprops });
       this.SET_COMPONENTINFO({ index: this.index, info: this.editinfo });
     },
     // 添加组件
     addComponent(n) {
       let res = JSON.parse(n);
-      res.props = this.initConfig(res.info);
+      // res.props = this.initConfig(res.info);
       this.ADD_COMPONENTCONFIG(res);
       this.index = this.componentsconfig.length - 1;
-      this.editprops = res.props;
-      this.editinfo = res.info;
-      // 
+      // this.editprops = res.props;
+      // this.editinfo = res.info;
+      // 发送添加组件信息给frame
       this.framePostMessage({
         type: "addComponent",
         config: res,
@@ -203,6 +204,7 @@ export default {
     },
     // 编辑组件
     editComponent(config) {
+      // console.log(config);
       this.EDIT_COMPONENTCONFIG({ index: this.index, config });
       //
       this.debounceFunc({ type: "editComponent", config, index: this.index });

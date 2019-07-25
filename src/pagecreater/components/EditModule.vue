@@ -92,7 +92,6 @@ export default {
   },
   methods: {
     editComponent() {
-      // console.log(unitKey);
       this.$emit("editComponent", this.type, this.state);
     }
   }

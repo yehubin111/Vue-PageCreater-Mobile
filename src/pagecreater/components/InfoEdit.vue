@@ -64,7 +64,8 @@ export default {
     },
     // 向下影响参数
     bind: {
-      type: Object
+      type: Object,
+      default: () => ({})
     },
     // 向上受影响参数
     accept: {
@@ -94,7 +95,7 @@ export default {
       bindinfo.forEach(v => {
         obj[v] = this.config[v];
       });
-      return Object.assign(this.bind ? this.bind : {}, obj);
+      return Object.assign({}, this.bind, obj);
     }
   },
   mounted() {},
