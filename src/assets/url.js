@@ -27,7 +27,8 @@ const url = {
         qiniutoken: "/mgr_yuncang/common/getQiniuToken",
     },
     web: {
-        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset=0&pageSize={count}"
+        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset=0&pageSize={count}",
+        coupon: '/api_yuncang/coupon/drawCouponForWap'
     }
 }
 let _url = {};

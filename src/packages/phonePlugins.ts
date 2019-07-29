@@ -57,3 +57,19 @@ export function hsChangeTitle(title: string) {
         (console).log(e);
     }
 }
+
+// getUserInfo 获取用户token
+export function getUserToken() {
+    try {
+        switch (DeviceType) {
+            case 'Android':
+                (window as any).JSInterface.getAppToken();
+                break;
+            case 'IOS':
+                (window as any).webkit.messageHandlers.getAppToken.postMessage(null);
+                break;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}

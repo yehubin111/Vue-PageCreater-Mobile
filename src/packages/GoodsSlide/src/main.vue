@@ -20,7 +20,7 @@
         <p class="img ac jc">
           <img :src="g.mainPicAddress" alt />
         </p>
-        <p class="name elps">{{g.productName}}</p>
+        <p class="name elps">{{g.productBrandNameEng ? g.productBrandNameEng + '/' : ''}}{{g.productBrandName}}</p>
         <p class="info row-flex ac">
           <span class="tag">黑卡会员</span>
           <span class="unit ff-m">￥</span>

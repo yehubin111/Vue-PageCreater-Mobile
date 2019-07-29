@@ -29,6 +29,7 @@ export const radioSelect: RadioSelect = {
         { key: 'topic', value: '跳专题页' },
         { key: 'goodsdetail', value: '跳商品详情页' },
         { key: 'h5link', value: '跳h5链接' },
+        { key: 'couponid', value: '优惠券' }
     ],
     navcount: [{ key: 1, value: '1项' }, { key: 2, value: '2项' }, { key: 3, value: '3项' }, { key: 4, value: '4项' }, { key: 5, value: '5项' }],
 };

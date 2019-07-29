@@ -1,7 +1,7 @@
 <template>
   <div
     class="imagelist"
-    :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding-left': bothPadding, 'padding-right': bothPadding,'margin-top': marginTop }"
+    :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding-left': bothPadding, 'padding-right': bothPadding,'margin-top': marginTop, 'margin-bottom': marginBottom }"
   >
     <div class="image" v-for="(img, index) in imageList" :key="index" @click="clickCallback(img)">
       <img v-if="img.url" :src="img.url" alt />
@@ -16,10 +16,13 @@
 </template>
 
 <script>
-import { toGoodsDetial, toTopic } from "@/packages/phonePlugins";
+import axios from 'axios';
+import Toast from 'vant/lib/toast';
+import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
+import { URL } from "@/assets/url";
 export default {
-  name: "HsImageGroup",
+  name: "HsImageGroup", 
   props: {
     count: {
       type: Number,
@@ -27,7 +30,7 @@ export default {
     },
     list: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     gap: {
       type: String,
@@ -38,6 +41,10 @@ export default {
       default: "0px"
     },
     marginTop: {
+      type: String,
+      default: "0px"
+    },
+    marginBottom: {
       type: String,
       default: "0px"
     },
@@ -54,15 +61,17 @@ export default {
       alertimg: "",
       alertwidth: "",
       alertstatus: false,
+      userToken: "",
       keyOption: {
         bothPadding: { name: "左右边距", type: "input" },
         marginTop: { name: "上边距", type: "input" },
+        marginBottom: { name: "下边距", type: "input" },
         count: { name: "数量", type: "radio", bind: ["list"] },
         gap: { name: "图片间隔", type: "input" },
         clickEvent: {
           name: "点击事件",
           type: "radio",
-          bind: ["alert", "topic", "goodsdetail"]
+          bind: ["alert", "topic", "goodsdetail", "h5link", "couponid"]
         },
         list: {
           name: "图片列表",
@@ -96,9 +105,21 @@ export default {
                   default: "",
                   type: "input",
                   accept: "clickEvent"
+                },
+                h5link: {
+                  name: "h5链接",
+                  default: "",
+                  type: "input",
+                  accept: "clickEvent"
+                },
+                couponid: {
+                  name: "优惠券",
+                  default: "",
+                  type: "input",
+                  accept: "clickEvent"
                 }
               }
-            },
+            }
           ]
         }
       }
@@ -116,9 +137,29 @@ export default {
       return arr.join(" ");
     }
   },
+  mounted() {
+    if (this.clickEvent == "couponid") {
+      getUserToken();
+      window.jsGetAppToken = token => {
+        this.userToken = token; // Android可以获取到, IOS获取为空
+      };
+    }
+  },
   methods: {
+    getCoupon(code) {
+      axios.post(
+        URL.coupon,
+        {
+          cpBatchNumber: code
+        },
+        {
+          headers: { Platform: "2", Authorization: this.userToken }
+        }
+      ).then(res => {
+        Toast(res.data.msg);
+      });
+    },
     clickCallback(i) {
-      console.log(i);
       switch (this.clickEvent) {
         case "alert":
           this.alertstatus = true;
@@ -134,6 +175,9 @@ export default {
         case "h5link":
           location.href = i.h5link;
           break;
+        case "couponid":
+          this.getCoupon(i.couponid);
+          break;
       }
     }
   }
@@ -145,6 +189,7 @@ export default {
   display: grid;
   // flex-direction: row;
   grid-template-rows: 1fr;
+  overflow: hidden;
   // justify-content: space-between;
   .image {
     width: 100%;
