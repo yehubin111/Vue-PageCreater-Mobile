@@ -48,13 +48,13 @@ export default {
   props: {
     type: {
       // key
-      type: String
+      type: String | Number
     },
     info: {
-      type: Array
+      type: Object
     },
     config: {
-      type: Object
+      type: String | Number
     },
     bind: {
       type: Object
@@ -65,26 +65,32 @@ export default {
   },
   data() {
     return {
-      state: "",
+      state: this.config,
       radiooptions: radioSelect[this.type]
     };
   },
   methods: {
     
   },
+  mounted() {
+    // console.log(this.config);
+    // console.log(this.info);
+    // console.log(this.type);
+  },
   computed: {
     original() {
-      this.state = this.config[this.type];
-      return this.config[this.type];
+      // console.log(this.type, this.config);
+      this.state = this.config;
+      return this.config;
     },
     infotype() {
-      return this.info.find(v => v.key == this.type)["type"];
+      return this.info["type"];
     },
     infotitle() {
-      return this.info.find(v => v.key == this.type)["name"];
+      return this.info["name"];
     },
     infoaccept() {
-      return this.info.find(v => v.key == this.type)["accept"];
+      return this.info["accept"];
     }
   },
   watch: {
@@ -92,6 +98,7 @@ export default {
   },
   methods: {
     editComponent() {
+      // console.log(this.state);
       this.$emit("editComponent", this.type, this.state);
     }
   }

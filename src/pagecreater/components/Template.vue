@@ -58,7 +58,7 @@ export default {
     };
   },
   created() {
-    this.globalconfig = this.initConfig(this.globalinfo);
+    this.globalconfig = this.$i2c(this.globalinfo);
     // 获取七牛云token
     this.getQiniuToken();
     // 加载iframe
@@ -154,17 +154,6 @@ export default {
         }
       });
     },
-    initConfig(info) {
-      let config = {};
-      info.forEach(v => {
-        if (typeJudge(v.child, "Array")) {
-          this.$set(config, v.key, this.initConfig(v.child));
-        } else {
-          this.$set(config, v.key, v.default);
-        }
-      });
-      return config;
-    },
     // 获取配置
     getConfig() {
       let config = {
@@ -182,19 +171,17 @@ export default {
     },
     // 初始化组件props信息
     initComponent(info) {
-      this.editprops = this.initConfig(info);
+      this.editprops = this.$i2c(info);
       this.editinfo = info;
+      // console.log(this.editprops, this.editinfo);
       this.SET_COMPONENTCONFIG({ index: this.index, config: this.editprops });
       this.SET_COMPONENTINFO({ index: this.index, info: this.editinfo });
     },
     // 添加组件
     addComponent(n) {
       let res = JSON.parse(n);
-      // res.props = this.initConfig(res.info);
       this.ADD_COMPONENTCONFIG(res);
       this.index = this.componentsconfig.length - 1;
-      // this.editprops = res.props;
-      // this.editinfo = res.info;
       // 发送添加组件信息给frame
       this.framePostMessage({
         type: "addComponent",
@@ -216,8 +203,10 @@ export default {
         this.editprops = {};
         return;
       }
+      
       this.editprops = this.componentsconfig[this.index].props;
       this.editinfo = this.componentsconfig[this.index].info;
+      // console.log(this.editprops, this.editinfo);
     },
     // 删除组件
     delComponent(idx) {

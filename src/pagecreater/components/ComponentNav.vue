@@ -6,7 +6,7 @@
     </div>
     <div class="navlist">
       <p class="title"><i class="el-icon-menu"></i>组件</p>
-      <div class="component template" v-for="(n, i) in nav" :key="i" @click="selectComponent(n)">{{n.name}}</div>
+      <div class="component template" v-for="(n, i) in nav" :key="i" @click="selectComponent(n)" v-show="n.show">{{n.name}}</div>
     </div>
   </div>
 </template>

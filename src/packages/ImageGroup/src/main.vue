@@ -26,7 +26,8 @@ export default {
       default: 1
     },
     list: {
-      type: Object,
+      type: Array,
+      default: () => ([])
     },
     gap: {
       type: String,
@@ -68,145 +69,36 @@ export default {
           accept: "count",
           child: [
             {
-              key: "url1",
+              key: "url",
               name: "图片",
-              child: [
-                { name: "图片", key: "url", default: "", type: "fileupload" },
-                {
-                  key: "alert",
+              child: {
+                url: { name: "图片", default: "", type: "fileupload" },
+                alert: {
                   name: "弹出框图片",
                   default: "",
                   type: "fileupload",
                   accept: "clickEvent"
                 },
-                {
-                  key: "alertwidth",
+                alertwidth: {
                   name: "弹出框图片宽度",
                   default: "0px",
                   type: "input",
                   accept: "clickEvent"
                 },
-                {
-                  key: "topic",
+                topic: {
                   name: "专题编号",
                   default: "",
                   type: "input",
                   accept: "clickEvent"
                 },
-                {
-                  key: "goodsdetail",
+                goodsdetail: {
                   name: "商品id",
                   default: "",
                   type: "input",
                   accept: "clickEvent"
                 }
-              ]
+              }
             },
-            {
-              key: "url2",
-              name: "图片",
-              child: [
-                { name: "图片", key: "url", default: "", type: "fileupload" },
-                {
-                  key: "alert",
-                  name: "弹出框图片",
-                  default: "",
-                  type: "fileupload",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "alertwidth",
-                  name: "弹出框图片宽度",
-                  default: "0px",
-                  type: "input",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "topic",
-                  name: "专题编号",
-                  default: "",
-                  type: "input",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "goodsdetail",
-                  name: "商品id",
-                  default: "",
-                  type: "input",
-                  accept: "clickEvent"
-                }
-              ]
-            },
-            {
-              key: "url3",
-              name: "图片",
-              child: [
-                { name: "图片", key: "url", default: "", type: "fileupload" },
-                {
-                  key: "alert",
-                  name: "弹出框图片",
-                  default: "",
-                  type: "fileupload",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "alertwidth",
-                  name: "弹出框图片宽度",
-                  default: "0px",
-                  type: "input",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "topic",
-                  name: "专题编号",
-                  default: "",
-                  type: "input",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "goodsdetail",
-                  name: "商品id",
-                  default: "",
-                  type: "input",
-                  accept: "clickEvent"
-                }
-              ]
-            },
-            {
-              key: "url4",
-              name: "图片",
-              child: [
-                { name: "图片", key: "url", default: "", type: "fileupload" },
-                {
-                  key: "alert",
-                  name: "弹出框图片",
-                  default: "",
-                  type: "fileupload",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "alertwidth",
-                  name: "弹出框图片宽度",
-                  default: "0px",
-                  type: "input",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "topic",
-                  name: "专题编号",
-                  default: "",
-                  type: "input",
-                  accept: "clickEvent"
-                },
-                {
-                  key: "goodsdetail",
-                  name: "商品id",
-                  default: "",
-                  type: "input",
-                  accept: "clickEvent"
-                }
-              ]
-            }
           ]
         }
       }
@@ -214,7 +106,7 @@ export default {
   },
   computed: {
     imageList() {
-      return this.list ? Object.values(this.list).slice(0, this.count) : [];
+      return this.list.slice(0, this.count);
     },
     columns() {
       let arr = [];

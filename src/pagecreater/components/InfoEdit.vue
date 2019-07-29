@@ -2,6 +2,20 @@
   <div class="infoedit">
     <div class="commonedit" :style="{'background-color': bgcolor ? '#f3f3f3':'#fff'}">
       <div class="navinfo" v-for="i in infolist" :key="i">
+        <!-- <template v-if="typeJudge(propslist[i], 'Array')">
+          <p class="objtitle">{{getTitle(i)}}</p>
+          <info-edit
+            :propslist="config[i]"
+            :info="getInfo(i)"
+            :index="index"
+            :type="i"
+            :bind="bindconfig"
+            :accept="getAccept(i)"
+            :bgcolor="!bgcolor"
+            @editGlobal="_edit"
+            @editComponent="_edit"
+          ></info-edit>
+        </template>-->
         <template v-if="typeof propslist[i] == 'object'">
           <p class="objtitle">{{getTitle(i)}}</p>
           <info-edit
@@ -18,8 +32,8 @@
         </template>
         <edit-module
           v-else
-          :config="config"
-          :info="info"
+          :config="config[i]"
+          :info="info[i]"
           :type="i"
           @editComponent="_editInfo"
           :bind="bind"
@@ -51,7 +65,7 @@ export default {
     },
     // 当层info对象
     info: {
-      type: Array,
+      type: Object | Array,
       required: true
     },
     // key
@@ -79,18 +93,49 @@ export default {
   },
   computed: {
     infolist() {
-      this.config = Object.assign({}, this.propslist);
-      // maxcount bind
-      let i = Object.keys(this.propslist);
-      let maxcount = i.length;
-      if (Array.isArray(this.info)) {
+      this.config = this.propslist;
+      // console.log("props:", this.propslist);
+      // console.log("info:", this.info);
+      // console.log("accept:", this.accept);
+      // console.log("bindconfig:", this.bindconfig);
+
+      let maxcount = 0;
+      if (Array.isArray(this.propslist)) {
+        let initinfo = this.info[0];
+        let initprop = this.$i2c(this.info, 'Array')[0];
         maxcount = this.bindconfig[this.accept];
+        if (this.propslist.length > maxcount) {
+          this.propslist.length = maxcount;
+          this.info.length = maxcount;
+        } else {
+          while (this.propslist.length < maxcount) {
+            this.propslist.push(JSON.parse(JSON.stringify(initprop)));
+            this.info.push(JSON.parse(JSON.stringify(initinfo)));
+          }
+        }
       }
-      return i.slice(0, maxcount);
+      let i = Object.keys(this.propslist);
+
+      // // maxcount bind
+      // let i = Object.keys(this.propslist);
+      // let maxcount = i.length;
+      // if (Array.isArray(this.info)) {
+      //   maxcount = this.bindconfig[this.accept];
+      // }
+      // let tl = i[0];
+      // while (i.length < maxcount) {
+      //   i.push(tl);
+      //   this.propslist.push(this.propslist[0]);
+      //   this.info.push(this.info[0]);
+      // }
+      // console.log(i);
+      return i.slice(0, i.length);
     },
     bindconfig() {
       // 提取带有绑定的数据props
-      let bindinfo = this.info.filter(v => v.bind).map(v => v.key);
+      let bindinfo = Object.entries(this.info)
+        .filter(v => v[1].bind)
+        .map(v => v[0]);
       let obj = {};
       bindinfo.forEach(v => {
         obj[v] = this.config[v];
@@ -105,13 +150,14 @@ export default {
     //   console.log(i);
     // },
     getTitle(i) {
-      return this.info.find(v => v.key == i)["name"];
+      return this.info[i]["name"];
     },
     getInfo(i) {
-      return this.info.find(v => v.key == i)["child"];
+      if (typeof this.config[i] == 'object') return this.info[i]["child"];
+      else return this.info[i];
     },
     getAccept(i) {
-      return this.info.find(v => v.key == i)["accept"];
+      return this.info[i]["accept"];
     },
     typeCheck(data, type) {
       return typeJudge(data, type);

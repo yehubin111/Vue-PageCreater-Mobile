@@ -1,7 +1,3 @@
-import Banner from './Banner';
-import ImageGroup from './ImageGroup';
-import GoodsList from './GoodsList';
-
 interface CompInfo {
     name: string; // 名称
     key: string; // 参数名，与传入组件的参数对应
@@ -14,24 +10,39 @@ interface CompInfo {
 interface Components {
     name: string;
     moduleName: string;
+    show?: boolean;
     info?: CompInfo[];
 }
 const components: Components[] = [
     {
         name: 'Banner',
         moduleName: 'HsBanner',
+        show: true,
     },
     {
         name: 'ImageGroup',
         moduleName: 'HsImageGroup',
+        show: true,
+    },
+    {
+        name: 'GoodsSlide',
+        moduleName: 'HsGoodsSlide',
+        show: true,
     },
     {
         name: 'GoodsList',
         moduleName: 'HsGoodsList',
+        show: false,
     },
     {
         name: 'GoodsListOther',
         moduleName: 'HsGoodsListOther',
+        show: false,
+    },
+    {
+        name: 'FloatNav',
+        moduleName: 'HsFloatNav',
+        show: false,
     },
 ];
 

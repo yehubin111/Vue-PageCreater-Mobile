@@ -2,12 +2,16 @@ import Banner from './Banner';
 import ImageGroup from './ImageGroup';
 import GoodsList from './GoodsList';
 import GoodsListOther from './GoodsListOther';
+import FloatNav from './FloatNav';
+import GoodsSlide from './GoodsSlide';
 
 const components = [
     Banner,
     ImageGroup,
     GoodsList,
     GoodsListOther,
+    FloatNav,
+    GoodsSlide
 ];
 
 interface ConfigArray {
@@ -28,29 +32,34 @@ const install = (Vue: any, opts = {}): void => {
             this.$emit('initConfig', allInfo);
         };
         // 添加getConfig方法
-        component.methods._getConfig = function(info: any): ConfigArray[] {
+        component.methods._getConfig = function (info: any): ConfigArray[] {
             const me = this;
-            const arr: ConfigArray[] = [];
+            // const arr: ConfigArray[] = [];
+            const obj: any = {};
             Object.keys(info).forEach((v): void => {
-                const child = info[v] as any['child'];
-                const type = me._typeJudge(child);
-                let obj = {};
-                if (type === 'Array') {
-                    obj = {
-                        key: v,
-                        ...info[v],
-                        child: me._getConfig(child),
-                    };
-                } else {
-                    obj = {
-                        key: v,
-                        default: me[v],
-                        ...info[v],
-                    };
+                obj[v] = {
+                    default: me[v],
+                    ...info[v],
                 }
-                arr.push(obj as ConfigArray);
+                // const child = info[v].child;
+                // const type = me._typeJudge(child);
+                // let obj = {};
+                // if (type === 'Array') {
+                //     obj = {
+                //         key: v,
+                //         ...info[v],
+                //         child: me._getConfig(child),
+                //     };
+                // } else {
+                //     obj = {
+                //         key: v,
+                //         default: me[v],
+                //         ...info[v],
+                //     };
+                // }
+                // arr.push(obj as ConfigArray);
             });
-            return arr;
+            return obj;
         };
         // 添加类型判断方法
         component.methods._typeJudge = function (data: any, type: string): boolean | string {
@@ -74,4 +83,6 @@ export default {
     ImageGroup,
     GoodsList,
     GoodsListOther,
+    FloatNav,
+    GoodsSlide
 };

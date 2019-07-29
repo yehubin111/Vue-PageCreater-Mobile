@@ -10,7 +10,10 @@ export function getSearch(key, url) {
 }
 
 export function typeJudge(data, type) {
-    return Object.prototype.toString.call(data).slice(8, -1) === type;
+    if (!type)
+        return Object.prototype.toString.call(data).slice(8, -1)
+    else
+        return Object.prototype.toString.call(data).slice(8, -1) === type;
 }
 
 function S4() {
@@ -21,7 +24,6 @@ export function getUUID() {
 }
 
 export function textCopy(target) {
-    console.log(target);
     let clipboard = new Clipboard(target);
 
     clipboard.on('success', function (e) {
@@ -36,7 +38,7 @@ export function textCopy(target) {
 
 export function debounceFc(func, wait) {
     let timeout;
-    return function() {
+    return function () {
         const me = this;
         const argu = arguments[0];
         if (timeout) { clearTimeout(timeout); }

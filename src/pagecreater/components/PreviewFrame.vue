@@ -34,33 +34,20 @@ export default {
     window.removeEventListener("message", this.onMessage);
   },
   methods: {
-    initConfig(info) {
-      let config = {};
-      info.forEach(v => {
-        if (typeJudge(v.child, "Array")) {
-          this.$set(config, v.key, this.initConfig(v.child));
-        } else {
-          this.$set(config, v.key, v.default);
-        }
-      });
-      return config;
-    },
     initComponent(info) {
-      if(this.componentsconfig[this.index].info && this.componentsconfig[this.index].info.length > 0) return;
-      
       this.componentsconfig[this.index].info = info;
-      this.componentsconfig[this.index].props = this.initConfig(info);
+      this.componentsconfig[this.index].props = this.$i2c(info);
       top.postMessage({type: 'initComponent', info: info}, this.fatherurl)
     },
-    deepUpdate(origin, config) {
-      Object.keys(config).forEach(v => {
-        if (typeof config[v] == "object") {
-          this.deepUpdate(origin[v], config[v]);
-        } else {
-          origin[v] = config[v];
-        }
-      });
-    },
+    // deepUpdate(origin, config) {
+    //   Object.keys(config).forEach(v => {
+    //     if (typeof config[v] == "object") {
+    //       this.deepUpdate(origin[v], config[v]);
+    //     } else {
+    //       origin[v] = config[v];
+    //     }
+    //   });
+    // },
     onMessage(msg) {
       // console.group("frame 收到消息");
       let config = msg.data["config"];
@@ -75,12 +62,14 @@ export default {
           // this.deepUpdate(this.globalconfig, config);
           break;
         case "addComponent":
+          // console.log(config);
           this.componentsconfig.push(config);
           this.index = index;
           break;
         case "editComponent":
-          this.deepUpdate(this.componentsconfig[index].props, config);
-          console.log(this.componentsconfig);
+          this.componentsconfig[index].props = config;
+          // console.log(this.componentsconfig[index].props, config);
+          // this.deepUpdate(this.componentsconfig[index].props, config);
           break;
       }
     },
@@ -99,6 +88,7 @@ export default {
       } else if (this.index < oldindex && this.index >= newindex) {
         this.index++;
       }
+      console.log(this.componentsconfig);
       top.postMessage({type: 'dragComponent', componentsconfig: this.componentsconfig, index: this.index }, this.fatherurl)
     },
     selectComponent(idx) {
@@ -111,6 +101,7 @@ export default {
       } else if (this.index > idx) {
         this.index--;
       }
+      console.log(idx);
       this.componentsconfig.splice(idx, 1);
       top.postMessage({type: 'delComponent', index: idx}, this.fatherurl);
     }

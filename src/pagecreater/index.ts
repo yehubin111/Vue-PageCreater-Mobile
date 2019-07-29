@@ -5,8 +5,9 @@ import store from './store';
 import ElmentUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import HsModule from '@/packages';
+import Plugins from '@/assets/installPlugins.js';
 
-
+Vue.use(Plugins);
 Vue.use(HsModule);
 Vue.use(ElmentUI);
 

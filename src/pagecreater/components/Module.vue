@@ -1,5 +1,5 @@
 <template>
-  <draggable tag="div" class="box" :list="componentsconfig" group="people" @change="dragModule" :options="dragOptions">
+  <draggable tag="div" class="box" :list="componentsconfig" @start="drag = true" @end="drag = false" group="people" @change="dragModule" :options="dragOptions">
     <div
       class="module"
       :class="{on: index == i}"
@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+      drag: false,
       dragOptions: {
         animation: 200,
         group: 'description',
@@ -44,7 +45,8 @@ export default {
   methods: {
     initConfig(info) {
       // console.log(info);
-      this.$emit('initComponent', info);
+      if(!this.drag)
+        this.$emit('initComponent', info);
     },
     selectComponent(i) {
       // console.log(this.$refs);
@@ -82,7 +84,7 @@ export default {
   }
   &.on {
     box-sizing: border-box;
-    border: 1px dotted #f00;
+    border: 1px dashed #f00;
   }
 }
 </style>
