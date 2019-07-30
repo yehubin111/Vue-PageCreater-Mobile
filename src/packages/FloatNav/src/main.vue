@@ -8,6 +8,9 @@
         @click="toChange(index)"
       >{{nav}}</li>
     </ul>
+    <div class="dragger">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -17,7 +20,7 @@ export default {
   props: {
     navcount: {
       type: Number,
-      default: 4
+      default: 1
     },
     list: {
       type: Array,
@@ -35,15 +38,13 @@ export default {
           name: "菜单项",
           accept: "navcount",
           child: [
-            { key: "name", name: "名称", default: "", type: "input" },
-            { key: "name", name: "名称", default: "", type: "input" },
-            { key: "name", name: "名称", default: "", type: "input" },
             { key: "name", name: "名称", default: "", type: "input" }
             // {key: 'tab', name: 'tab', child: {
             //   name: { name: "名称", default: "", type: "input" }
             // }}
           ]
-        }
+        },
+        components: []
       }
     };
   },
@@ -52,6 +53,7 @@ export default {
   },
   computed: {
     navlist() {
+      console.log(this.list);
       return this.list.slice(0, this.navcount);
     }
   },

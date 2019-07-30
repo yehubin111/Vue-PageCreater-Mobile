@@ -1,12 +1,12 @@
 <template>
   <div class="page" :style="globalconfig.styles">
     <module
+      v-if="componentsconfig.length > 0"
       :componentsconfig="componentsconfig"
       @selectComponent="selectComponent"
       @delComponent="delComponent"
       @dragComponent="dragComponent"
       @initComponent="initComponent"
-      ref="moduleList"
       :index="index"
     ></module>
   </div>

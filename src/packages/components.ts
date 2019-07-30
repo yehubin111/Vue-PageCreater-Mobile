@@ -42,7 +42,7 @@ const components: Components[] = [
     {
         name: 'FloatNav',
         moduleName: 'HsFloatNav',
-        show: false,
+        show: true,
     },
 ];
 

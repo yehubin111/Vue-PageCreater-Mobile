@@ -1,5 +1,17 @@
 <template>
-  <draggable tag="div" class="box" :list="componentsconfig" @start="drag = true" @end="drag = false" group="people" @change="dragModule" :options="dragOptions">
+  <draggable
+    tag="div"
+    class="box"
+    :class="{
+      'dragAreaEdit': componentsconfig.components
+    }"
+    :list="componentsconfig"
+    @start="drag = true"
+    @end="drag = false"
+    group="people"
+    @change="dragModule"
+    :options="dragOptions"
+  >
     <div
       class="module"
       :class="{on: index == i}"
@@ -7,7 +19,13 @@
       v-for="(temp, i) in componentsconfig"
       :key="i"
     >
-      <component :is="temp.moduleName" v-bind="temp.props" @initConfig="initConfig"></component>
+      <component
+        :is="temp.moduleName"
+        v-bind="temp.props"
+        @initConfig="initConfig"
+      >
+        <module v-if="temp.components" :componentsconfig="temp.components" :index="index"></module>
+      </component>
       <div class="modulectrl">
         <i class="el-icon-delete" style="color: #fff" @click.stop="delComponent(i)"></i>
       </div>
@@ -18,6 +36,7 @@
 <script>
 import draggable from "vuedraggable/src/vuedraggable";
 export default {
+  name: "Module",
   props: {
     componentsconfig: {
       type: Array,
@@ -36,17 +55,16 @@ export default {
       drag: false,
       dragOptions: {
         animation: 200,
-        group: 'description',
+        group: "description",
         // disabled: !this.edit,
-        ghostClass: 'dragger-on'
+        ghostClass: "dragger-on"
       }
-    }
+    };
   },
   methods: {
     initConfig(info) {
       // console.log(info);
-      if(!this.drag)
-        this.$emit('initComponent', info);
+      if (!this.drag) this.$emit("initComponent", info);
     },
     selectComponent(i) {
       // console.log(this.$refs);
@@ -63,8 +81,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.dragAreaEdit {
+  &:after {
+    content: "可拖入组件";
+    display: block;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    box-sizing: border-box;
+    border: 1px dashed #ddd;
+    flex: 0 0 100%;
+  }
+}
 .dragger-on {
-  opacity: .5;
+  opacity: 0.5;
   background-color: #c8ebfb;
 }
 .module {
