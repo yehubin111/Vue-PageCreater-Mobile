@@ -87,9 +87,8 @@ export default {
     }
   },
   mounted() {
-    console.log(this.topicid,this.count);
     if (this.topicid && this.count) {
-      this.debounceFunc();
+      this.getData();
     }
   },
   destroyed() {
