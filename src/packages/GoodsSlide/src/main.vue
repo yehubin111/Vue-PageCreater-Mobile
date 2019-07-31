@@ -1,7 +1,7 @@
 <template>
   <div
     class="goodsslide"
-    :style="{'background-color': backgroundColor, 'padding-left': paddingLeft, 'padding-top': paddingTop, 'padding-bottom': paddingBottom }"
+    :style="{'background-color': backgroundColor, 'padding': padding }"
   >
     <div class="list" :style="{'grid-template-columns': columns, 'grid-gap': gap}" v-if="list.length == 0">
       <div class="default" v-for="(g,index) in defaultList" :key="index">
@@ -52,17 +52,9 @@ export default {
       type: String,
       default: "0px"
     },
-    paddingLeft: {
+    padding: {
       type: String,
-      default: "0px"
-    },
-    paddingTop: {
-      type: String,
-      default: "0px"
-    },
-    paddingBottom: {
-      type: String,
-      default: "0px"
+      default: "0px 0px 0px"
     },
     backgroundColor: {
         type: String,
@@ -74,9 +66,7 @@ export default {
       list: [],
       url: URL.goodslist,
       keyOption: {
-        paddingLeft: { name: "左边距", type: "input" },
-        paddingTop: { name: "上边距", type: "input" },
-        paddingBottom: { name: "下边距", type: "input" },
+        padding: { name: '边距（上 左右 下）', type: 'padding' },
         topicid: { name: "专题号", type: "input" },
         count: { name: "数量", type: "input" },
         gap: { name: "商品间隔", type: "input" },
@@ -97,6 +87,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.topicid,this.count);
     if (this.topicid && this.count) {
       this.debounceFunc();
     }

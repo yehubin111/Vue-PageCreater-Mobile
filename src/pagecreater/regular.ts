@@ -32,6 +32,7 @@ export const radioSelect: RadioSelect = {
         { key: 'couponid', value: '优惠券' }
     ],
     navcount: [{ key: 1, value: '1项' }, { key: 2, value: '2项' }, { key: 3, value: '3项' }, { key: 4, value: '4项' }, { key: 5, value: '5项' }],
+    columnCount: [{ key: 'double', value: '一行两列' }, { key: 'single', value: '一行一列' }]
 };
 
 interface RadioSelectChild {

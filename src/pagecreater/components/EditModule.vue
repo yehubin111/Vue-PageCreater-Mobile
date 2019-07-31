@@ -1,5 +1,32 @@
 <template>
   <div class="module" v-show="!infoaccept || (infoaccept && type.indexOf(bind[infoaccept]) != -1)">
+    <!-- 边距 -->
+    <template v-if="infotype == 'padding'">
+      <p class="title">{{infotitle}}</p>
+      <div class="padding">
+        <el-input
+          class="navinput"
+          v-model="paddingLeft"
+          :placeholder="type"
+          type="text"
+          @input="editComponent"
+        />
+        <el-input
+          class="navinput"
+          v-model="paddingBoth"
+          :placeholder="type"
+          type="text"
+          @input="editComponent"
+        />
+        <el-input
+          class="navinput"
+          v-model="paddingRight"
+          :placeholder="type"
+          type="text"
+          @input="editComponent"
+        />
+      </div>
+    </template>
     <!-- 文本框 -->
     <template v-if="infotype == 'input'">
       <p class="title">{{infotitle}}</p>
@@ -10,6 +37,11 @@
         type="text"
         @input="editComponent"
       />
+    </template>
+    <!-- 开关 -->
+    <template v-if="infotype == 'switch'">
+      <p class="title">{{infotitle}}</p>
+      <el-switch v-model="state" :active-value="true" :inactive-value="false" @change="editComponent"></el-switch>
     </template>
     <!-- 上传 -->
     <template v-if="infotype == 'fileupload'">
@@ -43,7 +75,7 @@
 
 <script>
 import { radioSelect } from "../regular";
-import FileUpload from './FileUpload';
+import FileUpload from "./FileUpload";
 export default {
   props: {
     type: {
@@ -66,12 +98,13 @@ export default {
   data() {
     return {
       state: this.config,
-      radiooptions: radioSelect[this.type]
+      radiooptions: radioSelect[this.type],
+      paddingLeft: "",
+      paddingBoth: "",
+      paddingRight: ""
     };
   },
-  methods: {
-    
-  },
+  methods: {},
   mounted() {
     // console.log(this.config);
     // console.log(this.info);
@@ -81,6 +114,12 @@ export default {
     original() {
       // console.log(this.type, this.config);
       this.state = this.config;
+      if (this.infotype == "padding") {
+        this.paddingLeft = this.state.split(" ")[0];
+        this.paddingBoth = this.state.split(" ")[1];
+        this.paddingRight = this.state.split(" ")[2];
+      }
+
       return this.config;
     },
     infotype() {
@@ -98,8 +137,11 @@ export default {
   },
   methods: {
     editComponent() {
-      // console.log(this.state);
-      this.$emit("editComponent", this.type, this.state);
+      let state =
+        this.infotype != "padding"
+          ? this.state
+          : `${this.paddingLeft} ${this.paddingBoth} ${this.paddingRight}`;
+      this.$emit("editComponent", this.type, state);
     }
   }
 };
@@ -111,6 +153,11 @@ export default {
   border-radius: 5px;
   padding: 10px;
   background-color: #fff;
+}
+.padding {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-gap: 10px;
 }
 .title {
   line-height: 30px;

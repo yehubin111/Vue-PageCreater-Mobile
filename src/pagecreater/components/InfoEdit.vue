@@ -99,8 +99,8 @@ export default {
       // console.log("accept:", this.accept);
       // console.log("bindconfig:", this.bindconfig);
 
-      let maxcount = 0;
-      if (Array.isArray(this.propslist)) {
+      let maxcount = Object.keys(this.propslist).length;
+      if (this.bindconfig.hasOwnProperty(this.accept)) {
         let initinfo = this.info[0];
         let initprop = this.$i2c(this.info, 'Array')[0];
         maxcount = this.bindconfig[this.accept];
@@ -114,7 +114,7 @@ export default {
           }
         }
       }
-      let i = Object.keys(this.propslist);
+      let i = Object.keys(this.propslist).slice(0, maxcount);
 
       // // maxcount bind
       // let i = Object.keys(this.propslist);

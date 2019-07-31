@@ -1,5 +1,5 @@
 <template>
-  <div class="image" :style="{'margin-top': marginTop}">
+  <div class="image" :style="{'padding': padding}">
     <img v-if="url" :src="url" alt />
     <div class="default" v-else>
       <p>
@@ -17,16 +17,16 @@ export default {
       type: String,
       default: ""
     },
-    marginTop: {
+    padding: {
       type: String,
-      default: "0px"
+      default: "0px 0px 0px"
     }
   },
   data() {
     return {
       keyOption: {
         url: { name: "图片", type: "fileupload" },
-        marginTop: { name: "上边距", type: "input" }
+        padding: { name: '边距（上 左右 下）', type: 'padding' },
       }
     };
   },
@@ -43,6 +43,7 @@ export default {
 <style lang="less" scoped>
 .image {
   width: 100%;
+  box-sizing: border-box;
   // background-color: #fff;
   .default {
     box-sizing: border-box;
