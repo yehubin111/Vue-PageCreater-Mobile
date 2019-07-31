@@ -94,29 +94,30 @@ export default {
   computed: {
     infolist() {
       this.config = this.propslist;
-      // console.log("props:", this.propslist);
-      // console.log("info:", this.info);
-      // console.log("accept:", this.accept);
-      // console.log("bindconfig:", this.bindconfig);
+      console.log("props:", this.propslist);
+      console.log("info:", this.info);
+      console.log("accept:", this.accept);
+      console.log("bindconfig:", this.bindconfig);
 
       let maxcount = Object.keys(this.propslist).length;
-      if (Array.isArray(this.propslist)) {
-        let initinfo = this.info[0];
-        let initprop = this.$i2c(this.info, 'Array')[0];
-        maxcount = this.bindconfig[this.accept];
-        if (this.propslist.length > maxcount) {
-          this.propslist.length = maxcount;
-          this.info.length = maxcount;
-        } else {
-          while (this.propslist.length < maxcount) {
-            this.propslist.push(JSON.parse(JSON.stringify(initprop)));
-            this.info.push(JSON.parse(JSON.stringify(initinfo)));
+      if (this.bindconfig.hasOwnProperty(this.accept)) {
+        if (Array.isArray(this.propslist)) {
+          let initinfo = this.info[0];
+          let initprop = this.$i2c(this.info, "Array")[0];
+          maxcount = this.bindconfig[this.accept];
+          if (this.propslist.length > maxcount) {
+            this.propslist.length = maxcount;
+            this.info.length = maxcount;
+          } else {
+            while (this.propslist.length < maxcount) {
+              this.propslist.push(JSON.parse(JSON.stringify(initprop)));
+              this.info.push(JSON.parse(JSON.stringify(initinfo)));
+            }
           }
+        } else {
+          maxcount = Number(this.bindconfig[this.accept]);
         }
       }
-      //  else if (this.propslist.hasOwnProperty(this.accept)) {
-      //   maxcount = parseInt(this.bindconfig[this.accept]);
-      // }
       let i = Object.keys(this.propslist).slice(0, maxcount);
 
       // // maxcount bind
@@ -131,7 +132,7 @@ export default {
       //   this.propslist.push(this.propslist[0]);
       //   this.info.push(this.info[0]);
       // }
-      // console.log(i);
+      console.log(i);
       return i.slice(0, i.length);
     },
     bindconfig() {
@@ -156,7 +157,7 @@ export default {
       return this.info[i]["name"];
     },
     getInfo(i) {
-      if (typeof this.config[i] == 'object') return this.info[i]["child"];
+      if (typeof this.config[i] == "object") return this.info[i]["child"];
       else return this.info[i];
     },
     getAccept(i) {

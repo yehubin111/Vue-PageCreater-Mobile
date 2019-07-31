@@ -23,7 +23,6 @@ export default {
     return {
       globalconfig: {},
       componentsconfig: [],
-      deltime: false,
       index: -1,
       fatherurl: location.href.replace('preview', '')
     };
@@ -36,11 +35,12 @@ export default {
   },
   methods: {
     initComponent(info) {
-      // 排除删除引起的组件重置
-      if(this.deltime) {
-        this.deltime = false;
-        return;
-      }
+      console.log('%cinit', 'color: red');
+      // // 排除删除引起的组件重置
+      // if(this.deltime) {
+      //   this.deltime = false;
+      //   return;
+      // }
       this.componentsconfig[this.index].info = info;
       this.componentsconfig[this.index].props = this.$i2c(info);
       top.postMessage({type: 'initComponent', info: info}, this.fatherurl)
@@ -94,7 +94,7 @@ export default {
       } else if (this.index < oldindex && this.index >= newindex) {
         this.index++;
       }
-      console.log(this.componentsconfig);
+      // console.log(this.componentsconfig);
       top.postMessage({type: 'dragComponent', componentsconfig: this.componentsconfig, index: this.index }, this.fatherurl)
     },
     selectComponent(idx) {
@@ -102,7 +102,6 @@ export default {
       top.postMessage({type: 'selectComponent', index: idx}, this.fatherurl)
     },
     delComponent(idx) {
-      this.deltime = true;
       if (this.index == idx) {
         this.index = -1;
       } else if (this.index > idx) {

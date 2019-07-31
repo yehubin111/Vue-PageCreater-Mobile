@@ -83,12 +83,20 @@ export default {
       type: String,
       default: ''
     },
-    loading: {
-      type: Boolean,
-      default: false
-    },
+    // loading: {
+    //   type: Boolean,
+    //   default: false
+    // },
     loadOption: {
-      type: Object
+      type: Object,
+      default: () => {
+        return {
+          loading: false,
+          option: {
+            count: '10'
+          }
+        }
+      }
     }
   },
   data() {
@@ -102,14 +110,27 @@ export default {
         columnCount: { name: "列数", type: "radio" },
         count: { name: "商品数", type: "input" },
         gap: { name: "商品间隔", type: "input" },
-        loading: { name: "是否启用下拉加载", type: "switch", bind: ['loadOption'] },
         loadOption: {
-          name: "下拉加载配置项",
-          accept: 'loading',
+          name: "下拉加载",
           child: {
-            count: { name: '每页加载数量', type: 'input', default: '10' }
+            loading: { name: "是否启用下拉加载", default: false, type: "switch", bind: ['loadOption'] },
+            option: {
+              name: '配置项',
+              accept: 'loading',
+              child: {
+                count: { name: '每页加载数量', type: 'input', default: '10' }
+              }
+            }
           }
         }
+        // loading: { name: "是否启用下拉加载", type: "switch", bind: ['loadOption'] },
+        // loadOption: {
+        //   name: "下拉加载配置项",
+        //   accept: 'loading',
+        //   child: {
+        //     count: { name: '每页加载数量', type: 'input', default: '10' }
+        //   }
+        // }
       }
     };
   },
