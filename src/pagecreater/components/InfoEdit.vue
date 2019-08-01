@@ -2,20 +2,6 @@
   <div class="infoedit">
     <div class="commonedit" :style="{'background-color': bgcolor ? '#f3f3f3':'#fff'}">
       <div class="navinfo" v-for="i in infolist" :key="i">
-        <!-- <template v-if="typeJudge(propslist[i], 'Array')">
-          <p class="objtitle">{{getTitle(i)}}</p>
-          <info-edit
-            :propslist="config[i]"
-            :info="getInfo(i)"
-            :index="index"
-            :type="i"
-            :bind="bindconfig"
-            :accept="getAccept(i)"
-            :bgcolor="!bgcolor"
-            @editGlobal="_edit"
-            @editComponent="_edit"
-          ></info-edit>
-        </template>-->
         <template v-if="typeof propslist[i] == 'object'">
           <p class="objtitle">{{getTitle(i)}}</p>
           <info-edit
