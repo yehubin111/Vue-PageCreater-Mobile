@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
@@ -191,9 +191,9 @@ export default {
         .replace("{count}", this.count)
         .replace("{pageIndex}", this.pageIndex);
       axios.get(url).then(res => {
-        let r = res.data.data.productsList;
+        let r = res.data.productsList;
         this.list = this.list.concat(r);
-        if (res.data.count == this.pageIndex) {
+        if (res.count == this.pageIndex) {
           window.removeEventListener("scroll", this.loadMore);
         } else {
           this.loading = false;

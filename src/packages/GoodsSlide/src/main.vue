@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
@@ -106,7 +106,7 @@ export default {
         .replace("{count}", this.count);
       axios.get(url).then(res => {
         console.log(res);
-        this.list = res.data.data.productsList;
+        this.list = res.data.productsList;
       });
     },
     toGoodsDetialPage(productId) {

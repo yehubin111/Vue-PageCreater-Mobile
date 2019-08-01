@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "@/packages/axiosPack";
 import Toast from 'vant/lib/toast';
 import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
@@ -146,7 +146,7 @@ export default {
           headers: { Platform: "2", Authorization: this.userToken }
         }
       ).then(res => {
-        Toast(res.data.msg);
+        Toast(res.msg);
       });
     },
     clickCallback(i) {

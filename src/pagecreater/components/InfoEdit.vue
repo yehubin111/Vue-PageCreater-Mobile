@@ -3,18 +3,21 @@
     <div class="commonedit" :style="{'background-color': bgcolor ? '#f3f3f3':'#fff'}">
       <div class="navinfo" v-for="i in infolist" :key="i">
         <template v-if="typeof propslist[i] == 'object'">
-          <p class="objtitle">{{getTitle(i)}}</p>
-          <info-edit
-            :propslist="config[i]"
-            :info="getInfo(i)"
-            :index="index"
-            :type="i"
-            :bind="bindconfig"
-            :accept="getAccept(i)"
-            :bgcolor="!bgcolor"
-            @editGlobal="_edit"
-            @editComponent="_edit"
-          ></info-edit>
+          <div v-show="i != hidetype">
+            <p class="objtitle">{{getTitle(i)}}</p>
+            <info-edit
+              :propslist="config[i]"
+              :info="getInfo(i)"
+              :index="index"
+              :type="i"
+              :bind="bindconfig"
+              :accept="getAccept(i)"
+              :bgcolor="!bgcolor"
+              @editGlobal="_edit"
+              @editComponent="_edit"
+              @hideDom="_hideDom"
+            ></info-edit>
+          </div>
         </template>
         <edit-module
           v-else
@@ -74,7 +77,8 @@ export default {
   },
   data() {
     return {
-      config: {}
+      config: {},
+      hidetype: ""
     };
   },
   computed: {
@@ -85,6 +89,9 @@ export default {
       // console.log("accept:", this.accept);
       // console.log("bindconfig:", this.bindconfig);
 
+      /**
+       * bind accept 逻辑
+       */
       let maxcount = Object.keys(this.propslist).length;
       if (this.bindconfig.hasOwnProperty(this.accept)) {
         if (Array.isArray(this.propslist)) {
@@ -104,7 +111,13 @@ export default {
           maxcount = Number(this.bindconfig[this.accept]);
         }
       }
-      let i = Object.keys(this.propslist).slice(0, maxcount);
+      // 如果数组所有元素都不显示，则隐藏父级元素
+      if (maxcount == 0) {
+        this.$emit("hideDom", this.type);
+      } else {
+        this.$emit("hideDom", "");
+      }
+      let i = Object.keys(this.propslist).slice(0, maxcount); // .filter(v => v != this.hidetype)
       // console.log(i);
       return i.slice(0, i.length);
     },
@@ -143,6 +156,10 @@ export default {
      * 暂时只能处理两层嵌套
      */
     // 孙组件方法
+    _hideDom(type) {
+      // console.log(`%cemit ${type}`, "color: blue");
+      this.hidetype = type;
+    },
     _edit(config, type) {
       this.config[type] = Object.assign(this.config[type], config);
       this.editComponent();
