@@ -20,6 +20,6 @@
 
 <style lang="less" scoped>
 .module {
-    position: relative;
+    // position: relative;
 }
 </style>

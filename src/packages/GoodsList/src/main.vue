@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="goodslist"
-    :style="{'padding': padding, 'background-color': backgroundColor}"
-  >
+  <div class="goodslist" :id="ref" :ref="ref" :style="{'padding': padding, 'background-color': backgroundColor}">
     <div
       class="goodbox"
       :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
@@ -55,7 +52,7 @@
 import axios from "axios";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
-import { URL } from "@/assets/url";
+import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsList",
   props: {
@@ -81,7 +78,7 @@ export default {
     },
     backgroundColor: {
       type: String,
-      default: ''
+      default: ""
     },
     // loading: {
     //   type: Boolean,
@@ -93,9 +90,9 @@ export default {
         return {
           loading: false,
           option: {
-            count: '10'
+            count: "10"
           }
-        }
+        };
       }
     }
   },
@@ -103,9 +100,12 @@ export default {
     return {
       list: [],
       url: URL.goodslist,
+      pageIndex: 0,
+      loading: false,
+      ref: `goodslist${this.topicid}`,
       keyOption: {
-        padding: { name: '边距（上 左右 下）', type: 'padding' },
-        'background-color': { name: '背景色', type: 'color' },
+        padding: { name: "边距（上 左右 下）", type: "padding" },
+        backgroundColor: { name: "背景色", type: "color" },
         topicid: { name: "专题号", type: "input" },
         columnCount: { name: "列数", type: "radio" },
         count: { name: "商品数", type: "input" },
@@ -113,12 +113,17 @@ export default {
         loadOption: {
           name: "下拉加载",
           child: {
-            loading: { name: "是否启用下拉加载", default: false, type: "switch", bind: ['loadOption'] },
+            loading: {
+              name: "是否启用下拉加载",
+              default: false,
+              type: "switch",
+              bind: ["loadOption"]
+            },
             option: {
-              name: '配置项',
-              accept: 'loading',
+              name: "配置项",
+              accept: "loading",
               child: {
-                count: { name: '每页加载数量', type: 'input', default: '10' }
+                count: { name: "每页加载数量", type: "input", default: "10" }
               }
             }
           }
@@ -144,14 +149,37 @@ export default {
     }
   },
   mounted() {
+    // 初始化获取数据
     if (this.topicid && this.count) {
-      this.debounceFunc();
+      this.getData();
+    }
+    // 初始化添加下拉加载
+    if (this.loadOption["loading"]) {
+      window.removeEventListener("scroll", this.loadMore, false);
+      window.addEventListener("scroll", this.loadMore, false);
     }
   },
   destroyed() {
     console.log("destroyed");
   },
   methods: {
+    loadMore() {
+      let scrolltop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let distance = 300; // 距离底部多少开始执行加载
+      let cheight = this.$refs[this.ref].clientHeight; // load模块高度
+      let ctop = this.$refs[this.ref].offsetTop; // load模块到页面顶部距离
+      // console.log(this.ref, cheight, this.$refs[this.ref].offsetTop);
+      if (
+        scrolltop + document.documentElement.clientHeight >
+        cheight + ctop - distance
+      ) {
+        if(this.loading) return;
+        this.loading = true;
+        this.pageIndex++;
+        this.getData();
+      }
+    },
     debounceFunc: (() => {
       return debounceFc(function() {
         this.getData();
@@ -160,10 +188,16 @@ export default {
     getData() {
       let url = this.url
         .replace("{topicId}", this.topicid)
-        .replace("{count}", this.count);
+        .replace("{count}", this.count)
+        .replace("{pageIndex}", this.pageIndex);
       axios.get(url).then(res => {
-        console.log(res);
-        this.list = res.data.data.productsList;
+        let r = res.data.data.productsList;
+        this.list = this.list.concat(r);
+        if (res.data.count == this.pageIndex) {
+          window.removeEventListener("scroll", this.loadMore);
+        } else {
+          this.loading = false;
+        }
       });
     },
     toGoodsDetialPage(productId) {
@@ -292,6 +326,7 @@ export default {
           width: 90px;
           height: 120px;
           margin-right: 10px;
+          flex-shrink: 0;
         }
         .infoall {
           padding: 10px 0 0 0;
@@ -311,7 +346,7 @@ export default {
           display: block;
           width: 64px;
           height: 22px;
-          background:linear-gradient(to right, #FD5A49, #E0191A);
+          background: linear-gradient(to right, #fd5a49, #e0191a);
           border-radius: 2px;
           line-height: 22px;
           text-align: center;

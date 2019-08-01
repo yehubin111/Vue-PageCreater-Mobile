@@ -94,10 +94,10 @@ export default {
   computed: {
     infolist() {
       this.config = this.propslist;
-      console.log("props:", this.propslist);
-      console.log("info:", this.info);
-      console.log("accept:", this.accept);
-      console.log("bindconfig:", this.bindconfig);
+      // console.log("props:", this.propslist);
+      // console.log("info:", this.info);
+      // console.log("accept:", this.accept);
+      // console.log("bindconfig:", this.bindconfig);
 
       let maxcount = Object.keys(this.propslist).length;
       if (this.bindconfig.hasOwnProperty(this.accept)) {
@@ -119,20 +119,7 @@ export default {
         }
       }
       let i = Object.keys(this.propslist).slice(0, maxcount);
-
-      // // maxcount bind
-      // let i = Object.keys(this.propslist);
-      // let maxcount = i.length;
-      // if (Array.isArray(this.info)) {
-      //   maxcount = this.bindconfig[this.accept];
-      // }
-      // let tl = i[0];
-      // while (i.length < maxcount) {
-      //   i.push(tl);
-      //   this.propslist.push(this.propslist[0]);
-      //   this.info.push(this.info[0]);
-      // }
-      console.log(i);
+      // console.log(i);
       return i.slice(0, i.length);
     },
     bindconfig() {

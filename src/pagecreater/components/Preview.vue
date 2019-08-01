@@ -25,7 +25,7 @@
 <script>
 
 import { textCopy } from '@/assets/common';
-import { getBaseUrl } from "@/assets/url";
+import { getBaseUrl } from "@/assets/url.ts";
 let BASE = getBaseUrl();
 export default {
   props: {

@@ -36,7 +36,7 @@
 import axios from "axios";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
-import { URL } from "@/assets/url";
+import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsSlide",
   props: {

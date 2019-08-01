@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import pagecreater from './components/Index.vue';
 import index from './components/Template.vue';
 import preview from './components/PreviewFrame.vue';
 

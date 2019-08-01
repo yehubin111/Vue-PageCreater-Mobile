@@ -1,5 +1,23 @@
-export function getBaseUrl() {
-    let base = {};
+interface BaseUrl {
+    web: string;
+    mgr: string;
+    out: string;
+    [index: string]: string;
+}
+interface Object {
+    [index: string]: string
+}
+interface Url {
+    mgr: Object;
+    web: Object;
+    [index: string]: Object;
+}
+export function getBaseUrl(): BaseUrl {
+    let base = {
+        web: '',
+        mgr: '',
+        out: ''
+    };
     switch (process.env.VUE_APP_URLBASE) {
         case 'development':
             base['web'] = '';
@@ -21,17 +39,17 @@ export function getBaseUrl() {
     return base;
 }
 
-const _base = getBaseUrl();
-const url = {
+const _base: BaseUrl = getBaseUrl();
+const url: Url = {
     mgr: {
         qiniutoken: "/mgr_yuncang/common/getQiniuToken",
     },
     web: {
-        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset=0&pageSize={count}",
+        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset={pageIndex}&pageSize={count}",
         coupon: '/api_yuncang/coupon/drawCouponForWap'
     }
 }
-let _url = {};
+let _url: Object = {};
 Object.keys(url).forEach(v => {
     let obj = url[v];
     Object.keys(obj).forEach(g => {

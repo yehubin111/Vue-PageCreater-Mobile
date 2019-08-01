@@ -20,7 +20,7 @@ import axios from 'axios';
 import Toast from 'vant/lib/toast';
 import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
-import { URL } from "@/assets/url";
+import { URL } from "@/assets/url.ts";
 export default {
   name: "HsImageGroup", 
   props: {
