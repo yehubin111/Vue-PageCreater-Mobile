@@ -41,7 +41,12 @@
     <!-- 开关 -->
     <template v-if="infotype == 'switch'">
       <p class="title">{{infotitle}}</p>
-      <el-switch v-model="state" :active-value="true" :inactive-value="false" @change="editComponent"></el-switch>
+      <el-switch
+        v-model="state"
+        :active-value="true"
+        :inactive-value="false"
+        @change="editComponent"
+      ></el-switch>
     </template>
     <!-- 上传 -->
     <template v-if="infotype == 'fileupload'">
@@ -141,7 +146,11 @@ export default {
         this.infotype != "padding"
           ? this.state
           : `${this.paddingLeft} ${this.paddingBoth} ${this.paddingRight}`;
-      this.$emit("editComponent", this.type, state);
+      this.$emit(
+        "editComponent",
+        this.type,
+        typeof state == "string" ? state.trim() : state
+      );
     }
   }
 };

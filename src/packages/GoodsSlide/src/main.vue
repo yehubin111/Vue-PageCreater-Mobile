@@ -65,6 +65,7 @@ export default {
     return {
       list: [],
       url: URL.goodslist,
+      pageIndex: 0,
       keyOption: {
         padding: { name: '边距（上 左右 下）', type: 'padding' },
         topicid: { name: "专题号", type: "input" },
@@ -87,7 +88,7 @@ export default {
     }
   },
   mounted() {
-    if (this.topicid && this.count) {
+    if (this.topicid.trim() && this.count) {
       this.getData();
     }
   },
@@ -102,8 +103,9 @@ export default {
     })(),
     getData() {
       let url = this.url
-        .replace("{topicId}", this.topicid)
-        .replace("{count}", this.count);
+        .replace("{pageIndex}", this.pageIndex)
+        .replace("{topicId}", this.topicid.trim())
+        .replace("{count}", this.count.trim());
       axios.get(url).then(res => {
         console.log(res);
         this.list = res.data.productsList;

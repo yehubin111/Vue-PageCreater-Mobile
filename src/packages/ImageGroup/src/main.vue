@@ -157,16 +157,16 @@ export default {
           this.alertwidth = i.alertwidth;
           break;
         case "topic":
-          toTopic(i.topic);
+          toTopic(i.topic.trim());
           break;
         case "goodsdetail":
-          toGoodsDetial(i.goodsdetail);
+          toGoodsDetial(i.goodsdetail.trim());
           break;
         case "h5link":
           location.href = i.h5link;
           break;
         case "couponid":
-          this.getCoupon(i.couponid);
+          this.getCoupon(i.couponid.trim());
           break;
       }
     }

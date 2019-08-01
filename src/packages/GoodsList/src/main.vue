@@ -1,5 +1,10 @@
 <template>
-  <div class="goodslist" :id="ref" :ref="ref" :style="{'padding': padding, 'background-color': backgroundColor}">
+  <div
+    class="goodslist"
+    :id="ref"
+    :ref="ref"
+    :style="{'padding': padding, 'background-color': backgroundColor}"
+  >
     <div
       class="goodbox"
       :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
@@ -101,6 +106,7 @@ export default {
       list: [],
       url: URL.goodslist,
       pageIndex: 0,
+      pageSize: 0,
       loading: false,
       ref: `goodslist${this.topicid}`,
       keyOption: {
@@ -151,10 +157,12 @@ export default {
   mounted() {
     // 初始化获取数据
     if (this.topicid && this.count) {
+      this.pageSize = this.count;
       this.getData();
     }
     // 初始化添加下拉加载
     if (this.loadOption["loading"]) {
+      this.pageSize = this.loadOption["option"].count;
       window.removeEventListener("scroll", this.loadMore, false);
       window.addEventListener("scroll", this.loadMore, false);
     }
@@ -174,7 +182,7 @@ export default {
         scrolltop + document.documentElement.clientHeight >
         cheight + ctop - distance
       ) {
-        if(this.loading) return;
+        if (this.loading) return;
         this.loading = true;
         this.pageIndex++;
         this.getData();
@@ -187,8 +195,8 @@ export default {
     })(),
     getData() {
       let url = this.url
-        .replace("{topicId}", this.topicid)
-        .replace("{count}", this.count)
+        .replace("{topicId}", this.topicid.trim())
+        .replace("{count}", this.pageSize.trim())
         .replace("{pageIndex}", this.pageIndex);
       axios.get(url).then(res => {
         let r = res.data.productsList;

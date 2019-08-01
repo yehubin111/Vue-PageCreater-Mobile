@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {
-    if (this.topicid && this.linecount) {
+    if (this.topicid.trim() && this.linecount) {
       this.getData();
     }
   },
@@ -107,7 +107,8 @@ export default {
     })(),
     getData() {
       let url = this.url
-        .replace("{topicId}", this.topicid)
+        .replace("{topicId}", this.topicid.trim())
+        .replace("{pageIndex}", this.pageIndex)
         .replace("{count}", this.linecount * 2);
       axios.get(url).then(res => {
         console.log(res);
