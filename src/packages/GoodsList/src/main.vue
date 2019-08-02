@@ -105,7 +105,7 @@ export default {
     return {
       list: [],
       url: URL.goodslist,
-      pageIndex: 0,
+      pageOffset: 0,
       pageSize: 0,
       loading: false,
       ref: `goodslist${this.topicid}`,
@@ -184,7 +184,7 @@ export default {
       ) {
         if (this.loading) return;
         this.loading = true;
-        this.pageIndex++;
+        this.pageOffset += this.pageSize;
         this.getData();
       }
     },
@@ -197,11 +197,11 @@ export default {
       let url = this.url
         .replace("{topicId}", this.topicid.trim())
         .replace("{count}", this.pageSize.trim())
-        .replace("{pageIndex}", this.pageIndex);
+        .replace("{pageOffset}", this.pageOffset);
       axios.get(url).then(res => {
         let r = res.data.productsList;
         this.list = this.list.concat(r);
-        if (res.count == this.pageIndex) {
+        if (res.count <= this.pageOffset) {
           window.removeEventListener("scroll", this.loadMore);
         } else {
           this.loading = false;

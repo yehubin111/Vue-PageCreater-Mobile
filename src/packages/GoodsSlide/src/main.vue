@@ -1,32 +1,41 @@
 <template>
-  <div
-    class="goodsslide"
-    :style="{'background-color': backgroundColor, 'padding': padding }"
-  >
-    <div class="list" :style="{'grid-template-columns': columns, 'grid-gap': gap}" v-if="list.length == 0">
-      <div class="default" v-for="(g,index) in defaultList" :key="index">
-        <p>
-          <span>图片</span>
-        </p>
-      </div>
-    </div>
-    <div class="list" :style="{'grid-template-columns': columns, 'grid-gap': gap}">
-      <div
-        class="goods"
-        v-for="(g,index) in list"
-        :key="index"
-        @click="toGoodsDetialPage(g.productId.toString())"
-      >
-        <p class="img ac jc">
-          <img :src="g.mainPicAddress" alt />
-        </p>
-        <p class="name elps">{{g.productBrandNameEng ? g.productBrandNameEng + '/' : ''}}{{g.productBrandName}}</p>
-        <p class="info row-flex ac">
-          <span class="tag">黑卡会员</span>
-          <span class="unit ff-m">￥</span>
-          <span class="price ff-m">{{g.memberPrice}}</span>
-        </p>
-        <p class="market l-t">￥{{g.marketPrice}}</p>
+  <div class="outer" :style="{'padding-top': paddingTop, 'padding-bottom': paddingBottom, 'background-color': backgroundColor}">
+    <div class="goodsbox" :style="{height: list.length > 0?'49.6vw':'auto' }">
+      <div class="goodsslide" :style="{'padding-bottom': list.length > 0?'5.33333vw':'0px', 'padding-left': paddingLeft}">
+        <div class="goodsscroll">
+          <div
+            class="list"
+            :style="{'grid-template-columns': columns, 'grid-gap': gap}"
+            v-if="list.length == 0"
+          >
+            <div class="default" v-for="(g,index) in defaultList" :key="index">
+              <p>
+                <span>图片</span>
+              </p>
+            </div>
+          </div>
+          <div class="list" :style="{'grid-template-columns': columns, 'grid-gap': gap}">
+            <div
+              class="goods"
+              v-for="(g,index) in list"
+              :key="index"
+              @click="toGoodsDetialPage(g.productId.toString())"
+            >
+              <p class="img ac jc">
+                <img :src="g.mainPicAddress" alt />
+              </p>
+              <p
+                class="name elps"
+              >{{g.productBrandNameEng ? g.productBrandNameEng + '/' : ''}}{{g.productBrandName}}</p>
+              <p class="info row-flex ac">
+                <span class="tag">黑卡会员</span>
+                <span class="unit ff-m">￥</span>
+                <span class="price ff-m">{{g.memberPrice}}</span>
+              </p>
+              <p class="market l-t">￥{{g.marketPrice}}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -57,21 +66,21 @@ export default {
       default: "0px 0px 0px"
     },
     backgroundColor: {
-        type: String,
-        default: '#fff'
+      type: String,
+      default: "#fff"
     }
   },
   data() {
     return {
       list: [],
       url: URL.goodslist,
-      pageIndex: 0,
+      pageOffset: 0,
       keyOption: {
-        padding: { name: '边距（上 左右 下）', type: 'padding' },
+        padding: { name: "边距（上 左右 下）", type: "padding" },
         topicid: { name: "专题号", type: "input" },
         count: { name: "数量", type: "input" },
         gap: { name: "商品间隔", type: "input" },
-        backgroundColor: {name: '背景色', type: 'color'}
+        backgroundColor: { name: "背景色", type: "color" }
       }
     };
   },
@@ -84,7 +93,16 @@ export default {
       return arr;
     },
     columns() {
-        return `repeat(${this.count}, 100px)`;
+      return `repeat(${this.count}, 100px)`;
+    },
+    paddingTop() {
+      return this.padding.split(' ')[0];
+    },
+    paddingBottom() {
+      return this.padding.split(' ')[2];
+    },
+    paddingLeft() {
+      return this.padding.split(' ')[1];
     }
   },
   mounted() {
@@ -103,7 +121,7 @@ export default {
     })(),
     getData() {
       let url = this.url
-        .replace("{pageIndex}", this.pageIndex)
+        .replace("{pageOffset}", this.pageOffset)
         .replace("{topicId}", this.topicid.trim())
         .replace("{count}", this.count.trim());
       axios.get(url).then(res => {
@@ -135,77 +153,82 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.goodsslide {
-  overflow-x: auto;
+.goodsbox {
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  .list {
-    display: grid;
-    .default {
-      box-sizing: border-box;
-      padding: 10px;
-      p {
-        height: 0;
-        padding-top: 75%;
-        position: relative;
-        font-size: 14px;
-        background-color: #fafafa;
-        border: 1px dotted #ddd;
-        box-sizing: border-box;
-        span {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-      }
+  .goodsslide {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
     }
-    .goods {
-      width: 100%;
-      .img {
-        width: 100%;
-        height: 132px;
-        display: flex;
-        img {
-          max-width: 100%;
-          max-height: 100%;
+    .goodsscroll {
+      .list {
+        display: grid;
+        .default {
+          box-sizing: border-box;
+          padding: 10px;
+          p {
+            height: 0;
+            padding-top: 75%;
+            position: relative;
+            font-size: 14px;
+            background-color: #fafafa;
+            border: 1px dotted #ddd;
+            box-sizing: border-box;
+            span {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+            }
+          }
         }
-      }
-      .name {
-        line-height: 17px;
-        color: #000;
-        font-size: 12px;
-        height: 17px;
-        margin-bottom: 3px;
-      }
-      .info {
-        margin-bottom: 2px;
-        .tag {
-          color: #ea302b;
-          border: .5px solid #ea302b;
-          font-size: 7px;
-          text-align: center;
-          line-height: 12px;
-          width: 34px;
-          border-radius: 2px;
-          margin-right: 1px;
+        .goods {
+          width: 100%;
+          .img {
+            width: 100%;
+            height: 132px;
+            display: flex;
+            img {
+              max-width: 100%;
+              max-height: 100%;
+            }
+          }
+          .name {
+            line-height: 17px;
+            color: #000;
+            font-size: 12px;
+            height: 17px;
+            margin-bottom: 3px;
+          }
+          .info {
+            margin-bottom: 2px;
+            .tag {
+              color: #ea302b;
+              border: 0.5px solid #ea302b;
+              font-size: 7px;
+              text-align: center;
+              line-height: 12px;
+              width: 34px;
+              border-radius: 2px;
+              margin-right: 1px;
+            }
+            .unit {
+              font-size: 10px;
+              line-height: 18px;
+            }
+            .price {
+              font-size: 12px;
+              line-height: 18px;
+            }
+          }
+          .market {
+            line-height: 14px;
+            color: #777;
+            font-size: 10px;
+          }
         }
-        .unit {
-          font-size: 10px;
-          line-height: 18px;
-        }
-        .price {
-          font-size: 12px;
-          line-height: 18px;
-        }
-      }
-      .market {
-        line-height: 14px;
-        color: #777;
-        font-size: 10px;
       }
     }
   }

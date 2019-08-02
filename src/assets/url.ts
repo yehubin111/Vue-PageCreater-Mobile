@@ -22,20 +22,19 @@ export function getBaseUrl(): BaseUrl {
         case 'development':
             base['web'] = '';
             base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top';
-            // base['out'] = 'http://localhost:8008';
+            base['out'] = '';
             break;
         case 'testing':
-            base['web'] = 'http://dev-web-yuncang.highstreet.top';
-            base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top';
-            // base['out'] = 'http://dev-web-yuncang.highstreet.top';
+            base['web'] = ''; // http://dev-web-yuncang.highstreet.top
+            base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top'; // 
+            base['out'] = '';
             break;
         case 'production':
-            base['web'] = 'http://web.yuncang.highstreet.top';
-            base['mgr'] = 'http://mgr.yuncang.highstreet.top';
-            // base['out'] = 'http://web.yuncang.highstreet.top';
+            base['web'] = ''; // http://web.yuncang.highstreet.top
+            base['mgr'] = 'http://mgr.yuncang.highstreet.top'; // 
+            base['out'] = '';
             break;
     }
-    base['out'] = location.origin;
     return base;
 }
 
@@ -45,7 +44,7 @@ const url: Url = {
         qiniutoken: "/mgr_yuncang/common/getQiniuToken",
     },
     web: {
-        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset={pageIndex}&pageSize={count}",
+        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset={pageOffset}&pageSize={count}",
         coupon: '/api_yuncang/coupon/drawCouponForWap'
     }
 }

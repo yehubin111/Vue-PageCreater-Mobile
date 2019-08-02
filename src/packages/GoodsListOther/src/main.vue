@@ -73,6 +73,7 @@ export default {
     return {
       list: [],
       url: URL.goodslist,
+      pageOffset: 0,
       keyOption: {
         bothPadding: { name: "左右边距", type: "input" },
         marginTop: { name: "上边距", type: "input" },
@@ -108,7 +109,7 @@ export default {
     getData() {
       let url = this.url
         .replace("{topicId}", this.topicid.trim())
-        .replace("{pageIndex}", this.pageIndex)
+        .replace("{pageOffset}", this.pageOffset)
         .replace("{count}", this.linecount * 2);
       axios.get(url).then(res => {
         console.log(res);
