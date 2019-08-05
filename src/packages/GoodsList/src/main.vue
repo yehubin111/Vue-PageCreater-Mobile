@@ -1,44 +1,49 @@
 <template>
   <div
     class="goodslist"
-    :style="{'padding-left': bothPadding,'padding-right': bothPadding,'margin-top': marginTop}"
+    :id="ref"
+    :ref="ref"
+    :style="{'padding': padding, 'background-color': backgroundColor}"
   >
-    <div class="goodbox" :style="{'grid-gap': gap}" v-if="list.length == 0">
+    <div
+      class="goodbox"
+      :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
+      v-if="list.length == 0"
+    >
       <div class="default" v-for="(g,index) in defaultList" :key="index">
         <p>
           <span>图片</span>
         </p>
       </div>
     </div>
-    <div class="goodbox" :style="{'grid-gap': gap}" v-else>
+    <div
+      class="goodbox"
+      :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
+      v-else
+    >
       <div
         class="goods"
+        :class="{'row-flex single':columnCount == 'single'}"
         v-for="(g,index) in list"
         :key="index"
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
           <img :src="g.mainPicAddress" alt />
-          <div class="tip">
-            <p>立省<br/><span>￥3000</span></p>
-          </div>
-          <p class="line"></p>
         </div>
         <div class="infoall">
-          <div class="info">
-            <p class="name">{{g.productName}}</p>
-            <p class="price">
-              黑卡抢购价
-              <span>¥{{g.memberPrice}}</span>
-            </p>
-            <p class="mprice">
-              市场价
-              <span>¥{{g.marketPrice}}</span>
-            </p>
-          </div>
-          <div class="button">
-            <span>立即抢购</span>
-          </div>
+          <p class="brand ff-m">{{g.productBrandName}}</p>
+          <p class="name ff-l">{{g.productName}}</p>
+          <p class="price row-flex ac">
+            <span class="price-tip">黑卡会员</span>
+            <span class="price-unit ff-m">￥</span>
+            <span class="price-text ff-m">{{g.memberPrice}}</span>
+          </p>
+          <p class="mprice row-flex ac">
+            <span class="mprice-tip ff-l">VIP会员</span>
+            <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
+          </p>
+          <p class="mbutton">立即购买</p>
         </div>
         <p class="nogoods" v-show="g.leftNum <= 0">
           <img src="http://p7.highstreet.top/FrdA1DNz61d6C7hJoE1EX8-DfjBy" alt />
@@ -49,16 +54,20 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
-import { URL } from "@/assets/url";
+import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsList",
   props: {
-    linecount: {
+    count: {
       type: String,
-      default: "1"
+      default: "4"
+    },
+    columnCount: {
+      type: String,
+      default: "double"
     },
     topicid: {
       type: String,
@@ -68,58 +77,142 @@ export default {
       type: String,
       default: "0px"
     },
-    bothPadding: {
+    padding: {
       type: String,
-      default: "0px"
+      default: "0px 0px 0px"
     },
-    marginTop: {
+    backgroundColor: {
       type: String,
-      default: "0px"
+      default: ""
+    },
+    // loading: {
+    //   type: Boolean,
+    //   default: false
+    // },
+    loadOption: {
+      type: Object,
+      default: () => {
+        return {
+          loading: false,
+          option: {
+            count: "10"
+          }
+        };
+      }
     }
   },
   data() {
     return {
       list: [],
       url: URL.goodslist,
+      pageOffset: 0,
+      pageSize: 0,
+      loading: false,
+      ref: `goodslist${this.topicid}`,
       keyOption: {
-        bothPadding: { name: "左右边距", type: "input" },
-        marginTop: { name: "上边距", type: "input" },
+        padding: { name: "边距（上 左右 下）", type: "padding" },
+        backgroundColor: { name: "背景色", type: "color" },
         topicid: { name: "专题号", type: "input" },
-        linecount: { name: "行数（一行两个）", type: "input" },
-        gap: { name: "商品间隔", type: "input" }
+        columnCount: { name: "列数", type: "radio" },
+        count: { name: "商品数", type: "input" },
+        gap: { name: "商品间隔", type: "input" },
+        loadOption: {
+          name: "下拉加载",
+          child: {
+            loading: {
+              name: "是否启用下拉加载",
+              default: false,
+              type: "switch",
+              bind: ["loadOption"]
+            },
+            option: {
+              name: "配置项",
+              accept: "loading",
+              child: {
+                count: { name: "每页加载数量", type: "input", default: "10" }
+              }
+            }
+          }
+        }
+        // loading: { name: "是否启用下拉加载", type: "switch", bind: ['loadOption'] },
+        // loadOption: {
+        //   name: "下拉加载配置项",
+        //   accept: 'loading',
+        //   child: {
+        //     count: { name: '每页加载数量', type: 'input', default: '10' }
+        //   }
+        // }
       }
     };
   },
   computed: {
     defaultList() {
       let arr = [];
-      while (arr.length < this.linecount * 2) {
+      while (arr.length < this.count) {
         arr.push("");
       }
       return arr;
     }
   },
   mounted() {
-    if (this.topicid && this.linecount) {
-      this.debounceFunc();
+    // 初始化获取数据
+    if (this.topicid && this.count) {
+      console.log('mounted');
+      this.pageSize = this.count;
+      this.loading = true;
+      this.getData();
+    }
+    // 初始化添加下拉加载
+    if (this.loadOption["loading"]) {
+      window.removeEventListener("scroll", this.loadMore, false);
+      window.addEventListener("scroll", this.loadMore, false);
     }
   },
   destroyed() {
     console.log("destroyed");
   },
   methods: {
+    loadMore() {
+      let scrolltop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let distance = 300; // 距离底部多少开始执行加载
+      let cheight = this.$refs[this.ref].clientHeight; // load模块高度
+      let ctop = this.$refs[this.ref].offsetTop; // load模块到页面顶部距离
+      // console.log(this.ref, cheight, this.$refs[this.ref].offsetTop);
+      if (
+        scrolltop + document.documentElement.clientHeight >
+        cheight + ctop - distance
+      ) {
+        if (this.loading) return;
+        this.loading = true;
+        this.pageSize = this.loadOption["option"].count;
+        // this.pageOffset += parseInt(this.pageSize);
+        this.getData();
+      }
+    },
     debounceFunc: (() => {
       return debounceFc(function() {
+        this.pageSize = this.count;
+        this.pageOffset = 0;
+        this.list = [];
         this.getData();
       }, 1000);
     })(),
     getData() {
+      console.log(this.pageSize);
       let url = this.url
-        .replace("{topicId}", this.topicid)
-        .replace("{count}", this.linecount * 2);
+        .replace("{topicId}", this.topicid.trim())
+        .replace("{count}", this.pageSize.trim())
+        .replace("{pageOffset}", this.pageOffset);
       axios.get(url).then(res => {
-        console.log(res);
-        this.list = res.data.data.productsList;
+        let r = res.data.productsList;
+        this.list = this.list.concat(r);
+        this.pageOffset += parseInt(this.pageSize);
+        if (res.count <= this.pageOffset) {
+          window.removeEventListener("scroll", this.loadMore);
+        } else {
+          this.loading = false;
+        }
       });
     },
     toGoodsDetialPage(productId) {
@@ -128,13 +221,13 @@ export default {
   },
   watch: {
     topicid(n, o) {
-      if (n == "" || this.linecount == "") {
+      if (n == "" || this.count == "") {
         this.list = [];
         return;
       }
       this.debounceFunc();
     },
-    linecount(n, o) {
+    count(n, o) {
       if (n == "" || this.topicid == "") {
         this.list = [];
         return;
@@ -150,114 +243,79 @@ export default {
   box-sizing: border-box;
   .goodbox {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     .goods {
       // height: 245px;
-      padding-bottom: 16px;
       background-color: #fff;
       overflow: hidden;
       position: relative;
       .img {
         width: 100%;
-        height: 142px;
+        height: 220px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 14px;
         position: relative;
         img {
           max-width: 100%;
           max-height: 100%;
         }
-        .line {
-          width: 100%;
-          height: 1px;
-          background: linear-gradient(to right, #fff, #D8C5A1, #fff);
-          position: absolute;
-          bottom: 0;
-          left: 0;
-        }
-        .tip {
-          width: 29px;
-          height: 33px;
-          position: absolute;
-          font-size: 10px;
-          left: 10px;
-          top: 0px;
-          background-color: #D6C39F;
-          // background: url("http://p7.highstreet.top/FsM8MsW7yfj04v50PBbF-zbbou00")
-          //   0 0 no-repeat;
-          // background-size: 50px auto;
-          text-align: center;
-          color: #322D26;
-          span {
-            font-size: 8px;
-            color: #322D26;
-            font-family: PingFangSC-Regular;
-            font-weight: 400;
-            text-align: center;
-            line-height: 17px;
-          }
-        }
       }
       .infoall {
-        padding: 0 6px;
-        display: flex;
-        align-items: center;
-        .info {
-          margin-right: 7px;
-          flex-grow: 1;
+        padding: 0 5px;
+        .brand {
+          font-size: 14px;
+          width: 100%;
+          height: 20px;
           overflow: hidden;
-          text-align: left;
-          .name {
-            font-size: 13px;
-            color: #494238;
-            width: 100%;
-            height: 16px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 16px;
-            margin-bottom: 3px;
-            font-family: PingFangSC-Light;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 20px;
+        }
+        .name {
+          font-size: 12px;
+          width: 100%;
+          height: 17px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 17px;
+          margin-bottom: 3px;
+        }
+        .price {
+          margin-bottom: 4px;
+          .price-tip {
+            width: 34px;
+            border: 0.5px solid #ea302b;
+            border-radius: 2px;
+            text-align: center;
+            line-height: 11px;
+            font-size: 7px;
+            margin-right: 2px;
+            color: #ea302b;
           }
-          .price {
-            font-size: 12px;
-            color: #222;
+          .price-unit {
             line-height: 17px;
-            margin-bottom: 3px;
-            font-family: PingFangSC-Medium;
-            span {
-              font-size: 12px;
-              font-family: PingFangSC-Medium;
-            }
+            font-size: 12px;
           }
-          .mprice {
-            font-size: 10px;
-            color: #929292;
-            line-height: 14px;
-            font-family: PingFangSC-Light;
-            span {
-              text-decoration: line-through;
-            }
+          .price-text {
+            line-height: 20px;
+            font-size: 14px;
           }
         }
-        .button {
-          flex-basis: 40px;
-          flex-shrink: 0;
-          width: 40px;
-          height: 46px;
-          background: linear-gradient(#ff7a5c, #f9314d);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          span {
-            color: #fff;
-            font-size: 11px;
-            text-align: center;
-            display: inline-block;
-            padding: 0 5px;
+        .mprice {
+          color: #777;
+          .mprice-tip {
+            font-size: 10px;
+            line-height: 14px;
+            margin-right: 3px;
           }
+          .mprice-text {
+            font-size: 12px;
+            line-height: 17px;
+          }
+        }
+        .mbutton {
+          display: none;
         }
       }
       .nogoods {
@@ -276,16 +334,42 @@ export default {
           transform: translate(-50%, -50%);
         }
       }
-    }
-    &.inventory {
-      .goods {
-        .tip {
-          width: 45px;
-          height: 28px;
-          background: url("http://p7.highstreet.top/FoCMUKL94IhJNkghzz7CwnKnBl2l")
-            0 0 no-repeat;
-          background-size: 45px auto;
+      &.single {
+        padding: 10px 5px;
+        border-bottom: 0.5px solid #ddd;
+        .img {
+          width: 90px;
+          height: 120px;
+          margin-right: 10px;
+          flex-shrink: 0;
+        }
+        .infoall {
+          padding: 10px 0 0 0;
+          overflow: hidden;
+          .brand {
+            font-size: 15px;
+            line-height: 21px;
+            margin-bottom: 5px;
+          }
+          .name {
+            line-height: 17px;
+            font-size: 12px;
+            margin-bottom: 16px;
+          }
+        }
+        .mbutton {
+          display: block;
+          width: 64px;
+          height: 22px;
+          background: linear-gradient(to right, #fd5a49, #e0191a);
+          border-radius: 2px;
+          line-height: 22px;
           text-align: center;
+          color: #fff;
+          font-size: 12px;
+          position: absolute;
+          right: 5px;
+          bottom: 20px;
         }
       }
     }

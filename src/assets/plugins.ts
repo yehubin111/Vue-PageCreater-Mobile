@@ -1,13 +1,13 @@
 import { Message, Notification } from 'element-ui'
 
-export function Msgsuccess(msg) {
+export function Msgsuccess(msg: string) {
     Message({
         message: msg,
         type: 'success',
         duration: 5000
     })
 }
-export function Msgerror(msg) {
+export function Msgerror(msg: string) {
     Message({
         message: msg,
         type: 'error',
@@ -15,7 +15,7 @@ export function Msgerror(msg) {
     })
 }
 
-export function Msgwarning(msg, dangerouslyUseHTMLString) {
+export function Msgwarning(msg: string, dangerouslyUseHTMLString: boolean) {
     Message({
         message: msg,
         type: 'warning',
@@ -24,7 +24,7 @@ export function Msgwarning(msg, dangerouslyUseHTMLString) {
     })
 }
 
-export function Msgnotify(title, msg, dangerouslyUseHTMLString) {
+export function Msgnotify(title: string, msg: string, dangerouslyUseHTMLString: boolean) {
     Notification({
         title: title,
         message: msg,
@@ -33,7 +33,7 @@ export function Msgnotify(title, msg, dangerouslyUseHTMLString) {
     })
 }
 
-export function MsgnotifySuccess(title, msg, callback) {
+export function MsgnotifySuccess(title: string, msg: string, callback: any) {
     Notification.success({
         title: title,
         message: msg,
@@ -43,7 +43,7 @@ export function MsgnotifySuccess(title, msg, callback) {
     })
 }
 
-export function MsgnotifyError(title, msg) {
+export function MsgnotifyError(title: string, msg: string) {
     Notification.error({
         title: title,
         message: msg,
@@ -51,7 +51,7 @@ export function MsgnotifyError(title, msg) {
     })
 }
 
-export function MsgnotifyWarning(title, msg, callback) {
+export function MsgnotifyWarning(title: string, msg: string, callback: any) {
     Notification.warning({
         title: title,
         message: msg,

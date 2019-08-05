@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
-import { URL } from "@/assets/url";
+import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsListOther",
   props: {
@@ -73,6 +73,7 @@ export default {
     return {
       list: [],
       url: URL.goodslist,
+      pageOffset: 0,
       keyOption: {
         bothPadding: { name: "左右边距", type: "input" },
         marginTop: { name: "上边距", type: "input" },
@@ -92,8 +93,8 @@ export default {
     }
   },
   mounted() {
-    if (this.topicid && this.linecount) {
-      this.debounceFunc();
+    if (this.topicid.trim() && this.linecount) {
+      this.getData();
     }
   },
   destroyed() {
@@ -107,11 +108,12 @@ export default {
     })(),
     getData() {
       let url = this.url
-        .replace("{topicId}", this.topicid)
+        .replace("{topicId}", this.topicid.trim())
+        .replace("{pageOffset}", this.pageOffset)
         .replace("{count}", this.linecount * 2);
       axios.get(url).then(res => {
         console.log(res);
-        this.list = res.data.data.productsList;
+        this.list = res.data.productsList;
       });
     },
     toGoodsDetialPage(productId) {

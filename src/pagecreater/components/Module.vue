@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       drag: false,
+      del: false,
       dragOptions: {
         animation: 200,
         group: "description",
@@ -64,7 +65,8 @@ export default {
   methods: {
     initConfig(info) {
       // console.log(info);
-      if (!this.drag) this.$emit("initComponent", info);
+      if(!this.drag && !this.del)
+        this.$emit('initComponent', info);
     },
     selectComponent(i) {
       // console.log(this.$refs);
@@ -74,6 +76,11 @@ export default {
       this.$emit("dragComponent", moved.oldIndex, moved.newIndex);
     },
     delComponent(i) {
+      let me = this;
+      this.del = true;
+      setTimeout(function() {
+        me.del = false;
+      }, 300)
       this.$emit("delComponent", i);
     }
   }

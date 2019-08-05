@@ -32,7 +32,7 @@ const components: Components[] = [
     {
         name: 'GoodsList',
         moduleName: 'HsGoodsList',
-        show: false,
+        show: true,
     },
     {
         name: 'GoodsListOther',

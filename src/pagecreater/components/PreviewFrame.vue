@@ -23,7 +23,6 @@ export default {
     return {
       globalconfig: {},
       componentsconfig: [],
-      deltime: false,
       index: -1,
       fatherurl: location.href.replace('preview', '')
     };
@@ -36,11 +35,13 @@ export default {
   },
   methods: {
     initComponent(info) {
-      // 排除删除引起的组件重置
-      if(this.deltime) {
-        this.deltime = false;
-        return;
-      }
+      console.log('%cinit', 'color: red');
+      // // 排除删除引起的组件重置
+      // if(this.deltime) {
+      //   this.deltime = false;
+      //   return;
+      // }
+      if(this.index == -1) return;
       this.componentsconfig[this.index].info = info;
       this.componentsconfig[this.index].props = this.$i2c(info);
       top.postMessage({type: 'initComponent', info: info}, this.fatherurl)
@@ -77,6 +78,10 @@ export default {
           // console.log(this.componentsconfig[index].props, config);
           // this.deepUpdate(this.componentsconfig[index].props, config);
           break;
+        case "editInit":
+          this.index = -1;
+          this.componentsconfig = config;
+          break;
       }
     },
     // 更换组件顺序回调
@@ -94,7 +99,7 @@ export default {
       } else if (this.index < oldindex && this.index >= newindex) {
         this.index++;
       }
-      console.log(this.componentsconfig);
+      // console.log(this.componentsconfig);
       top.postMessage({type: 'dragComponent', componentsconfig: this.componentsconfig, index: this.index }, this.fatherurl)
     },
     selectComponent(idx) {
@@ -102,7 +107,6 @@ export default {
       top.postMessage({type: 'selectComponent', index: idx}, this.fatherurl)
     },
     delComponent(idx) {
-      this.deltime = true;
       if (this.index == idx) {
         this.index = -1;
       } else if (this.index > idx) {
@@ -126,8 +130,8 @@ export default {
   height: 100%;
   // background-color: red;
   display: inline-block;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
   overflow-y: auto;
   position: absolute;
   box-sizing: border-box;

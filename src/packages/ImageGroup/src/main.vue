@@ -1,7 +1,7 @@
 <template>
   <div
     class="imagelist"
-    :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding-left': bothPadding, 'padding-right': bothPadding,'margin-top': marginTop, 'margin-bottom': marginBottom }"
+    :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding': padding }"
   >
     <div class="image" v-for="(img, index) in imageList" :key="index" @click="clickCallback(img)">
       <img v-if="img.url" :src="img.url" alt />
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "@/packages/axiosPack";
 import Toast from 'vant/lib/toast';
 import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
-import { URL } from "@/assets/url";
+import { URL } from "@/assets/url.ts";
 export default {
   name: "HsImageGroup", 
   props: {
@@ -36,17 +36,9 @@ export default {
       type: String,
       default: "0px"
     },
-    bothPadding: {
+    padding: {
       type: String,
-      default: "0px"
-    },
-    marginTop: {
-      type: String,
-      default: "0px"
-    },
-    marginBottom: {
-      type: String,
-      default: "0px"
+      default: "0px 0px 0px"
     },
     clickEvent: {
       type: String,
@@ -63,9 +55,7 @@ export default {
       alertstatus: false,
       userToken: "",
       keyOption: {
-        bothPadding: { name: "左右边距", type: "input" },
-        marginTop: { name: "上边距", type: "input" },
-        marginBottom: { name: "下边距", type: "input" },
+        padding: { name: '边距（上 左右 下）', type: 'padding' },
         count: { name: "数量", type: "radio", bind: ["list"] },
         gap: { name: "图片间隔", type: "input" },
         clickEvent: {
@@ -147,16 +137,15 @@ export default {
   },
   methods: {
     getCoupon(code) {
+      let params = new FormData();
+      params.append('cpBatchNumber', code);
       axios.post(
-        URL.coupon,
-        {
-          cpBatchNumber: code
-        },
+        URL.coupon, params,
         {
           headers: { Platform: "2", Authorization: this.userToken }
         }
       ).then(res => {
-        Toast(res.data.msg);
+        Toast(res.msg);
       });
     },
     clickCallback(i) {
@@ -167,16 +156,16 @@ export default {
           this.alertwidth = i.alertwidth;
           break;
         case "topic":
-          toTopic(i.topic);
+          toTopic(i.topic.trim());
           break;
         case "goodsdetail":
-          toGoodsDetial(i.goodsdetail);
+          toGoodsDetial(i.goodsdetail.trim());
           break;
         case "h5link":
           location.href = i.h5link;
           break;
         case "couponid":
-          this.getCoupon(i.couponid);
+          this.getCoupon(i.couponid.trim());
           break;
       }
     }

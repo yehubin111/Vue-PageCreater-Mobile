@@ -1,7 +1,7 @@
 
 import { typeJudge } from './common';
 export default {
-    install(Vue, options) {
+    install(Vue) {
         // info to config
         Vue.prototype.$i2c = function (info, type) {
             let config = type == 'Array' ? [] : {};

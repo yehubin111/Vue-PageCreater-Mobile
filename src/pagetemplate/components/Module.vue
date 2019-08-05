@@ -19,7 +19,5 @@
 </script>
 
 <style lang="less" scoped>
-.module {
-    position: relative;
-}
+
 </style>
