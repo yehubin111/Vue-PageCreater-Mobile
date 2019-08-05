@@ -158,11 +158,11 @@ export default {
     // 初始化获取数据
     if (this.topicid && this.count) {
       this.pageSize = this.count;
+      this.loading = true;
       this.getData();
     }
     // 初始化添加下拉加载
     if (this.loadOption["loading"]) {
-      this.pageSize = this.loadOption["option"].count;
       window.removeEventListener("scroll", this.loadMore, false);
       window.addEventListener("scroll", this.loadMore, false);
     }
@@ -184,7 +184,8 @@ export default {
       ) {
         if (this.loading) return;
         this.loading = true;
-        this.pageOffset += this.pageSize;
+        this.pageSize = this.loadOption["option"].count;
+        // this.pageOffset += parseInt(this.pageSize);
         this.getData();
       }
     },
@@ -203,6 +204,7 @@ export default {
       axios.get(url).then(res => {
         let r = res.data.productsList;
         this.list = this.list.concat(r);
+        this.pageOffset += parseInt(this.pageSize);
         if (res.count <= this.pageOffset) {
           window.removeEventListener("scroll", this.loadMore);
         } else {
