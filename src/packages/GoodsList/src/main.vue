@@ -190,10 +190,12 @@ export default {
     },
     debounceFunc: (() => {
       return debounceFc(function() {
+        this.pageSize = this.count;
         this.getData();
       }, 1000);
     })(),
     getData() {
+      console.log(this.pageSize);
       let url = this.url
         .replace("{topicId}", this.topicid.trim())
         .replace("{count}", this.pageSize.trim())

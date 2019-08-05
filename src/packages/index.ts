@@ -41,23 +41,6 @@ const install = (Vue: any, opts = {}): void => {
                     default: me[v],
                     ...info[v],
                 }
-                // const child = info[v].child;
-                // const type = me._typeJudge(child);
-                // let obj = {};
-                // if (type === 'Array') {
-                //     obj = {
-                //         key: v,
-                //         ...info[v],
-                //         child: me._getConfig(child),
-                //     };
-                // } else {
-                //     obj = {
-                //         key: v,
-                //         default: me[v],
-                //         ...info[v],
-                //     };
-                // }
-                // arr.push(obj as ConfigArray);
             });
             return obj;
         };
