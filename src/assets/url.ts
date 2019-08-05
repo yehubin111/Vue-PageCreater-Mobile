@@ -22,19 +22,20 @@ export function getBaseUrl(): BaseUrl {
         case 'development':
             base['web'] = '';
             base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top';
-            base['out'] = '';
+            // base['out'] = '';
             break;
         case 'testing':
             base['web'] = ''; // http://dev-web-yuncang.highstreet.top
             base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top'; // 
-            base['out'] = '';
+            // base['out'] = '';
             break;
         case 'production':
             base['web'] = ''; // http://web.yuncang.highstreet.top
             base['mgr'] = 'http://mgr.yuncang.highstreet.top'; // 
-            base['out'] = '';
+            // base['out'] = '';
             break;
     }
+    base['out'] = location.origin;
     return base;
 }
 

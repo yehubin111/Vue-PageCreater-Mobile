@@ -137,11 +137,10 @@ export default {
   },
   methods: {
     getCoupon(code) {
+      let params = new FormData();
+      params.append('cpBatchNumber', code);
       axios.post(
-        URL.coupon,
-        {
-          cpBatchNumber: code
-        },
+        URL.coupon, params,
         {
           headers: { Platform: "2", Authorization: this.userToken }
         }

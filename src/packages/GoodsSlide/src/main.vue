@@ -1,6 +1,6 @@
 <template>
   <div class="outer" :style="{'padding-top': paddingTop, 'padding-bottom': paddingBottom, 'background-color': backgroundColor}">
-    <div class="goodsbox" :style="{height: list.length > 0?'49.6vw':'auto' }">
+    <div class="goodsbox" :style="{height: list.length > 0?'50.7vw':'auto' }">
       <div class="goodsslide" :style="{'padding-bottom': list.length > 0?'5.33333vw':'0px', 'padding-left': paddingLeft}">
         <div class="goodsscroll">
           <div

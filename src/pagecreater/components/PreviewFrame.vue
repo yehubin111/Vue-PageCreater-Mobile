@@ -125,8 +125,8 @@ export default {
   height: 100%;
   // background-color: red;
   display: inline-block;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
   overflow-y: auto;
   position: absolute;
   box-sizing: border-box;
