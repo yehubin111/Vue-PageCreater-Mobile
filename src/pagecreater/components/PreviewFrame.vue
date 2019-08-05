@@ -41,6 +41,7 @@ export default {
       //   this.deltime = false;
       //   return;
       // }
+      if(this.index == -1) return;
       this.componentsconfig[this.index].info = info;
       this.componentsconfig[this.index].props = this.$i2c(info);
       top.postMessage({type: 'initComponent', info: info}, this.fatherurl)
@@ -76,6 +77,10 @@ export default {
           this.componentsconfig[index].props = config;
           // console.log(this.componentsconfig[index].props, config);
           // this.deepUpdate(this.componentsconfig[index].props, config);
+          break;
+        case "editInit":
+          this.index = -1;
+          this.componentsconfig = config;
           break;
       }
     },

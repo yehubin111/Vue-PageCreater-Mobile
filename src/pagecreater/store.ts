@@ -35,6 +35,9 @@ const mutations: MutationTree<State> = {
     DRAG_COMPONENTCONFIG(state: State, { config }: DragComponentConfig) {
         state.componentsconfig = config;
     },
+    EDITINIT(state: State, { config }: DragComponentConfig) {
+        state.componentsconfig = config;
+    },
     SET_QINIUTOKEN(state: State, token: string) {
         state.qiniutoken = token;
     },

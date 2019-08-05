@@ -157,6 +157,7 @@ export default {
   mounted() {
     // 初始化获取数据
     if (this.topicid && this.count) {
+      console.log('mounted');
       this.pageSize = this.count;
       this.loading = true;
       this.getData();
@@ -192,6 +193,8 @@ export default {
     debounceFunc: (() => {
       return debounceFc(function() {
         this.pageSize = this.count;
+        this.pageOffset = 0;
+        this.list = [];
         this.getData();
       }, 1000);
     })(),

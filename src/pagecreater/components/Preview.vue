@@ -17,6 +17,7 @@
       <div>
         <el-button type="primary" slot="reference" @click="toCreate">生成网页</el-button>
         <el-button type="primary" slot="reference" @click="getConfig">查看配置</el-button>
+        <el-button type="primary" slot="reference" @click="toEdit">编辑网页</el-button>
       </div>
     </div>
   </div>
@@ -24,7 +25,7 @@
 
 <script>
 
-import { textCopy } from '@/assets/common';
+import { textCopy, getSearch } from '@/assets/common';
 import { getBaseUrl } from "@/assets/url.ts";
 let BASE = getBaseUrl();
 export default {
@@ -65,6 +66,19 @@ export default {
     }
   },
   methods: {
+    toEdit() {
+      this.$prompt('请输入需要编辑的页面地址', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /pageid=[^\#]+/,
+          inputErrorMessage: '地址不正确'
+        }).then(({ value }) => {
+          let key = getSearch('pageid', value);
+          this.$emit('pageEdit', key);
+        }).catch(() => {
+              
+        });
+    },
     onLoad() {
       this.$emit('frameOnLoad', this.$refs.frame);
     },
@@ -133,7 +147,7 @@ export default {
     background-image: url(http://p7.highstreet.top/Fj2zqADnDlb0VLkfjPWErQayssMM);
     .page {
       width: 312px;
-      height: 615px;
+      height: 613px;
       // background-color: red;
       display: inline-block;
       border-bottom-left-radius: 30px;

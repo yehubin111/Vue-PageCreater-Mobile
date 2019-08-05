@@ -11,6 +11,7 @@
       @getConfig="getConfig"
       @qiniuUpload="qiniuUpload"
       @frameOnLoad="frameOnLoad"
+      @pageEdit="pageEdit"
     ></preview>
     <info-edit
       class="editmodule"
@@ -54,7 +55,8 @@ export default {
       framename: "",
       frameurl: "",
       fullscreenLoading: null,
-      precomponent: null
+      precomponent: null,
+      baseurl: "http://p7.highstreet.top"
     };
   },
   created() {
@@ -86,13 +88,26 @@ export default {
       "DRAG_COMPONENTCONFIG",
       "SET_QINIUTOKEN",
       "SET_COMPONENTINFO",
-      "SET_COMPONENTCONFIG"
+      "SET_COMPONENTCONFIG",
+      "EDITINIT"
     ]),
     debounceFunc: (() => {
       return debounceFc(function(argu) {
         this.framePostMessage(argu);
       }, 300);
     })(),
+    pageEdit(key) {
+      console.log(key);
+      this.selectComponent(-1);
+      let url = `${this.baseurl}/${key}`;
+      axios.get(url).then(res => {
+        let r = res.data;
+        this.globalconfig = r.globalconfig;
+        this.EDITINIT({ config: r.componentsconfig });
+        this.framePostMessage({ type: "editGlobal", config: this.globalconfig });
+        this.framePostMessage({ type: "editInit", config: this.componentsconfig });
+      });
+    },
     frameOnLoad(name, url) {
       this.framename = name;
       this.frameurl = url;
@@ -133,7 +148,7 @@ export default {
     },
     qiniuUpload() {
       let me = this;
-      let filename = getUUID();
+      let filename = `${getUUID()}`;
       let config = {
         globalconfig: this.globalconfig,
         componentsconfig: this.componentsconfig
