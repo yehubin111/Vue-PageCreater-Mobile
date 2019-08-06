@@ -17,33 +17,197 @@
       </div>
     </div>
     <div
-      class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
-      v-else
+      class="goodbox-3"
+      :style="{'grid-gap': gap, 'grid-template-columns':'1fr 1fr 1fr'}"
+      v-if="columnCount == 'three'"
     >
       <div
         class="goods"
-        :class="{'row-flex single':columnCount == 'single'}"
         v-for="(g,index) in list"
         :key="index"
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
           <img :src="g.mainPicAddress" alt />
+          <div
+            class="tag"
+            :class="tagPosition"
+            :style="{'color': tag_1_color, 'background-color': tag_1_bg}"
+            v-if="tag_1_text"
+          >
+            <div class="label">{{tag_1_text}}</div>
+            <div>
+              <span class="unit">￥</span>
+              <span class="price">{{g.marketPrice - g.memberPrice}}</span>
+            </div>
+          </div>
         </div>
         <div class="infoall">
-          <p class="brand ff-m">{{g.productBrandName}}</p>
-          <p class="name ff-l">{{g.productName}}</p>
-          <p class="price row-flex ac">
-            <span class="price-tip">黑卡会员</span>
+          <p
+            class="brand ff-m"
+            v-if="brand"
+          >{{g.productBrandNameEng}} {{g.productBrandName ? '/'+g.productBrandName : ''}}</p>
+          <p
+            class="name ff-l"
+            v-if="productName"
+          >{{g.productName ? g.productName : g.productEngName}}</p>
+          <p class="price row-flex ac price_1" v-if="memberPriceStyle == '1' &&memberPriceText">
+            <span class="price-tip">{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac">
-            <span class="mprice-tip ff-l">VIP会员</span>
+          <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
+            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-unit ff-m">￥</span>
+            <span class="price-text ff-m">{{g.memberPrice}}</span>
+          </p>
+          <p class="mprice row-flex ac" v-if="marketPriceText">
+            <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
           </p>
-          <p class="mbutton">立即购买</p>
+          <p class="mprice row-flex ac" v-if="sellPriceText">
+            <span class="mprice-tip ff-l">{{sellPriceText}}</span>
+            <span class="mprice-text ff-l">¥{{g.sellPrice}}</span>
+          </p>
+          <div class="row-flex jc">
+            <p
+              class="buy-button"
+              :style="{'color': buttonTextColor, 'background-color': buttonTextBg}"
+              v-if="buttonText"
+            >{{buttonText}}</p>
+          </div>
+        </div>
+        <p class="nogoods" v-show="g.leftNum <= 0">
+          <img src="http://p7.highstreet.top/FrdA1DNz61d6C7hJoE1EX8-DfjBy" alt />
+        </p>
+      </div>
+    </div>
+    <div
+      class="goodbox"
+      :style="{'grid-gap': gap, 'grid-template-columns':'1fr 1fr'}"
+      v-if="columnCount == 'double'"
+    >
+      <div
+        class="goods"
+        v-for="(g,index) in list"
+        :key="index"
+        @click="toGoodsDetialPage(g.productId.toString())"
+      >
+        <div class="img">
+          <img :src="g.mainPicAddress" alt />
+          <div
+            class="tag"
+            :class="tagPosition"
+            :style="{'color': tag_1_color, 'background-color': tag_1_bg}"
+            v-if="tag_1_text"
+          >
+            <div class="label">{{tag_1_text}}</div>
+            <div>
+              <span class="unit">￥</span>
+              <span class="price">{{g.marketPrice - g.memberPrice}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="infoall">
+          <p
+            class="brand ff-m"
+            v-if="brand"
+          >{{g.productBrandNameEng}} {{g.productBrandName ? '/'+g.productBrandName : ''}}</p>
+          <p
+            class="name ff-l"
+            v-if="productName"
+          >{{g.productName ? g.productName : g.productEngName}}</p>
+          <p class="price row-flex ac price_1" v-if="memberPriceStyle == '1' &&memberPriceText">
+            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-unit ff-m">￥</span>
+            <span class="price-text ff-m">{{g.memberPrice}}</span>
+          </p>
+          <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
+            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-unit ff-m">￥</span>
+            <span class="price-text ff-m">{{g.memberPrice}}</span>
+          </p>
+          <p class="mprice row-flex ac" v-if="marketPriceText">
+            <span class="mprice-tip ff-l">{{marketPriceText}}</span>
+            <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
+          </p>
+          <p class="mprice row-flex ac" v-if="sellPriceText">
+            <span class="mprice-tip ff-l">{{sellPriceText}}</span>
+            <span class="mprice-text ff-l">¥{{g.sellPrice}}</span>
+          </p>
+          <div class="row-flex jc">
+            <p
+              class="buy-button"
+              :style="{'color': buttonTextColor, 'background-color': buttonTextBg}"
+              v-if="buttonText"
+            >{{buttonText}}</p>
+          </div>
+        </div>
+        <p class="nogoods" v-show="g.leftNum <= 0">
+          <img src="http://p7.highstreet.top/FrdA1DNz61d6C7hJoE1EX8-DfjBy" alt />
+        </p>
+      </div>
+    </div>
+    <div
+      class="goodbox"
+      :style="{'grid-gap': gap, 'grid-template-columns': '1fr'}"
+      v-if="columnCount == 'single'"
+    >
+      <div
+        class="goods row-flex single"
+        v-for="(g,index) in list"
+        :key="index"
+        @click="toGoodsDetialPage(g.productId.toString())"
+      >
+        <div class="img">
+          <img :src="g.mainPicAddress" alt />
+          <div
+            class="tag"
+            :class="tagPosition"
+            :style="{'color': tag_1_color, 'background-color': tag_1_bg}"
+            v-if="tag_1_text"
+          >
+            <div class="label">{{tag_1_text}}</div>
+            <div>
+              <span class="unit">￥</span>
+              <span class="price">{{g.marketPrice - g.memberPrice}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="infoall">
+          <p
+            class="brand ff-m"
+            v-if="brand"
+          >{{g.productBrandNameEng}} {{g.productBrandName ? '/'+g.productBrandName : ''}}</p>
+          <p
+            class="name ff-l"
+            v-if="productName"
+          >{{g.productName ? g.productName : g.productEngName}}</p>
+          <p class="price row-flex ac price_1" v-if="memberPriceStyle == '1' &&memberPriceText">
+            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-unit ff-m">￥</span>
+            <span class="price-text ff-m">{{g.memberPrice}}</span>
+          </p>
+          <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
+            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-unit ff-m">￥</span>
+            <span class="price-text ff-m">{{g.memberPrice}}</span>
+          </p>
+          <p class="mprice row-flex ac" v-if="marketPriceText">
+            <span class="mprice-tip ff-l">{{marketPriceText}}</span>
+            <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
+          </p>
+          <p class="mprice row-flex ac" v-if="sellPriceText">
+            <span class="mprice-tip ff-l">{{sellPriceText}}</span>
+            <span class="mprice-text ff-l">¥{{g.sellPrice}}</span>
+          </p>
+          <div class="row-flex jc">
+            <p
+              class="buy-button"
+              :style="{'color': buttonTextColor, 'background-color': buttonTextBg}"
+              v-if="buttonText"
+            >{{buttonText}}</p>
+          </div>
         </div>
         <p class="nogoods" v-show="g.leftNum <= 0">
           <img src="http://p7.highstreet.top/FrdA1DNz61d6C7hJoE1EX8-DfjBy" alt />
@@ -77,6 +241,50 @@ export default {
       type: String,
       default: "0px"
     },
+    tag_1_text: {
+      type: String,
+      default: "省"
+    },
+    tag_1_color: {
+      type: String,
+      default: "#000"
+    },
+    tag_1_bg: {
+      type: String,
+      default: "#f0f0f0"
+    },
+    tagPosition: {
+      type: String,
+      default: "left"
+    },
+    marketPriceText: {
+      type: String,
+      default: "黑卡会员"
+    },
+    memberPriceText: {
+      type: String,
+      default: "VIP会员"
+    },
+    memberPriceStyle: {
+      type: String,
+      default: "1"
+    },
+    sellPriceText: {
+      type: String,
+      default: ""
+    },
+    buttonText: {
+      type: String,
+      default: "立即购买"
+    },
+    buttonTextColor: {
+      type: String,
+      default: "#fff"
+    },
+    buttonTextBg: {
+      type: String,
+      default: "#AC5347"
+    },
     padding: {
       type: String,
       default: "0px 0px 0px"
@@ -85,6 +293,8 @@ export default {
       type: String,
       default: ""
     },
+    brand: true,
+    productName: true,
     // loading: {
     //   type: Boolean,
     //   default: false
@@ -116,6 +326,45 @@ export default {
         columnCount: { name: "列数", type: "radio" },
         count: { name: "商品数", type: "input" },
         gap: { name: "商品间隔", type: "input" },
+        tag_1_text: { name: "标签", type: "input" },
+        tag_1_color: {
+          name: "标签颜色",
+          type: "color",
+          placeholder: "标签颜色"
+        },
+        tag_1_bg: { name: "标签背景", type: "color" },
+        tagPosition: {
+          name: "标签位置",
+          type: "radio",
+          bind: ["left", "right"]
+        },
+        brand: { name: "品牌", type: "switch", default: true },
+        productName: { name: "商品名称", type: "switch", default: true },
+        marketPriceText: {
+          name: "市场价",
+          type: "input"
+        },
+        memberPriceText: {
+          name: "会员价",
+          type: "input"
+        },
+        memberPriceStyle: { name: "会员价风格", type: "radio" },
+        sellPriceText: {
+          name: "销售价",
+          type: "input"
+        },
+        buttonText: {
+          name: "按钮",
+          type: "input"
+        },
+        buttonTextColor: {
+          name: "按钮文本颜色",
+          type: "color"
+        },
+        buttonTextBg: {
+          name: "按钮背景颜色",
+          type: "color"
+        },
         loadOption: {
           name: "下拉加载",
           child: {
@@ -157,7 +406,7 @@ export default {
   mounted() {
     // 初始化获取数据
     if (this.topicid && this.count) {
-      console.log('mounted');
+      console.log("mounted");
       this.pageSize = this.count;
       this.loading = true;
       this.getData();
@@ -259,6 +508,33 @@ export default {
           max-width: 100%;
           max-height: 100%;
         }
+        .tag {
+          position: absolute;
+          z-index: 2;
+          width: 29px;
+          height: 33px;
+          font-size: 10px;
+          text-align: center;
+          background-color: #f8aeae;
+          border-radius: 0px 0px 3px 3px;
+          &.left {
+            top: 0px;
+            left: 10px;
+          }
+          &.right {
+            top: 0px;
+            right: 10px;
+          }
+          .label {
+            font-size: 10px;
+          }
+          .unit {
+            font-size: 6px;
+          }
+          .price {
+            font-size: 8px;
+          }
+        }
       }
       .infoall {
         padding: 0 5px;
@@ -283,15 +559,23 @@ export default {
         }
         .price {
           margin-bottom: 4px;
-          .price-tip {
-            width: 34px;
-            border: 0.5px solid #ea302b;
-            border-radius: 2px;
-            text-align: center;
-            line-height: 11px;
-            font-size: 7px;
-            margin-right: 2px;
-            color: #ea302b;
+          &.price_1 {
+            .price-tip {
+              font-size: 13px;
+              color: #000;
+            }
+          }
+          &.price_2 {
+            .price-tip {
+              width: 34px;
+              border: 0.5px solid #ea302b;
+              border-radius: 2px;
+              text-align: center;
+              line-height: 11px;
+              font-size: 7px;
+              margin-right: 2px;
+              color: #ea302b;
+            }
           }
           .price-unit {
             line-height: 17px;
@@ -314,6 +598,17 @@ export default {
             line-height: 17px;
           }
         }
+        .buy-button {
+          width: 143px;
+          height: 18px;
+          line-height: 18px;
+          text-align: center;
+          background-color: #aaa;
+          border-radius: 9px;
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 1);
+        }
         .mbutton {
           display: none;
         }
@@ -334,6 +629,7 @@ export default {
           transform: translate(-50%, -50%);
         }
       }
+      // 一行一列
       &.single {
         padding: 10px 5px;
         border-bottom: 0.5px solid #ddd;
@@ -357,7 +653,207 @@ export default {
             margin-bottom: 16px;
           }
         }
+        .buy-button {
+          display: block;
+          width: 64px;
+          height: 22px;
+          background: linear-gradient(to right, #fd5a49, #e0191a);
+          border-radius: 2px;
+          line-height: 22px;
+          text-align: center;
+          color: #fff;
+          font-size: 12px;
+          position: absolute;
+          right: 5px;
+          bottom: 20px;
+        }
+      }
+    }
+    .default {
+      box-sizing: border-box;
+      padding: 10px;
+      p {
+        height: 0;
+        padding-top: 75%;
+        position: relative;
+        font-size: 14px;
+        background-color: #fafafa;
+        border: 1px dotted #ddd;
+        box-sizing: border-box;
+        span {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+  .goodbox-3 {
+    display: grid;
+    .goods {
+      // height: 245px;
+      background-color: #fff;
+      overflow: hidden;
+      position: relative;
+      .img {
+        width: 100%;
+        height: 115px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+        .tag {
+          position: absolute;
+          z-index: 2;
+          width: 20px;
+          height: 23px;
+          font-size: 7px;
+          text-align: center;
+          background-color: #f8aeae;
+          border-radius: 0px 0px 3px 3px;
+          &.left {
+            top: 0px;
+            left: 7px;
+          }
+          &.right {
+            top: 0px;
+            right: 7px;
+          }
+          .label {
+            font-size: 10px;
+          }
+          .unit {
+            font-size: 4px;
+          }
+          .price {
+            font-size: 6px;
+          }
+        }
+      }
+      .infoall {
+        padding: 8px 8px;
+        .brand {
+          font-size: 9px;
+          width: 100%;
+          height: 9px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 9px;
+        }
+        .name {
+          font-size: 8px;
+          width: 100%;
+          height: 8px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 8px;
+          margin-bottom: 3px;
+        }
+        .price {
+          margin-bottom: 3px;
+          &.price_1 {
+            .price-tip {
+              font-size: 9px;
+              color: #000;
+            }
+          }
+          &.price_2 {
+            .price-tip {
+              width: 34px;
+              border: 0.5px solid #ea302b;
+              border-radius: 2px;
+              text-align: center;
+              line-height: 8px;
+              font-size: 7px;
+              margin-right: 2px;
+              color: #ea302b;
+            }
+          }
+          .price-unit {
+            line-height: 8px;
+            font-size: 9px;
+          }
+          .price-text {
+            line-height: 8px;
+            font-size: 9px;
+          }
+        }
+        .mprice {
+          color: #777;
+          .mprice-tip {
+            font-size: 9px;
+            line-height: 8px;
+            margin-right: 3px;
+          }
+          .mprice-text {
+            font-size: 9px;
+            line-height: 8px;
+          }
+        }
+        .buy-button {
+          margin-top: 3px;
+          width: 110px;
+          height: 12px;
+          line-height: 12px;
+          text-align: center;
+          background-color: #aaa;
+          border-radius: 9px;
+          font-size: 8px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 1);
+        }
         .mbutton {
+          display: none;
+        }
+      }
+      .nogoods {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        img {
+          width: 110px;
+          height: 63px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      // 一行一列
+      &.single {
+        padding: 10px 5px;
+        border-bottom: 0.5px solid #ddd;
+        .img {
+          width: 90px;
+          height: 120px;
+          margin-right: 10px;
+          flex-shrink: 0;
+        }
+        .infoall {
+          padding: 10px 0 0 0;
+          overflow: hidden;
+          .brand {
+            font-size: 15px;
+            line-height: 21px;
+            margin-bottom: 5px;
+          }
+          .name {
+            line-height: 17px;
+            font-size: 12px;
+            margin-bottom: 16px;
+          }
+        }
+        .buy-button {
           display: block;
           width: 64px;
           height: 22px;

@@ -1,5 +1,14 @@
 <template>
-  <draggable tag="div" class="box" :list="componentsconfig" @start="drag = true" @end="drag = false" group="people" @change="dragModule" :options="dragOptions">
+  <draggable
+    tag="div"
+    class="box"
+    :list="componentsconfig"
+    @start="drag = true"
+    @end="drag = false"
+    group="people"
+    @change="dragModule"
+    :options="dragOptions"
+  >
     <div
       class="module"
       :class="{on: index == i}"
@@ -34,20 +43,18 @@ export default {
   data() {
     return {
       drag: false,
-      del: false,
       dragOptions: {
         animation: 200,
-        group: 'description',
+        group: "description",
         // disabled: !this.edit,
-        ghostClass: 'dragger-on'
+        ghostClass: "dragger-on"
       }
-    }
+    };
   },
   methods: {
     initConfig(info) {
       // console.log(info);
-      if(!this.drag && !this.del)
-        this.$emit('initComponent', info);
+      if (!this.drag) this.$emit("initComponent", info);
     },
     selectComponent(i) {
       // console.log(this.$refs);
@@ -57,11 +64,6 @@ export default {
       this.$emit("dragComponent", moved.oldIndex, moved.newIndex);
     },
     delComponent(i) {
-      let me = this;
-      this.del = true;
-      setTimeout(function() {
-        me.del = false;
-      }, 300)
       this.$emit("delComponent", i);
     }
   }
@@ -70,7 +72,7 @@ export default {
 
 <style lang="less" scoped>
 .dragger-on {
-  opacity: .5;
+  opacity: 0.5;
   background-color: #c8ebfb;
 }
 .module {

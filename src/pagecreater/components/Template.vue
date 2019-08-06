@@ -104,8 +104,14 @@ export default {
         let r = res.data;
         this.globalconfig = r.globalconfig;
         this.EDITINIT({ config: r.componentsconfig });
-        this.framePostMessage({ type: "editGlobal", config: this.globalconfig });
-        this.framePostMessage({ type: "editInit", config: this.componentsconfig });
+        this.framePostMessage({
+          type: "editGlobal",
+          config: this.globalconfig
+        });
+        this.framePostMessage({
+          type: "editInit",
+          config: this.componentsconfig
+        });
       });
     },
     frameOnLoad(name, url) {
@@ -137,6 +143,8 @@ export default {
           this.dragComponent(componentsconfig, index);
           break;
         case "initComponent":
+          console.log("Template onMessage");
+          console.log(info);
           this.initComponent(info);
           break;
       }
@@ -188,6 +196,9 @@ export default {
     initComponent(info) {
       this.editprops = this.$i2c(info);
       this.editinfo = info;
+      console.log("initComponent");
+      console.log(this.editprops);
+      console.log(this.editinfo);
       // console.log(this.editprops, this.editinfo);
       this.SET_COMPONENTCONFIG({ index: this.index, config: this.editprops });
       this.SET_COMPONENTINFO({ index: this.index, info: this.editinfo });
@@ -218,7 +229,7 @@ export default {
         this.editprops = {};
         return;
       }
-      
+
       this.editprops = this.componentsconfig[this.index].props;
       this.editinfo = this.componentsconfig[this.index].info;
       // console.log(this.editprops, this.editinfo);
