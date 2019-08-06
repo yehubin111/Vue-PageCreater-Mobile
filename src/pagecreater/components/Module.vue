@@ -1,30 +1,34 @@
 <template>
   <draggable
     tag="div"
-    class="box"
+    class="dragBox"
     :class="{
-      'dragAreaEdit': componentsconfig.components
+      'dragAreaEdit': true
     }"
     :list="componentsconfig"
     @start="drag = true"
     @end="drag = false"
-    group="people"
+    group="drag"
     @change="dragModule"
     :options="dragOptions"
   >
     <div
       class="module"
-      :class="{on: index == i}"
-      @click="selectComponent(i)"
+      :class="{on: index.toString() === i.toString()}"
+      @click.stop="selectComponent(i)"
       v-for="(temp, i) in componentsconfig"
       :key="i"
     >
-      <component
-        :is="temp.moduleName"
-        v-bind="temp.props"
-        @initConfig="initConfig"
-      >
-        <module v-if="temp.components" :componentsconfig="temp.components" :index="index"></module>
+      <component :is="temp.moduleName" v-bind="temp.props" @initConfig="initConfig">
+        <module
+          v-if="temp.component"
+          :componentsconfig="temp.component"
+          :index="childindex"
+          :cindex="cindex !== undefined && cindex !== null?`${cindex}-${i}`:i"
+          @dragComponent="_dragModule"
+          @delComponent="_delComponent"
+          @selectComponent="_selectComponent"
+        ></module>
       </component>
       <div class="modulectrl">
         <i class="el-icon-delete" style="color: #fff" @click.stop="delComponent(i)"></i>
@@ -43,8 +47,11 @@ export default {
       required: true
     },
     index: {
-      type: Number,
+      type: Number | String,
       required: true
+    },
+    cindex: {
+      type: Number | String
     }
   },
   components: {
@@ -62,25 +69,68 @@ export default {
       }
     };
   },
+  mounted() {
+    console.log(this.componentsconfig);
+  },
+  computed: {
+    childindex() {
+      return this.index.toString().substring(2);
+    }
+  },
   methods: {
     initConfig(info) {
       // console.log(info);
-      if(!this.drag && !this.del)
-        this.$emit('initComponent', info);
+      if (!this.drag && !this.del) this.$emit("initComponent", info);
+    },
+    _selectComponent(i) {
+      console.log(i);
+      this.$emit("selectComponent", i);
     },
     selectComponent(i) {
       // console.log(this.$refs);
-      this.$emit("selectComponent", i);
+      this.$emit(
+        "selectComponent",
+        this.cindex !== undefined && this.cindex !== null
+          ? `${this.cindex}-${i}`
+          : i
+      );
     },
-    dragModule({ moved }) {
-      this.$emit("dragComponent", moved.oldIndex, moved.newIndex);
+    _dragModule(type, n) {
+      console.log(type, n);
+      // console.log('child drag');
+      this.$emit("dragComponent", type, n);
+    },
+    dragModule({ added, removed, moved }) {
+      let type = "";
+      let act = null;
+      if (added) {
+        type = "add";
+        act = added;
+      } else if (removed) {
+        type = "remove";
+        act = removed;
+      } else {
+        type = "move";
+        act = moved;
+      }
+      console.log(type);
+      if (act.newIndex !== undefined)
+        this.$emit(
+          "dragComponent",
+          type,
+          this.cindex !== undefined ? `${this.cindex}-${act.newIndex}` : act.newIndex
+        );
+      // this.$emit("dragComponent", moved.oldIndex, moved.newIndex);
+    },
+    _delComponent(i) {
+      this.$emit("delComponent", i);
     },
     delComponent(i) {
       let me = this;
       this.del = true;
       setTimeout(function() {
         me.del = false;
-      }, 300)
+      }, 300);
       this.$emit("delComponent", i);
     }
   }
@@ -124,5 +174,8 @@ export default {
     box-sizing: border-box;
     border: 1px dashed #f00;
   }
+}
+.page > .dragBox::after {
+  display: none;
 }
 </style>

@@ -188,6 +188,7 @@ export default {
     initComponent(info) {
       this.editprops = this.$i2c(info);
       this.editinfo = info;
+          console.log(this.editprops);
       // console.log(this.editprops, this.editinfo);
       this.SET_COMPONENTCONFIG({ index: this.index, config: this.editprops });
       this.SET_COMPONENTINFO({ index: this.index, info: this.editinfo });

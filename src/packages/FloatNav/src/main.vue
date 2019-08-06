@@ -43,8 +43,7 @@ export default {
             //   name: { name: "名称", default: "", type: "input" }
             // }}
           ]
-        },
-        component: []
+        }
       }
     };
   },
@@ -68,7 +67,7 @@ export default {
 <style lang="less" scoped>
 .floatnav {
   width: 375px;
-  height: 38px;
+  // height: 38px;
   background-color: #fff;
   .float {
     width: 375px;
@@ -89,6 +88,9 @@ export default {
         background: linear-gradient(to right, #f4e7d0, #e2cfaa);
       }
     }
+  }
+  .dragger {
+    padding: 0 20px;
   }
 }
 </style>

@@ -37,13 +37,9 @@ const install = (Vue: any, opts = {}): void => {
             // const arr: ConfigArray[] = [];
             const obj: any = {};
             Object.keys(info).forEach((v): void => {
-                if(v == 'components') {
-                    obj[v] = info[v];
-                } else {
-                    obj[v] = {
-                        default: me[v],
-                        ...info[v],
-                    }
+                obj[v] = {
+                    default: me[v],
+                    ...info[v],
                 }
             });
             return obj;

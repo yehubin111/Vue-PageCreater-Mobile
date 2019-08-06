@@ -2,7 +2,7 @@
   <div class="infoedit">
     <div class="commonedit" :style="{'background-color': bgcolor ? '#f3f3f3':'#fff'}">
       <div class="navinfo" v-for="i in infolist" :key="i">
-        <template v-if="typeof propslist[i] == 'object'">
+        <template v-if="typeof propslist[i] == 'object' && i != 'component'">
           <div v-show="i != hidetype">
             <p class="objtitle">{{getTitle(i)}}</p>
             <info-edit
@@ -20,7 +20,7 @@
           </div>
         </template>
         <edit-module
-          v-else
+          v-else-if="i != 'component'"
           :config="config[i]"
           :info="info[i]"
           :type="i"

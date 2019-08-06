@@ -10,6 +10,7 @@ interface CompInfo {
 interface Components {
     name: string;
     moduleName: string;
+    component?: Components[];
     show?: boolean;
     info?: CompInfo[];
 }
@@ -42,6 +43,7 @@ const components: Components[] = [
     {
         name: 'FloatNav',
         moduleName: 'HsFloatNav',
+        component: [],
         show: true,
     },
 ];

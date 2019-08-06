@@ -9,6 +9,7 @@
       @initComponent="initComponent"
       :index="index"
     ></module>
+    <el-button @click="getconfig">click</el-button>
   </div>
 </template>
 
@@ -34,6 +35,9 @@ export default {
     window.removeEventListener("message", this.onMessage);
   },
   methods: {
+    getconfig() {
+      console.log(this.componentsconfig);
+    },
     initComponent(info) {
       console.log('%cinit', 'color: red');
       // // 排除删除引起的组件重置
@@ -85,7 +89,9 @@ export default {
       }
     },
     // 更换组件顺序回调
-    dragComponent(oldindex, newindex) {
+    dragComponent(type, n) {
+      console.log(type, n);
+      return;
       /**
        * 拖拉排序方式
        * @case1 当前元素为拖拉元素 交换位置
@@ -103,8 +109,10 @@ export default {
       top.postMessage({type: 'dragComponent', componentsconfig: this.componentsconfig, index: this.index }, this.fatherurl)
     },
     selectComponent(idx) {
+      console.log(idx);
+      // return;
       this.index = idx;
-      top.postMessage({type: 'selectComponent', index: idx}, this.fatherurl)
+      // top.postMessage({type: 'selectComponent', index: idx}, this.fatherurl)
     },
     delComponent(idx) {
       if (this.index == idx) {
