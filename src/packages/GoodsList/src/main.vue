@@ -135,7 +135,7 @@
             <span class="mprice-tip ff-l">{{sellPriceText}}</span>
             <span class="mprice-text ff-l">¥{{g.sellPrice}}</span>
           </p>
-          <div class="row-flex jc">
+          <div class="row-flex jc button-box">
             <p
               class="buy-button"
               :style="{'color': buttonTextColor, 'background-color': buttonTextBg}"
@@ -161,18 +161,6 @@
       >
         <div class="img">
           <img :src="g.mainPicAddress" alt />
-          <div
-            class="tag"
-            :class="tagPosition"
-            :style="{'color': tag_1_color, 'background-color': tag_1_bg}"
-            v-if="tag_1_text"
-          >
-            <div class="label">{{tag_1_text}}</div>
-            <div>
-              <span class="unit">￥</span>
-              <span class="price">{{g.marketPrice - g.memberPrice}}</span>
-            </div>
-          </div>
         </div>
         <div class="infoall">
           <p
@@ -243,15 +231,15 @@ export default {
     },
     tag_1_text: {
       type: String,
-      default: "省"
+      default: "立省"
     },
     tag_1_color: {
       type: String,
-      default: "#000"
+      default: "#ffffff"
     },
     tag_1_bg: {
       type: String,
-      default: "#f0f0f0"
+      default: "#C77469"
     },
     tagPosition: {
       type: String,
@@ -497,6 +485,7 @@ export default {
       background-color: #fff;
       overflow: hidden;
       position: relative;
+      border-radius: 4px;
       .img {
         width: 100%;
         height: 220px;
@@ -526,12 +515,17 @@ export default {
             right: 10px;
           }
           .label {
+            margin-top: 4px;
+            margin-bottom: 3px;
+            height: 9px;
             font-size: 10px;
           }
           .unit {
+            height: 5px;
             font-size: 6px;
           }
           .price {
+            height: 6px;
             font-size: 8px;
           }
         }
@@ -598,8 +592,13 @@ export default {
             line-height: 17px;
           }
         }
+        .button-box {
+          padding: 0 10px;
+        }
         .buy-button {
-          width: 143px;
+          margin-top: 8px;
+          margin-bottom: 10px;
+          width: 100%;
           height: 18px;
           line-height: 18px;
           text-align: center;
@@ -696,6 +695,7 @@ export default {
       background-color: #fff;
       overflow: hidden;
       position: relative;
+      border-radius: 4px;
       .img {
         width: 100%;
         height: 115px;
@@ -725,12 +725,17 @@ export default {
             right: 7px;
           }
           .label {
-            font-size: 10px;
+            margin-top: 3px;
+            margin-bottom: 2px;
+            height: 7px;
+            font-size: 7px;
           }
           .unit {
+            height: 3px;
             font-size: 4px;
           }
           .price {
+            height: 5px;
             font-size: 6px;
           }
         }
@@ -745,6 +750,7 @@ export default {
           text-overflow: ellipsis;
           white-space: nowrap;
           line-height: 9px;
+          margin-bottom: 2px;
         }
         .name {
           font-size: 8px;

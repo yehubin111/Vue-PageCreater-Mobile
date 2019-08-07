@@ -4,29 +4,37 @@
       <p class="title">{{globalconfig.title ? globalconfig.title : '标题'}}</p>
       <!-- <div class="page" :style="globalconfig.styles">
         <module :data="data" @selectComponent="selectComponent" @delComponent="delComponent" :index="index"></module>
-      </div> -->
+      </div>-->
       <iframe :src="frameurl" frameborder="0" class="page" @load="onLoad" ref="frame"></iframe>
     </div>
     <div class="createurl">
       <transition name="fade">
         <p class="resurl" id="resUrl" v-if="pageurl">
           <span>{{pageurl}}</span>
-          <el-button type="primary" size="mini" id="copyButton" :data-clipboard-text="pageurl" circle icon="el-icon-document-copy"></el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            id="copyButton"
+            :data-clipboard-text="pageurl"
+            circle
+            icon="el-icon-document-copy"
+          ></el-button>
         </p>
       </transition>
       <div>
         <el-button type="primary" slot="reference" @click="toCreate">生成网页</el-button>
         <el-button type="primary" slot="reference" @click="getConfig">查看配置</el-button>
         <el-button type="primary" slot="reference" @click="toEdit">编辑网页</el-button>
+        <el-button slot="reference" @click="remove">查看数据</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
-import { textCopy, getSearch } from '@/assets/common';
+import { textCopy, getSearch } from "@/assets/common";
 import { getBaseUrl } from "@/assets/url.ts";
+import axios from "axios";
 let BASE = getBaseUrl();
 export default {
   props: {
@@ -51,12 +59,12 @@ export default {
   },
   data() {
     return {
-      frameurl: `${BASE['out']}/pagecreater.html#/preview`
+      frameurl: `${BASE["out"]}/pagecreater.html#/preview`
     };
   },
   computed: {},
   created() {
-    textCopy('#copyButton');
+    textCopy("#copyButton");
   },
   watch: {
     pageurl(n, o) {
@@ -66,28 +74,31 @@ export default {
     }
   },
   methods: {
+    remove() {
+      console.log(this.$store.state.componentsconfig);
+    },
     toEdit() {
-      this.$prompt('请输入需要编辑的页面地址', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /pageid=[^\#]+/,
-          inputErrorMessage: '地址不正确'
-        }).then(({ value }) => {
-          let key = getSearch('pageid', value);
-          this.$emit('pageEdit', key);
-        }).catch(() => {
-              
-        });
+      this.$prompt("请输入需要编辑的页面地址", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /pageid=[^\#]+/,
+        inputErrorMessage: "地址不正确"
+      })
+        .then(({ value }) => {
+          let key = getSearch("pageid", value);
+          this.$emit("pageEdit", key);
+        })
+        .catch(() => {});
     },
     onLoad() {
-      this.$emit('frameOnLoad', this.$refs.frame);
+      this.$emit("frameOnLoad", this.$refs.frame);
     },
     getConfig() {
       this.$emit("getConfig");
     },
     toCreate() {
-      this.$emit('qiniuUpload');
-    },
+      this.$emit("qiniuUpload");
+    }
     // selectComponent(idx) {
     //   this.$emit("selectComponent", idx);
     // },
