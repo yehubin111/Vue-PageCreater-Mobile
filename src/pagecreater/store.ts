@@ -1,5 +1,9 @@
-import Vue from 'vue';
-import Vuex, { MutationTree } from 'vuex';
+import Vue from "vue";
+import Vuex, { MutationTree } from "vuex";
+import VuexPersistence from "vuex-persist";
+const vuexLocal: any = new VuexPersistence({
+  storage: window.localStorage
+});
 
 Vue.use(Vuex);
 
@@ -9,7 +13,7 @@ interface State {
     dragStatus: boolean;
 }
 interface DragComponentConfig {
-    config: any[];
+  config: any[];
 }
 
 const state: State = {
@@ -52,7 +56,8 @@ const mutations: any = {
 const actions = {};
 
 export default new Vuex.Store({
-    state,
-    mutations,
-    actions,
+  state,
+  mutations,
+  actions
+  //   plugins: [vuexLocal.plugin]
 });

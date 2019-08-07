@@ -143,6 +143,8 @@ export default {
           this.dragComponent(componentsconfig, index);
           break;
         case "initComponent":
+          console.log("Template onMessage");
+          console.log(info);
           this.initComponent(info);
           break;
       }
