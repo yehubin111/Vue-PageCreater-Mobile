@@ -49,9 +49,7 @@ const mutations: any = {
         state.dragStatus = status;
     }
 };
-const actions = {
-
-};
+const actions = {};
 
 export default new Vuex.Store({
     state,
