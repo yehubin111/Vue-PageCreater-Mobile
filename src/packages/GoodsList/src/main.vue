@@ -63,7 +63,10 @@
           </p>
           <p class="mprice row-flex ac" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
-            <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
+            <span
+              class="mprice-text ff-l"
+              :style="{'text-decoration': marketPriceStyle ? 'line-through' : 'none'}"
+            >¥{{g.marketPrice}}</span>
           </p>
           <p class="mprice row-flex ac" v-if="sellPriceText">
             <span class="mprice-tip ff-l">{{sellPriceText}}</span>
@@ -129,7 +132,10 @@
           </p>
           <p class="mprice row-flex ac" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
-            <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
+            <span
+              class="mprice-text ff-l"
+              :style="{'text-decoration': marketPriceStyle ? 'line-through' : 'none'}"
+            >¥{{g.marketPrice}}</span>
           </p>
           <p class="mprice row-flex ac" v-if="sellPriceText">
             <span class="mprice-tip ff-l">{{sellPriceText}}</span>
@@ -183,7 +189,10 @@
           </p>
           <p class="mprice row-flex ac" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
-            <span class="mprice-text ff-l">¥{{g.marketPrice}}</span>
+            <span
+              class="mprice-text ff-l"
+              :style="{'text-decoration': marketPriceStyle ? 'line-through' : 'none'}"
+            >¥{{g.marketPrice}}</span>
           </p>
           <p class="mprice row-flex ac" v-if="sellPriceText">
             <span class="mprice-tip ff-l">{{sellPriceText}}</span>
@@ -249,6 +258,7 @@ export default {
       type: String,
       default: "黑卡会员"
     },
+    marketPriceStyle: Boolean,
     memberPriceText: {
       type: String,
       default: "VIP会员"
@@ -329,16 +339,20 @@ export default {
         brand: { name: "品牌", type: "switch", default: true },
         productName: { name: "商品名称", type: "switch", default: true },
         marketPriceText: {
-          name: "市场价",
+          name: "市场价(marketPrice)",
           type: "input"
         },
+        marketPriceStyle: {
+          name: "市场价中划线",
+          type: "switch"
+        },
         memberPriceText: {
-          name: "会员价",
+          name: "黑卡价(memberPrice)",
           type: "input"
         },
         memberPriceStyle: { name: "会员价风格", type: "radio" },
         sellPriceText: {
-          name: "销售价",
+          name: "VIP价(sellPrice)",
           type: "input"
         },
         buttonText: {

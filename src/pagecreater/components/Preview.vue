@@ -25,7 +25,6 @@
         <el-button type="primary" slot="reference" @click="toCreate">生成网页</el-button>
         <el-button type="primary" slot="reference" @click="getConfig">查看配置</el-button>
         <el-button type="primary" slot="reference" @click="toEdit">编辑网页</el-button>
-        <el-button slot="reference" @click="remove">查看数据</el-button>
       </div>
     </div>
   </div>
@@ -74,9 +73,6 @@ export default {
     }
   },
   methods: {
-    remove() {
-      console.log(this.$store.state.componentsconfig);
-    },
     toEdit() {
       this.$prompt("请输入需要编辑的页面地址", "提示", {
         confirmButtonText: "确定",
