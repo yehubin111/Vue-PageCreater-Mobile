@@ -187,10 +187,11 @@ export default {
 
 <style lang="less" scoped>
 .infoedit {
-  flex-basis: 360px;
+  flex-basis: 600px;
   box-sizing: border-box;
   // padding: 20px;
   height: 100%;
+  overflow: hidden;
   // background-color: #fafafa;
   // border-left: 1px solid #f3f3f3;
   .commonedit {
@@ -203,6 +204,16 @@ export default {
         font-size: 12px;
         line-height: 30px;
       }
+    }
+  }
+}
+.editmodule {
+  & > .commonedit {
+    column-count: 2;
+    & > .navinfo {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
     }
   }
 }
