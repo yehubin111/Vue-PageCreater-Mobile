@@ -49,7 +49,7 @@ export default {
     },
     // 全局配置 or 组件配置
     index: {
-      type: Number,
+      type: Number | String,
       required: true
     },
     // 当层info对象
@@ -102,6 +102,7 @@ export default {
             this.propslist.length = maxcount;
             this.info.length = maxcount;
           } else {
+            // console.log(this.propslist.length, maxcount);
             while (this.propslist.length < maxcount) {
               this.propslist.push(JSON.parse(JSON.stringify(initprop)));
               this.info.push(JSON.parse(JSON.stringify(initinfo)));

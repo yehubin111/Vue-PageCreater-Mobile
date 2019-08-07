@@ -1,6 +1,7 @@
 import Banner from './Banner';
 import ImageGroup from './ImageGroup';
 import GoodsList from './GoodsList';
+import GoodsTest from './GoodsTest';
 import GoodsListOther from './GoodsListOther';
 import FloatNav from './FloatNav';
 import GoodsSlide from './GoodsSlide';
@@ -9,6 +10,7 @@ const components = [
     Banner,
     ImageGroup,
     GoodsList,
+    GoodsTest,
     GoodsListOther,
     FloatNav,
     GoodsSlide
@@ -65,6 +67,7 @@ export default {
     Banner,
     ImageGroup,
     GoodsList,
+    GoodsTest,
     GoodsListOther,
     FloatNav,
     GoodsSlide

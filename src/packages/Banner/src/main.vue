@@ -1,5 +1,5 @@
 <template>
-  <div class="image" :style="{'padding': padding}">
+  <div class="image" :style="{'padding': $px2vw(padding)}">
     <img v-if="url" :src="url" alt />
     <div class="default" v-else>
       <p>
@@ -19,7 +19,7 @@ export default {
     },
     padding: {
       type: String,
-      default: "0px 0px 0px"
+      default: "0 0 0"
     }
   },
   data() {

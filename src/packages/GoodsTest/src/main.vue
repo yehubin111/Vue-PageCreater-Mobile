@@ -59,7 +59,7 @@ import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
-  name: "HsGoodsList",
+  name: "HsGoodsTest",
   props: {
     count: {
       type: String,
@@ -85,6 +85,9 @@ export default {
       type: String,
       default: ""
     },
+    sloter: {
+      type: Object
+    },
     // loading: {
     //   type: Boolean,
     //   default: false
@@ -108,7 +111,6 @@ export default {
       pageOffset: 0,
       pageSize: 0,
       loading: false,
-      ref: `goodslist${this.topicid}`,
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         backgroundColor: { name: "背景色", type: "color" },
@@ -152,12 +154,17 @@ export default {
         arr.push("");
       }
       return arr;
+    },
+    tpid() {
+      return this.sloter && this.sloter.topicid ? this.sloter.topicid : this.topicid;
+    },
+    ref() {
+      return `goodslist${this.tpid}`;
     }
   },
   mounted() {
     // 初始化获取数据
-    if (this.topicid && this.count) {
-      console.log('mounted');
+    if (this.tpid && this.count) {
       this.pageSize = this.count;
       this.loading = true;
       this.getData();
@@ -178,7 +185,6 @@ export default {
       let distance = 300; // 距离底部多少开始执行加载
       let cheight = this.$refs[this.ref].clientHeight; // load模块高度
       let ctop = this.$refs[this.ref].offsetTop; // load模块到页面顶部距离
-      // console.log(this.ref, cheight, this.$refs[this.ref].offsetTop);
       if (
         scrolltop + document.documentElement.clientHeight >
         cheight + ctop - distance
@@ -196,12 +202,11 @@ export default {
         this.pageOffset = 0;
         this.list = [];
         this.getData();
-      }, 1000);
+      }, 300);
     })(),
     getData() {
-      console.log(this.pageSize);
       let url = this.url
-        .replace("{topicId}", this.topicid.trim())
+        .replace("{topicId}", this.tpid.trim())
         .replace("{count}", this.pageSize.trim())
         .replace("{pageOffset}", this.pageOffset);
       axios.get(url).then(res => {
@@ -220,7 +225,7 @@ export default {
     }
   },
   watch: {
-    topicid(n, o) {
+    tpid(n, o) {
       if (n == "" || this.count == "") {
         this.list = [];
         return;
@@ -228,7 +233,7 @@ export default {
       this.debounceFunc();
     },
     count(n, o) {
-      if (n == "" || this.topicid == "") {
+      if (n == "" || this.tpid == "") {
         this.list = [];
         return;
       }

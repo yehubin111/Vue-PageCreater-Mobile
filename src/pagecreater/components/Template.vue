@@ -4,7 +4,6 @@
     <preview
       :data="componentsconfig"
       :globalconfig="globalconfig"
-      :index="index"
       :pageurl="pageurl"
       @delComponent="delComponent"
       @selectComponent="selectComponent"
@@ -64,12 +63,7 @@ export default {
     // 获取七牛云token
     this.getQiniuToken();
     // 加载iframe
-    this.fullscreenLoading = this.$loading({
-      lock: true,
-      text: "Loading",
-      spinner: "el-icon-loading",
-      background: "rgba(0, 0, 0, 0.7)"
-    });
+    this.toLoading();
   },
   mounted() {
     window.addEventListener("message", this.onMessage);
@@ -91,21 +85,34 @@ export default {
       "SET_COMPONENTCONFIG",
       "EDITINIT"
     ]),
+    toLoading(text) {
+      this.fullscreenLoading = this.$loading({
+        lock: true,
+        text: text ? text : 'Loading',
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+    },
     debounceFunc: (() => {
       return debounceFc(function(argu) {
         this.framePostMessage(argu);
       }, 300);
     })(),
     pageEdit(key) {
-      console.log(key);
       this.selectComponent(-1);
       let url = `${this.baseurl}/${key}`;
       axios.get(url).then(res => {
         let r = res.data;
         this.globalconfig = r.globalconfig;
         this.EDITINIT({ config: r.componentsconfig });
-        this.framePostMessage({ type: "editGlobal", config: this.globalconfig });
-        this.framePostMessage({ type: "editInit", config: this.componentsconfig });
+        this.framePostMessage({
+          type: "editGlobal",
+          config: this.globalconfig
+        });
+        this.framePostMessage({
+          type: "editInit",
+          config: this.componentsconfig
+        });
       });
     },
     frameOnLoad(name, url) {
@@ -121,7 +128,6 @@ export default {
       this.framename.contentWindow.postMessage(data, this.frameurl);
     },
     onMessage(msg) {
-      // console.group("父组件 收到消息");
       let index = msg.data["index"];
       let type = msg.data["type"];
       let info = msg.data["info"];
@@ -147,6 +153,7 @@ export default {
       });
     },
     qiniuUpload() {
+      this.toLoading('正在生成网页');
       let me = this;
       let filename = `${getUUID()}`;
       let config = {
@@ -165,6 +172,7 @@ export default {
           console.log(err);
         },
         complete(r) {
+          me.fullscreenLoading.close();
           me.pageurl = `${BASE["out"]}/pagetemplate.html?pageid=${r.key}#/`;
         }
       });
@@ -188,8 +196,6 @@ export default {
     initComponent(info) {
       this.editprops = this.$i2c(info);
       this.editinfo = info;
-          console.log(this.editprops);
-      // console.log(this.editprops, this.editinfo);
       this.SET_COMPONENTCONFIG({ index: this.index, config: this.editprops });
       this.SET_COMPONENTINFO({ index: this.index, info: this.editinfo });
     },
@@ -207,30 +213,35 @@ export default {
     },
     // 编辑组件
     editComponent(config) {
-      // console.log(config);
       this.EDIT_COMPONENTCONFIG({ index: this.index, config });
       //
-      this.debounceFunc({ type: "editComponent", config, index: this.index });
+      let info = this.$iLocal(this.componentsconfig, this.index).info;
+      this.debounceFunc({
+        type: "editComponent",
+        config,
+        info,
+        index: this.index
+      });
     },
     // 选择组件
     selectComponent(idx) {
       this.index = idx;
-      if (!this.componentsconfig[this.index]) {
+      if (this.index == -1) {
         this.editprops = {};
         return;
       }
-      
-      this.editprops = this.componentsconfig[this.index].props;
-      this.editinfo = this.componentsconfig[this.index].info;
-      // console.log(this.editprops, this.editinfo);
+      let obj = this.$iLocal(this.componentsconfig, idx);
+      this.editprops = obj.props;
+      this.editinfo = obj.info;
     },
     // 删除组件
     delComponent(idx) {
-      if (this.index == idx) {
-        this.index = -1;
-      } else if (this.index > idx) {
-        this.index--;
-      }
+      this.index = -1;
+      // if (this.index == idx) {
+      //   this.index = -1;
+      // } else if (this.index > idx) {
+      //   this.index--;
+      // }
       this.DEL_COMPONENTCONFIG(idx);
       this.selectComponent(this.index);
     },

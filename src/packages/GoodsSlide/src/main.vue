@@ -1,11 +1,11 @@
 <template>
-  <div class="outer" :style="{'padding-top': paddingTop, 'padding-bottom': paddingBottom, 'background-color': backgroundColor}">
+  <div class="outer" :style="{'padding-top': $px2vw(paddingTop), 'padding-bottom': $px2vw(paddingBottom), 'background-color': backgroundColor}">
     <div class="goodsbox" :style="{height: list.length > 0?'50.7vw':'auto' }">
-      <div class="goodsslide" :style="{'padding-bottom': list.length > 0?'5.33333vw':'0px', 'padding-left': paddingLeft}">
+      <div class="goodsslide" :style="{'padding-bottom': list.length > 0?'5.33333vw':'0px', 'padding-left': $px2vw(paddingLeft)}">
         <div class="goodsscroll">
           <div
             class="list"
-            :style="{'grid-template-columns': columns, 'grid-gap': gap}"
+            :style="{'grid-template-columns': columns, 'grid-gap': $px2vw(gap)}"
             v-if="list.length == 0"
           >
             <div class="default" v-for="(g,index) in defaultList" :key="index">
@@ -14,7 +14,7 @@
               </p>
             </div>
           </div>
-          <div class="list" :style="{'grid-template-columns': columns, 'grid-gap': gap}">
+          <div class="list" :style="{'grid-template-columns': columns, 'grid-gap': $px2vw(gap)}">
             <div
               class="goods"
               v-for="(g,index) in list"
@@ -59,11 +59,11 @@ export default {
     },
     gap: {
       type: String,
-      default: "0px"
+      default: "0"
     },
     padding: {
       type: String,
-      default: "0px 0px 0px"
+      default: "0 0 0"
     },
     backgroundColor: {
       type: String,
@@ -79,7 +79,7 @@ export default {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         topicid: { name: "专题号", type: "input" },
         count: { name: "数量", type: "input" },
-        gap: { name: "商品间隔", type: "input" },
+        gap: { name: "商品间隔", type: "pxinput" },
         backgroundColor: { name: "背景色", type: "color" }
       }
     };

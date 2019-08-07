@@ -9,7 +9,7 @@
       @initComponent="initComponent"
       :index="index"
     ></module>
-    <el-button @click="getconfig">click</el-button>
+    <!-- <el-button @click="getconfig">click</el-button> -->
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
       globalconfig: {},
       componentsconfig: [],
       index: -1,
-      fatherurl: location.href.replace('preview', '')
+      fatherurl: location.href.replace("preview", "")
     };
   },
   mounted() {
@@ -39,16 +39,16 @@ export default {
       console.log(this.componentsconfig);
     },
     initComponent(info) {
-      console.log('%cinit', 'color: red');
+      console.log(`%cinit ${this.index}`, "color: red");
       // // 排除删除引起的组件重置
       // if(this.deltime) {
       //   this.deltime = false;
       //   return;
       // }
-      if(this.index == -1) return;
+      if (this.index == -1) return;
       this.componentsconfig[this.index].info = info;
       this.componentsconfig[this.index].props = this.$i2c(info);
-      top.postMessage({type: 'initComponent', info: info}, this.fatherurl)
+      top.postMessage({ type: "initComponent", info: info }, this.fatherurl);
     },
     // deepUpdate(origin, config) {
     //   Object.keys(config).forEach(v => {
@@ -62,6 +62,7 @@ export default {
     onMessage(msg) {
       // console.group("frame 收到消息");
       let config = msg.data["config"];
+      let info = msg.data["info"];
       let index = msg.data["index"];
       let type = msg.data["type"];
       switch (type) {
@@ -73,14 +74,14 @@ export default {
           // this.deepUpdate(this.globalconfig, config);
           break;
         case "addComponent":
-          // console.log(config);
           this.componentsconfig.push(config);
+          console.log(index);
           this.index = index;
           break;
         case "editComponent":
-          this.componentsconfig[index].props = config;
-          // console.log(this.componentsconfig[index].props, config);
-          // this.deepUpdate(this.componentsconfig[index].props, config);
+          let obj = this.$iLocal(this.componentsconfig, index);
+          obj.props = config;
+          obj.info = info;
           break;
         case "editInit":
           this.index = -1;
@@ -89,39 +90,45 @@ export default {
       }
     },
     // 更换组件顺序回调
-    dragComponent(type, n) {
-      console.log(type, n);
-      return;
+    dragComponent(type, newindex, oldindex) {
       /**
        * 拖拉排序方式
        * @case1 当前元素为拖拉元素 交换位置
        * @case2 元素从当前元素前变到后 往前推1个位置
        * @case3 元素从当前元素后变到前 往后退1个位置
        */
-      if (this.index == oldindex) {
+      console.log(oldindex, newindex);
+      if (oldindex === undefined || newindex === undefined) {
+        this.index = -1;
+      } else if (this.index == oldindex) {
         this.index = newindex;
       } else if (this.index > oldindex && this.index <= newindex) {
         this.index--;
       } else if (this.index < oldindex && this.index >= newindex) {
         this.index++;
       }
-      // console.log(this.componentsconfig);
-      top.postMessage({type: 'dragComponent', componentsconfig: this.componentsconfig, index: this.index }, this.fatherurl)
+      top.postMessage(
+        {
+          type: "dragComponent",
+          componentsconfig: this.componentsconfig,
+          index: this.index
+        },
+        this.fatherurl
+      );
     },
     selectComponent(idx) {
-      console.log(idx);
-      // return;
       this.index = idx;
-      // top.postMessage({type: 'selectComponent', index: idx}, this.fatherurl)
+      top.postMessage({ type: "selectComponent", index: idx }, this.fatherurl);
     },
     delComponent(idx) {
-      if (this.index == idx) {
-        this.index = -1;
-      } else if (this.index > idx) {
-        this.index--;
-      }
-      this.componentsconfig.splice(idx, 1);
-      top.postMessage({type: 'delComponent', index: idx}, this.fatherurl);
+      this.index = -1;
+      // if (this.index == idx) {
+      //   this.index = -1;
+      // } else if (this.index > idx) {
+      //   this.index--;
+      // }
+      this.$iLocal(this.componentsconfig, idx, 'del');
+      top.postMessage({ type: "delComponent", index: idx }, this.fatherurl);
     }
   }
 };

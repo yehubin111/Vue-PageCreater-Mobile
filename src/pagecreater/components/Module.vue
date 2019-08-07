@@ -6,8 +6,7 @@
       'dragAreaEdit': true
     }"
     :list="componentsconfig"
-    @start="drag = true"
-    @end="drag = false"
+    @start="CHANGE_DRAGGERSTATUS(true)"
     group="drag"
     @change="dragModule"
     :options="dragOptions"
@@ -19,16 +18,24 @@
       v-for="(temp, i) in componentsconfig"
       :key="i"
     >
-      <component :is="temp.moduleName" v-bind="temp.props" @initConfig="initConfig">
-        <module
-          v-if="temp.component"
-          :componentsconfig="temp.component"
-          :index="childindex"
-          :cindex="cindex !== undefined && cindex !== null?`${cindex}-${i}`:i"
-          @dragComponent="_dragModule"
-          @delComponent="_delComponent"
-          @selectComponent="_selectComponent"
-        ></module>
+      <component
+        :is="temp.moduleName"
+        v-bind="temp.props"
+        :sloter="sloter"
+        @initConfig="initConfig"
+      >
+        <template v-if="temp.component" slot-scope="sloter">
+          <module
+            class="slot-cont"
+            :componentsconfig="temp.component"
+            :index="childindex"
+            :cindex="cindex !== undefined && cindex !== null?`${cindex}-${i}`:i"
+            :sloter="sloter"
+            @dragComponent="_dragModule"
+            @delComponent="_delComponent"
+            @selectComponent="_selectComponent"
+          ></module>
+        </template>
       </component>
       <div class="modulectrl">
         <i class="el-icon-delete" style="color: #fff" @click.stop="delComponent(i)"></i>
@@ -39,6 +46,7 @@
 
 <script>
 import draggable from "vuedraggable/src/vuedraggable";
+import { mapState, mapMutations } from 'vuex';
 export default {
   name: "Module",
   props: {
@@ -52,6 +60,9 @@ export default {
     },
     cindex: {
       type: Number | String
+    },
+    sloter: {
+      type: Object
     }
   },
   components: {
@@ -59,7 +70,7 @@ export default {
   },
   data() {
     return {
-      drag: false,
+      // drag: false,
       del: false,
       dragOptions: {
         animation: 200,
@@ -69,25 +80,27 @@ export default {
       }
     };
   },
-  mounted() {
-    console.log(this.componentsconfig);
-  },
+  mounted() {},
   computed: {
+    ...mapState(['dragStatus']),
     childindex() {
       return this.index.toString().substring(2);
     }
   },
+  watch: {
+  },
   methods: {
+    ...mapMutations(['CHANGE_DRAGGERSTATUS']),
     initConfig(info) {
-      // console.log(info);
-      if (!this.drag && !this.del) this.$emit("initComponent", info);
+      console.log('initconfig');
+      if (!this.dragStatus && !this.del) {
+        this.$emit("initComponent", info);
+      }
     },
     _selectComponent(i) {
-      console.log(i);
       this.$emit("selectComponent", i);
     },
     selectComponent(i) {
-      // console.log(this.$refs);
       this.$emit(
         "selectComponent",
         this.cindex !== undefined && this.cindex !== null
@@ -96,11 +109,11 @@ export default {
       );
     },
     _dragModule(type, n) {
-      console.log(type, n);
-      // console.log('child drag');
       this.$emit("dragComponent", type, n);
     },
     dragModule({ added, removed, moved }) {
+      this.CHANGE_DRAGGERSTATUS(false);
+
       let type = "";
       let act = null;
       if (added) {
@@ -114,12 +127,26 @@ export default {
         act = moved;
       }
       console.log(type);
-      if (act.newIndex !== undefined)
+      if (type == "move") {
         this.$emit(
           "dragComponent",
           type,
-          this.cindex !== undefined ? `${this.cindex}-${act.newIndex}` : act.newIndex
+          this.cindex !== undefined
+            ? `${this.cindex}-${act.newIndex}`
+            : act.newIndex,
+          this.cindex !== undefined
+            ? `${this.cindex}-${act.oldIndex}`
+            : act.oldIndex
         );
+      } else {
+        this.$emit("dragComponent", type, -1);
+      }
+      // if (act.newIndex !== undefined)
+      //   this.$emit(
+      //     "dragComponent",
+      //     type,
+      //     this.cindex !== undefined ? `${this.cindex}-${act.newIndex}` : act.newIndex
+      //   );
       // this.$emit("dragComponent", moved.oldIndex, moved.newIndex);
     },
     _delComponent(i) {
@@ -131,7 +158,12 @@ export default {
       setTimeout(function() {
         me.del = false;
       }, 300);
-      this.$emit("delComponent", i);
+      this.$emit(
+        "delComponent",
+        this.cindex !== undefined && this.cindex !== null
+          ? `${this.cindex}-${i}`
+          : i
+      );
     }
   }
 };
@@ -151,12 +183,19 @@ export default {
     flex: 0 0 100%;
   }
 }
+.page > .dragBox::after {
+  display: none;
+}
 .dragger-on {
   opacity: 0.5;
   background-color: #c8ebfb;
 }
 .module {
   position: relative;
+  border: 1px dashed #ddd;
+  .slot-cont {
+    padding: 0 20px;
+  }
   .modulectrl {
     background-color: rgba(0, 0, 0, 0.4);
     position: absolute;
@@ -174,8 +213,5 @@ export default {
     box-sizing: border-box;
     border: 1px dashed #f00;
   }
-}
-.page > .dragBox::after {
-  display: none;
 }
 </style>

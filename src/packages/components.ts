@@ -46,6 +46,11 @@ const components: Components[] = [
         component: [],
         show: true,
     },
+    {
+        name: 'GoodsTest',
+        moduleName: 'HsGoodsTest',
+        show: false,
+    },
 ];
 
 export default components;
