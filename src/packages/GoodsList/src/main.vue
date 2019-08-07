@@ -3,11 +3,11 @@
     class="goodslist"
     :id="ref"
     :ref="ref"
-    :style="{'padding': padding, 'background-color': backgroundColor}"
+    :style="{'padding': $px2vw(padding), 'background-color': backgroundColor}"
   >
     <div
       class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
       v-if="list.length == 0"
     >
       <div class="default" v-for="(g,index) in defaultList" :key="index">
@@ -18,7 +18,7 @@
     </div>
     <div
       class="goodbox-3"
-      :style="{'grid-gap': gap, 'grid-template-columns':'1fr 1fr 1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns':'1fr 1fr 1fr'}"
       v-if="columnCount == 'three'"
     >
       <div
@@ -87,7 +87,7 @@
     </div>
     <div
       class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns':'1fr 1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns':'1fr 1fr'}"
       v-if="columnCount == 'double'"
     >
       <div
@@ -156,7 +156,7 @@
     </div>
     <div
       class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns': '1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': '1fr'}"
       v-if="columnCount == 'single'"
     >
       <div
@@ -236,7 +236,7 @@ export default {
     },
     gap: {
       type: String,
-      default: "0px"
+      default: "0"
     },
     tag_1_text: {
       type: String,
@@ -285,7 +285,7 @@ export default {
     },
     padding: {
       type: String,
-      default: "0px 0px 0px"
+      default: "0 0 0"
     },
     backgroundColor: {
       type: String,
@@ -307,7 +307,10 @@ export default {
           }
         };
       }
-    }
+    },
+    sloter: {
+      type: Object
+    },
   },
   data() {
     return {
@@ -316,7 +319,7 @@ export default {
       pageOffset: 0,
       pageSize: 0,
       loading: false,
-      ref: `goodslist${this.topicid}`,
+      // ref: `goodslist${this.topicid}`,
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         backgroundColor: { name: "背景色", type: "color" },
@@ -403,11 +406,17 @@ export default {
         arr.push("");
       }
       return arr;
+    },
+    tpid() {
+      return this.sloter && this.sloter.topicid ? this.sloter.topicid : this.topicid;
+    },
+    ref() {
+      return `goodslist${this.tpid}`;
     }
   },
   mounted() {
     // 初始化获取数据
-    if (this.topicid && this.count) {
+    if (this.tpid && this.count) {
       console.log("mounted");
       this.pageSize = this.count;
       this.loading = true;
@@ -452,7 +461,7 @@ export default {
     getData() {
       console.log(this.pageSize);
       let url = this.url
-        .replace("{topicId}", this.topicid.trim())
+        .replace("{topicId}", this.tpid.trim())
         .replace("{count}", this.pageSize.trim())
         .replace("{pageOffset}", this.pageOffset);
       axios.get(url).then(res => {
@@ -471,7 +480,7 @@ export default {
     }
   },
   watch: {
-    topicid(n, o) {
+    tpid(n, o) {
       if (n == "" || this.count == "") {
         this.list = [];
         return;
@@ -479,7 +488,7 @@ export default {
       this.debounceFunc();
     },
     count(n, o) {
-      if (n == "" || this.topicid == "") {
+      if (n == "" || this.tpid == "") {
         this.list = [];
         return;
       }

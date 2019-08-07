@@ -1,16 +1,14 @@
 <template>
   <div class="page" :style="globalStyles">
-    <div v-for="(cg, index) in componentsConfigs" :key="index">
-      <module :name="cg.moduleName" :props="cg.props"></module>
-    </div>
+    <module :componentsConfigs="componentsConfigs"></module>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { getSearch } from '@/assets/common';
+import { getSearch } from "@/assets/common";
 import Module from "./Module";
-import { hsChangeTitle } from '@/packages/phonePlugins';
+import { hsChangeTitle } from "@/packages/phonePlugins";
 export default {
   data() {
     return {
@@ -23,7 +21,7 @@ export default {
     Module
   },
   created() {
-    let pageid = getSearch('pageid');
+    let pageid = getSearch("pageid");
     let url = `${this.baseurl}/${pageid}`;
     axios.get(url).then(res => {
       this.configs = res.data;

@@ -59,7 +59,8 @@ export const radioSelect: RadioSelect = {
       value: "右侧"
     }
   ],
-  memberPriceStyle: [{ key: "1", value: "1" }, { key: "2", value: "2" }]
+  memberPriceStyle: [{ key: "1", value: "1" }, { key: "2", value: "2" }],
+  pattern: [{ key: 'tab', value: 'tab模式' }]
 };
 
 interface RadioSelectChild {

@@ -45,10 +45,10 @@ export default {
       type: Array,
       required: true
     },
-    index: {
-      type: Number,
-      required: true
-    },
+    // index: {
+    //   type: Number,
+    //   required: true
+    // },
     pageurl: {
       type: String
     }
