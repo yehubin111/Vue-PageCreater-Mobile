@@ -15,7 +15,7 @@ module.exports = {
       minPixelValue: 1,
       mediaQuery: false,
       replace: true,
-      exclude: [/(\/|\\)(src\/pagecreater)(\/|\\)/, /(\/|\\)(node_modules)(\/|\\)/]
+      exclude: [/(\/|\\)(src(\/|\\)pagecreater)(\/|\\)/, /(\/|\\)(node_modules)(\/|\\)/]
     }
   }
 }

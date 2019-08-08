@@ -4,6 +4,7 @@
     <template v-if="infotype == 'padding'">
       <p class="title">{{infotitle}}</p>
       <div class="padding">
+        <div class="row-flex ac">
         <el-input
           class="navinput"
           v-model="paddingLeft"
@@ -11,6 +12,9 @@
           type="text"
           @input="editComponent"
         />
+        <span class="unit">px</span>
+        </div>
+        <div class="row-flex ac">
         <el-input
           class="navinput"
           v-model="paddingBoth"
@@ -18,6 +22,9 @@
           type="text"
           @input="editComponent"
         />
+        <span class="unit">px</span>
+        </div>
+        <div class="row-flex ac">
         <el-input
           class="navinput"
           v-model="paddingRight"
@@ -25,6 +32,22 @@
           type="text"
           @input="editComponent"
         />
+        <span class="unit">px</span>
+        </div>
+      </div>
+    </template>
+    <!-- 尺寸文本框 -->
+    <template v-if="infotype == 'pxinput'">
+      <p class="title">{{infotitle}}</p>
+      <div class="inputline row-flex ac">
+        <el-input
+          class="navinput"
+          v-model="state"
+          :placeholder="type"
+          type="text"
+          @input="editComponent"
+        />
+        <span class="unit">px</span>
       </div>
     </template>
     <!-- 文本框 -->
@@ -142,10 +165,18 @@ export default {
   },
   methods: {
     editComponent() {
-      let state =
-        this.infotype != "padding"
-          ? this.state
-          : `${this.paddingLeft} ${this.paddingBoth} ${this.paddingRight}`;
+      let state = "";
+      switch (this.infotype) {
+        case "padding":
+          state = `${this.paddingLeft} ${this.paddingBoth} ${this.paddingRight}`;
+          break;
+        case "pxinput":
+          state = this.state;
+          break;
+        default:
+          state = this.state;
+          break;
+      }
       this.$emit(
         "editComponent",
         this.type,
@@ -162,11 +193,21 @@ export default {
   border-radius: 5px;
   padding: 10px;
   background-color: #fff;
+  .inputline {
+    .unit {
+      font-size: 14px;
+      margin-left: 5px;
+    }
+  }
 }
 .padding {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 1.5fr 1fr;
   grid-gap: 10px;
+  .unit {
+      font-size: 14px;
+      margin-left: 5px;
+  }
 }
 .title {
   line-height: 30px;

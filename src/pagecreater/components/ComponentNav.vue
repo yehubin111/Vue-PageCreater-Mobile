@@ -43,7 +43,7 @@
 
 <style lang="less" scoped>
 .nav {
-  flex-basis: 300px;
+  flex-basis: 200px;
   box-sizing: border-box;
   padding: 20px;
   height: 100%;

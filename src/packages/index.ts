@@ -1,17 +1,19 @@
-import Banner from "./Banner";
-import ImageGroup from "./ImageGroup";
-import GoodsList from "./GoodsList";
-import GoodsListOther from "./GoodsListOther";
-import FloatNav from "./FloatNav";
-import GoodsSlide from "./GoodsSlide";
+import Banner from './Banner';
+import ImageGroup from './ImageGroup';
+import GoodsList from './GoodsList';
+import GoodsTest from './GoodsTest';
+import GoodsListOther from './GoodsListOther';
+import FloatNav from './FloatNav';
+import GoodsSlide from './GoodsSlide';
 
 const components = [
-  Banner,
-  ImageGroup,
-  GoodsList,
-  GoodsListOther,
-  FloatNav,
-  GoodsSlide
+    Banner,
+    ImageGroup,
+    GoodsList,
+    GoodsTest,
+    GoodsListOther,
+    FloatNav,
+    GoodsSlide
 ];
 
 interface ConfigArray {
@@ -71,11 +73,12 @@ if (typeof window !== "undefined" && (window as any).Vue) {
 }
 
 export default {
-  install,
-  Banner,
-  ImageGroup,
-  GoodsList,
-  GoodsListOther,
-  FloatNav,
-  GoodsSlide
+    install,
+    Banner,
+    ImageGroup,
+    GoodsList,
+    GoodsTest,
+    GoodsListOther,
+    FloatNav,
+    GoodsSlide
 };

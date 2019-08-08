@@ -2,7 +2,7 @@
   <div class="infoedit">
     <div class="commonedit" :style="{'background-color': bgcolor ? '#f3f3f3':'#fff'}">
       <div class="navinfo" v-for="i in infolist" :key="i">
-        <template v-if="typeof propslist[i] == 'object'">
+        <template v-if="typeof propslist[i] == 'object' && i != 'component'">
           <div v-show="i != hidetype">
             <p class="objtitle">{{getTitle(i)}}</p>
             <info-edit
@@ -20,7 +20,7 @@
           </div>
         </template>
         <edit-module
-          v-else
+          v-else-if="i != 'component'"
           :config="config[i]"
           :info="info[i]"
           :type="i"
@@ -49,7 +49,7 @@ export default {
     },
     // 全局配置 or 组件配置
     index: {
-      type: Number,
+      type: Number | String,
       required: true
     },
     // 当层info对象
@@ -104,6 +104,7 @@ export default {
             this.propslist.length = maxcount;
             this.info.length = maxcount;
           } else {
+            // console.log(this.propslist.length, maxcount);
             while (this.propslist.length < maxcount) {
               this.propslist.push(JSON.parse(JSON.stringify(initprop)));
               this.info.push(JSON.parse(JSON.stringify(initinfo)));

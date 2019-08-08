@@ -3,11 +3,11 @@
     class="goodslist"
     :id="ref"
     :ref="ref"
-    :style="{'padding': padding, 'background-color': backgroundColor}"
+    :style="{'padding': $px2vw(padding), 'background-color': backgroundColor}"
   >
     <div
       class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
       v-if="list.length == 0"
     >
       <div class="default" v-for="(g,index) in defaultList" :key="index">
@@ -18,7 +18,7 @@
     </div>
     <div
       class="goodbox-3"
-      :style="{'grid-gap': gap, 'grid-template-columns':'1fr 1fr 1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns':'1fr 1fr 1fr'}"
       v-if="columnCount == 'three'"
     >
       <div
@@ -61,7 +61,7 @@
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac" v-if="marketPriceText">
+          <p class="mprice row-flex ac" :style="{'color': marketPriceColor}" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span
               class="mprice-text ff-l"
@@ -87,7 +87,7 @@
     </div>
     <div
       class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns':'1fr 1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns':'1fr 1fr'}"
       v-if="columnCount == 'double'"
     >
       <div
@@ -130,7 +130,7 @@
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac" v-if="marketPriceText">
+          <p class="mprice row-flex ac" :style="{'color': marketPriceColor}" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span
               class="mprice-text ff-l"
@@ -156,7 +156,7 @@
     </div>
     <div
       class="goodbox"
-      :style="{'grid-gap': gap, 'grid-template-columns': '1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': '1fr'}"
       v-if="columnCount == 'single'"
     >
       <div
@@ -187,7 +187,7 @@
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac" v-if="marketPriceText">
+          <p class="mprice row-flex ac" :style="{'color': marketPriceColor}" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span
               class="mprice-text ff-l"
@@ -236,7 +236,7 @@ export default {
     },
     gap: {
       type: String,
-      default: "0px"
+      default: "0"
     },
     tag_1_text: {
       type: String,
@@ -257,6 +257,10 @@ export default {
     marketPriceText: {
       type: String,
       default: "黑卡会员"
+    },
+    marketPriceColor: {
+      type: String,
+      default: "#000"
     },
     marketPriceStyle: Boolean,
     memberPriceText: {
@@ -285,7 +289,7 @@ export default {
     },
     padding: {
       type: String,
-      default: "0px 0px 0px"
+      default: "0 0 0"
     },
     backgroundColor: {
       type: String,
@@ -307,6 +311,9 @@ export default {
           }
         };
       }
+    },
+    sloter: {
+      type: Object
     }
   },
   data() {
@@ -316,7 +323,7 @@ export default {
       pageOffset: 0,
       pageSize: 0,
       loading: false,
-      ref: `goodslist${this.topicid}`,
+      // ref: `goodslist${this.topicid}`,
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         backgroundColor: { name: "背景色", type: "color" },
@@ -341,6 +348,10 @@ export default {
         marketPriceText: {
           name: "市场价(marketPrice)",
           type: "input"
+        },
+        marketPriceColor: {
+          name: "市场价颜色",
+          type: "color"
         },
         marketPriceStyle: {
           name: "市场价中划线",
@@ -403,11 +414,19 @@ export default {
         arr.push("");
       }
       return arr;
+    },
+    tpid() {
+      return this.sloter && this.sloter.topicid
+        ? this.sloter.topicid
+        : this.topicid;
+    },
+    ref() {
+      return `goodslist${this.tpid}`;
     }
   },
   mounted() {
     // 初始化获取数据
-    if (this.topicid && this.count) {
+    if (this.tpid && this.count) {
       console.log("mounted");
       this.pageSize = this.count;
       this.loading = true;
@@ -452,7 +471,7 @@ export default {
     getData() {
       console.log(this.pageSize);
       let url = this.url
-        .replace("{topicId}", this.topicid.trim())
+        .replace("{topicId}", this.tpid.trim())
         .replace("{count}", this.pageSize.trim())
         .replace("{pageOffset}", this.pageOffset);
       axios.get(url).then(res => {
@@ -471,7 +490,7 @@ export default {
     }
   },
   watch: {
-    topicid(n, o) {
+    tpid(n, o) {
       if (n == "" || this.count == "") {
         this.list = [];
         return;
@@ -479,7 +498,7 @@ export default {
       this.debounceFunc();
     },
     count(n, o) {
-      if (n == "" || this.topicid == "") {
+      if (n == "" || this.tpid == "") {
         this.list = [];
         return;
       }

@@ -45,10 +45,10 @@ export default {
       type: Array,
       required: true
     },
-    index: {
-      type: Number,
-      required: true
-    },
+    // index: {
+    //   type: Number,
+    //   required: true
+    // },
     pageurl: {
       type: String
     }
@@ -82,9 +82,12 @@ export default {
       })
         .then(({ value }) => {
           let key = getSearch("pageid", value);
+          console.log(key);
           this.$emit("pageEdit", key);
         })
-        .catch(() => {});
+        .catch(() => {
+          console.log("错误");
+        });
     },
     onLoad() {
       this.$emit("frameOnLoad", this.$refs.frame);

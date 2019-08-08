@@ -1,7 +1,7 @@
 <template>
   <div
     class="imagelist"
-    :style="{'grid-template-columns': columns, 'grid-gap': gap, 'padding': padding }"
+    :style="{'grid-template-columns': columns, 'grid-gap': $px2vw(gap), 'padding': $px2vw(padding) }"
   >
     <div class="image" v-for="(img, index) in imageList" :key="index" @click="clickCallback(img)">
       <img v-if="img.url" :src="img.url" alt />
@@ -34,11 +34,11 @@ export default {
     },
     gap: {
       type: String,
-      default: "0px"
+      default: "0"
     },
     padding: {
       type: String,
-      default: "0px 0px 0px"
+      default: "0 0 0"
     },
     clickEvent: {
       type: String,
@@ -57,7 +57,7 @@ export default {
       keyOption: {
         padding: { name: '边距（上 左右 下）', type: 'padding' },
         count: { name: "数量", type: "radio", bind: ["list"] },
-        gap: { name: "图片间隔", type: "input" },
+        gap: { name: "图片间隔", type: "pxinput" },
         clickEvent: {
           name: "点击事件",
           type: "radio",
