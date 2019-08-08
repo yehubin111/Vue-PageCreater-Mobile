@@ -34,6 +34,7 @@
             @dragComponent="_dragModule"
             @delComponent="_delComponent"
             @selectComponent="_selectComponent"
+            @initComponent="initConfig"
           ></module>
         </template>
       </component>
@@ -92,7 +93,6 @@ export default {
   methods: {
     ...mapMutations(['CHANGE_DRAGGERSTATUS']),
     initConfig(info) {
-      console.log('initconfig');
       if (!this.dragStatus && !this.del) {
         this.$emit("initComponent", info);
       }

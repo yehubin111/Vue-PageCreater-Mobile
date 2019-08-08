@@ -83,8 +83,6 @@ export default {
   },
   computed: {
     infolist() {
-      console.log("infoEdit infolist");
-      console.log(this.propslist);
       this.config = this.propslist;
       // console.log("props:", this.propslist);
       // console.log("info:", this.info);

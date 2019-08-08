@@ -54,7 +54,26 @@ export default {
     },
     list: {
       type: Array,
-      default: () => []
+      default: () => {
+        return [
+          {
+            name: "tab",
+            tabtopicid: ""
+          },
+          {
+            name: "tab",
+            tabtopicid: ""
+          },
+          {
+            name: "tab",
+            tabtopicid: ""
+          },
+          {
+            name: "tab",
+            tabtopicid: ""
+          }
+        ];
+      }
     }
   },
   data() {
@@ -64,6 +83,8 @@ export default {
       listindex: 0,
       // {navcount: '', list: [{name: ''}, ]}
       keyOption: {
+        navcount: { name: "数量", type: "radio", bind: ["list"] },
+        pattern: { name: "模式", type: "radio", bind: ["tabtopicid"] },
         baseInfo: {
           name: "基本信息",
           child: {
@@ -84,8 +105,6 @@ export default {
             focusColor: { name: "高亮字体颜色", type: "color", default: "#000" }
           }
         },
-        navcount: { name: "数量", type: "radio", bind: ["list"] },
-        pattern: { name: "模式", type: "radio", bind: ["tabtopicid"] },
         list: {
           name: "菜单项",
           accept: "navcount",

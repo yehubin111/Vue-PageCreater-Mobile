@@ -31,9 +31,32 @@ export default {
             }
         }
         // px转vw
-        Vue.prototype.$px2vw = function(px) {
+        Vue.prototype.$px2vw = function (px) {
             const base = 375; // 基准宽度
             return px.split(' ').map(v => parseInt(v) * 100 / base + 'vw').join(' ');
+        }
+        // 初始化获取info
+        Vue.prototype.$getConfig = function (me, info, type) {
+            let _that = this;
+            let obj = type == 'Array' ? [] : {};
+            Object.keys(info).forEach((v) => {
+                // console.log(v);
+                if (me[v] !== undefined) {
+                    if (typeof info[v]['child'] == 'object') {
+                        let type = Array.isArray(info[v]['child']) ? "Array" : "Object";
+                        obj[v] = {
+                            ...info[v],
+                            child: _that.$getConfig(me[v], info[v]['child'], type)
+                        }
+                    } else {
+                        obj[v] = {
+                            ...info[v],
+                            default: me[v]
+                        };
+                    }
+                }
+            })
+            return obj;
         }
     }
 }

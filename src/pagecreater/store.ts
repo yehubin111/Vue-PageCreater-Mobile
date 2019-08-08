@@ -31,10 +31,10 @@ const mutations: any = {
         obj.props = Object.assign(prop, config);
     },
     SET_COMPONENTINFO(state: State, { index, info }: any) {
-        state.componentsconfig[index].info = info;
+        this._vm.$iLocal(state.componentsconfig, index).info = info;
     },
     SET_COMPONENTCONFIG(state: State, { index, config }: any) {
-        state.componentsconfig[index].props = config;
+        this._vm.$iLocal(state.componentsconfig, index).props = config;
     },
     DEL_COMPONENTCONFIG(state: State, index: number) {
         this._vm.$iLocal(state.componentsconfig, index, 'del');
