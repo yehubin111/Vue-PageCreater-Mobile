@@ -24,7 +24,6 @@ export default {
     return {
       globalconfig: {},
       componentsconfig: [],
-      deltime: false,
       index: -1,
       fatherurl: location.href.replace("preview", "")
     };
@@ -84,6 +83,10 @@ export default {
           obj.props = config;
           obj.info = info;
           break;
+        case "editInit":
+          this.index = -1;
+          this.componentsconfig = config;
+          break;
       }
     },
     // 更换组件顺序回调
@@ -124,7 +127,7 @@ export default {
       // } else if (this.index > idx) {
       //   this.index--;
       // }
-      this.$iLocal(this.componentsconfig, idx, "del");
+      this.$iLocal(this.componentsconfig, idx, 'del');
       top.postMessage({ type: "delComponent", index: idx }, this.fatherurl);
     }
   }
@@ -142,8 +145,8 @@ export default {
   height: 100%;
   // background-color: red;
   display: inline-block;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
   overflow-y: auto;
   position: absolute;
   box-sizing: border-box;
