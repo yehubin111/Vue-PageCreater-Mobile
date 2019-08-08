@@ -1,23 +1,25 @@
 <template>
-  <div class="floatnav" :style="{height: navfloat ? $px2vw(baseInfo.height) : 'auto'}" :ref="ref" :id="ref">
-    <ul
-      class="float"
-      :style="{position: navfloat? 'fixed':'inherit', 'background-color': baseInfo.backgroundColor}"
-    >
-      <li
-        v-for="(nav, index) in navlist"
-        :key="index"
-        :class="{on: listindex == index}"
-        @click="toChange(index)"
-        :style="{
-          'line-height': $px2vw(baseInfo.height),
-          'height': $px2vw(baseInfo.height),
-          'font-size': listindex == index ? $px2vw(baseInfo.focusFontSize) : $px2vw(baseInfo.fontSize),
-          'background-color': listindex == index ? baseInfo.focusBackgroundColor:'inherit',
-          'color': listindex == index ? baseInfo.focusColor: baseInfo.color
-        }"
-      >{{nav.name}}</li>
-    </ul>
+  <div class="floatnav" :ref="ref" :id="ref">
+    <div class="floatbox" :style="{height: $px2vw(baseInfo.height)}">
+      <ul
+        class="float"
+        :style="{position: navfloat? 'fixed':'inherit', 'background-color': baseInfo.backgroundColor}"
+      >
+        <li
+          v-for="(nav, index) in navlist"
+          :key="index"
+          :class="{on: listindex == index}"
+          @click="toChange(index)"
+          :style="{
+            'line-height': $px2vw(baseInfo.height),
+            'height': $px2vw(baseInfo.height),
+            'font-size': listindex == index ? $px2vw(baseInfo.focusFontSize) : $px2vw(baseInfo.fontSize),
+            'background-color': listindex == index ? baseInfo.focusBackgroundColor:'inherit',
+            'color': listindex == index ? baseInfo.focusColor: baseInfo.color
+          }"
+        >{{nav.name}}</li>
+      </ul>
+    </div>
     <div class="slot-area">
       <slot :topicid="topicid"></slot>
     </div>
@@ -152,6 +154,7 @@ export default {
       let scrolltop =
         document.documentElement.scrollTop || document.body.scrollTop;
       me.navtop = me.$refs[me.ref].offsetTop;
+      console.log(me.navtop);
       me.navfloat = scrolltop > me.navtop ? true : false;
     });
   },
