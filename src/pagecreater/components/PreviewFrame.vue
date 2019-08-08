@@ -84,6 +84,8 @@ export default {
           obj.info = info;
           break;
         case "editInit":
+          console.log('editInit')
+          console.log(config)
           this.index = -1;
           this.componentsconfig = config;
           break;
@@ -117,6 +119,7 @@ export default {
       );
     },
     selectComponent(idx) {
+      // idx 组件的索引
       this.index = idx;
       top.postMessage({ type: "selectComponent", index: idx }, this.fatherurl);
     },

@@ -101,7 +101,6 @@ export default {
     pageEdit(key) {
       this.selectComponent(-1);
       let url = `${this.baseurl}/${key}`;
-      console.log('Template: '+url)
       axios.get(url).then(res => {
         let r = res.data;
         this.globalconfig = r.globalconfig;

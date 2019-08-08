@@ -240,7 +240,7 @@ export default {
     },
     tag_1_text: {
       type: String,
-      default: "立省"
+      default: ""
     },
     tag_1_color: {
       type: String,
@@ -256,7 +256,7 @@ export default {
     },
     marketPriceText: {
       type: String,
-      default: "黑卡会员"
+      default: "VIP会员"
     },
     marketPriceColor: {
       type: String,
@@ -265,11 +265,11 @@ export default {
     marketPriceStyle: Boolean,
     memberPriceText: {
       type: String,
-      default: "VIP会员"
+      default: "黑卡会员"
     },
     memberPriceStyle: {
       type: String,
-      default: "1"
+      default: "2"
     },
     sellPriceText: {
       type: String,
@@ -277,7 +277,7 @@ export default {
     },
     buttonText: {
       type: String,
-      default: "立即购买"
+      default: ""
     },
     buttonTextColor: {
       type: String,

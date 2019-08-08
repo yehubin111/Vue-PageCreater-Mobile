@@ -3,11 +3,16 @@
     class="outer"
     :style="{'padding-top': $px2vw(paddingTop), 'padding-bottom': $px2vw(paddingBottom), 'background-color': backgroundColor}"
   >
-    <div class="goodsbox" :style="{height: list.length > 0?'52.7vw':'auto' }">
+    <!-- <div class="goodsbox" :style="{height: list.length > 0?'52.7vw':'auto' }"> -->
+    <div class="goodsbox">
       <div
         class="goodsslide"
-        :style="{'padding-bottom': list.length > 0?'5.33333vw':'0px', 'padding-left': $px2vw(paddingLeft)}"
+        :style="{'padding-left': $px2vw(paddingLeft)}"
       >
+      <!-- <div
+        class="goodsslide"
+        :style="{'padding-bottom': list.length > 0?'5.33333vw':'0px', 'padding-left': $px2vw(paddingLeft)}"
+      > -->
         <div class="goodsscroll">
           <div
             class="list"
@@ -42,43 +47,45 @@
                   </div>
                 </div>
               </div>
-              <p
-                class="brand elps"
-                v-if="brand"
-              >{{g.productBrandNameEng}} {{g.productBrandName ? '/'+g.productBrandName : ''}}</p>
-              <p
-                class="name ff-l"
-                v-if="productName"
-              >{{g.productName ? g.productName : g.productEngName}}</p>
-              <p class="info row-flex ac price_1" v-if="memberPriceStyle == '1' &&memberPriceText">
-                <span class>{{memberPriceText}}</span>
-                <span class="unit ff-m">￥</span>
-                <span class="price ff-m">{{g.memberPrice}}</span>
-              </p>
-              <p class="info row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-                <span class="tag">{{memberPriceText}}</span>
-                <span class="unit ff-m">￥</span>
-                <span class="price ff-m">{{g.memberPrice}}</span>
-              </p>
-              <p class="info market" :style="{'color': marketPriceColor}" v-if="marketPriceText">
-                <span class="tag">{{marketPriceText}}</span>
-                <span class="unit ff-m">￥</span>
-                <span
-                  class="price ff-m"
-                  :style="{'text-decoration': marketPriceStyle ? 'line-through' : 'none'}"
-                >{{g.marketPrice}}</span>
-              </p>
-              <p class="info mprice row-flex ac" v-if="sellPriceText">
-                <span class="mprice-tip ff-l">{{sellPriceText}}</span>
-                <span class="mprice-text ff-l">¥{{g.sellPrice}}</span>
-              </p>
-              <!-- <p class="market l-t" v-if="marketPriceText">￥{{g.marketPrice}}</p> -->
-              <div class="info row-flex jc button-box">
+              <div class="product-info">
                 <p
-                  class="buy-button"
-                  :style="{'color': buttonTextColor, 'background-color': buttonTextBg}"
-                  v-if="buttonText"
-                >{{buttonText}}</p>
+                  class="brand elps"
+                  v-if="brand"
+                >{{g.productBrandNameEng}} {{g.productBrandName ? '/'+g.productBrandName : ''}}</p>
+                <p
+                  class="name ff-l"
+                  v-if="productName"
+                >{{g.productName ? g.productName : g.productEngName}}</p>
+                <p class="info row-flex ac price_1" v-if="memberPriceStyle == '1' &&memberPriceText">
+                  <span class="label">{{memberPriceText}}</span>
+                  <span class="unit ff-m">￥</span>
+                  <span class="price ff-m">{{g.memberPrice}}</span>
+                </p>
+                <p class="info row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
+                  <span class="tag">{{memberPriceText}}</span>
+                  <span class="unit ff-m">￥</span>
+                  <span class="price ff-m">{{g.memberPrice}}</span>
+                </p>
+                <p class="info market" :style="{'color': marketPriceColor}">
+                  <span class="tag">{{marketPriceText}}</span>
+                  <span class="unit ff-m">￥</span>
+                  <span
+                    class="price ff-m"
+                    :style="{'text-decoration': marketPriceStyle ? 'line-through' : 'none'}"
+                  >{{g.marketPrice}}</span>
+                </p>
+                <p class="info mprice row-flex ac" v-if="sellPriceText">
+                  <span class="mprice-tip ff-l">{{sellPriceText}}</span>
+                  <span class="mprice-text ff-l">¥{{g.sellPrice}}</span>
+                </p>
+                <!-- <p class="market l-t" v-if="marketPriceText">￥{{g.marketPrice}}</p> -->
+                <div class="info row-flex jc button-box">
+                  <p
+                    class="buy-button"
+                    :style="{'color': buttonTextColor, 'background-color': buttonTextBg}"
+                    v-if="buttonText"
+                  >{{buttonText}}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -106,21 +113,21 @@ export default {
     },
     gap: {
       type: String,
-      default: "0"
+      default: "4"
     },
     padding: {
       type: String,
-      default: "0 0 0"
+      default: "4 4 4"
     },
     backgroundColor: {
       type: String,
       default: "#fff"
     },
     brand: true,
-    productName: true,
+    productName: false,
     tag_1_text: {
       type: String,
-      default: "立省"
+      default: ""
     },
     tag_1_color: {
       type: String,
@@ -136,20 +143,23 @@ export default {
     },
     marketPriceText: {
       type: String,
-      default: "黑卡会员"
+      default: ""
     },
     marketPriceColor: {
       type: String,
       default: "#000"
     },
-    marketPriceStyle: Boolean,
+    marketPriceStyle: {
+      type: Boolean,
+      default: true
+    },
     memberPriceText: {
       type: String,
-      default: "VIP会员"
+      default: "黑卡会员"
     },
     memberPriceStyle: {
       type: String,
-      default: "1"
+      default: "2"
     },
     sellPriceText: {
       type: String,
@@ -157,7 +167,7 @@ export default {
     },
     buttonText: {
       type: String,
-      default: "立即购买"
+      default: ""
     },
     buttonTextColor: {
       type: String,
@@ -363,8 +373,8 @@ export default {
                 right: 7px;
               }
               .label {
-                margin-top: 3px;
-                margin-bottom: 2px;
+                margin-top: 2px;
+                margin-bottom: 1px;
                 height: 6px;
                 font-size: 6px;
               }
@@ -378,68 +388,86 @@ export default {
               }
             }
           }
-          .brand {
-            height: 8px;
-            color: #000;
-            font-size: 8px;
-            margin-bottom: 3px;
-          }
-          .name {
-            height: 8px;
-            // line-height: 17px;
-            color: #000;
-            font-size: 8px;
-            margin-bottom: 3px;
-          }
-          .info {
-            padding: 0px 8px;
-            margin-bottom: 2px;
-            .tag {
+          .product-info{
+            padding: 8px 0px;
+            .brand {
+              padding: 0px 8px;
+              // height: 9px;
+              // line-height: 8px;
+              color: #000;
+              font-size: 8px;
+              // margin-bottom: 3px;
             }
-            .unit {
-              font-size: 10px;
-              line-height: 18px;
+            .name {
+              padding: 0px 8px;
+              height: 8px;
+              color: #000;
+              font-size: 8px;
+              margin-bottom: 5px;
             }
-            .price {
-              font-size: 12px;
-              line-height: 18px;
+            .info {
+              padding: 0px 8px;
+              // margin-bottom: 2px;
             }
-          }
-          .price_1 {
-          }
-          .price_2 {
-            .tag {
-              color: #ea302b;
-              border: 0.5px solid #ea302b;
-              font-size: 7px;
+            .price_1 {
+              height: 8px;
+              margin-bottom: 1px;
+              .label{
+                font-size: 7px;
+              }
+              .unit {
+                font-size: 7px;
+              }
+              .price {
+                font-size: 8px;
+              }
+            }
+            .price_2 {
+              margin-bottom: 1px;
+              .tag {
+                color: #ea302b;
+                border: 0.5px solid #ea302b;
+                font-size: 7px;
+                text-align: center;
+                line-height: 12px;
+                width: 34px;
+                border-radius: 2px;
+                margin-right: 1px;
+              }
+            }
+            .market {
+              // line-height: 8px;
+              color: #777;
+              font-size: 6px;
+              margin-bottom: 1px;
+              .tag{
+                font-size: 6px;
+              } 
+              .unit{
+                font-size: 6px;
+              }
+              .price{
+                font-size: 6px;
+              }
+            }
+            .button-box {
+              padding: 0 8px;
+            }
+            .buy-button {
+              // margin-top: 8px;
+              // margin-bottom: 10px;
+              width: 100%;
+              height: 11px;
+              line-height: 11px;
               text-align: center;
-              line-height: 12px;
-              width: 34px;
-              border-radius: 2px;
-              margin-right: 1px;
+              background-color: #aaa;
+              border-radius: 5px;
+              font-size: 7px;
+              font-weight: 500;
+              color: rgba(255, 255, 255, 1);
             }
           }
-          .market {
-            line-height: 14px;
-            color: #777;
-            font-size: 10px;
-          }
-          .button-box {
-            padding: 0 10px;
-          }
-          .buy-button {
-            // margin-top: 8px;
-            // margin-bottom: 10px;
-            width: 100%;
-            height: 18px;
-            line-height: 18px;
-            text-align: center;
-            background-color: #aaa;
-            border-radius: 9px;
-            font-size: 11px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 1);
-          }
+          
         }
       }
     }

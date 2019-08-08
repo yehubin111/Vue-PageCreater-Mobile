@@ -30,6 +30,8 @@ export default {
   },
   mounted() {
     console.log("prev页面");
+    console.log(this.$store.state.qiniutoken)
+    console.log(this.$store.state.componentsconfig)
     // this.componentsconfig = JSON.parse(
     //   JSON.stringify(this.$store.state.componentsconfig)
     // );
