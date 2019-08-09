@@ -5,6 +5,7 @@ import GoodsTest from './GoodsTest';
 import GoodsListOther from './GoodsListOther';
 import FloatNav from './FloatNav';
 import GoodsSlide from './GoodsSlide';
+import Placeholder from './Placeholder';
 
 const components = [
     Banner,
@@ -13,7 +14,8 @@ const components = [
     GoodsTest,
     GoodsListOther,
     FloatNav,
-    GoodsSlide
+    GoodsSlide,
+    Placeholder
 ];
 
 interface ConfigArray {
@@ -31,7 +33,6 @@ const install = (Vue: any, opts = {}): void => {
     // 扩展组件created方法
     component.created = function() {
       const allInfo: ConfigArray[] = this.$getConfig(this, this.keyOption);
-      console.log(allInfo);
       this.$emit("initConfig", allInfo);
     };
     // 添加getConfig方法
@@ -66,16 +67,16 @@ const install = (Vue: any, opts = {}): void => {
     //   return obj;
     // };
     // 添加类型判断方法
-    component.methods._typeJudge = function(
-      data: any,
-      type: string
-    ): boolean | string {
-      if (type) {
-        return Object.prototype.toString.call(data).slice(8, -1) === type;
-      } else {
-        return Object.prototype.toString.call(data).slice(8, -1);
-      }
-    };
+    // component.methods._typeJudge = function(
+    //   data: any,
+    //   type: string
+    // ): boolean | string {
+    //   if (type) {
+    //     return Object.prototype.toString.call(data).slice(8, -1) === type;
+    //   } else {
+    //     return Object.prototype.toString.call(data).slice(8, -1);
+    //   }
+    // };
     Vue.component(component.name, component);
   });
 };
@@ -92,5 +93,6 @@ export default {
     GoodsTest,
     GoodsListOther,
     FloatNav,
-    GoodsSlide
+    GoodsSlide,
+    Placeholder
 };

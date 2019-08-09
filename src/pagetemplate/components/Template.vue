@@ -27,6 +27,9 @@ export default {
       this.configs = res.data;
     });
   },
+  mounted() {
+    
+  },
   computed: {
     globalConfigs() {
       return this.configs.globalconfig;

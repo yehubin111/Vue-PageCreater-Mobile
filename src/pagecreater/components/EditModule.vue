@@ -202,7 +202,7 @@ export default {
 }
 .padding {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-columns: 1fr 1.2fr 1fr;
   grid-gap: 10px;
   .unit {
       font-size: 14px;
