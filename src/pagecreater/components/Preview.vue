@@ -96,6 +96,9 @@ export default {
     remove() {
       let token = this.$store.state.qiniutoken
       // cf991615-8369
+      // bucket 空间名称 easygo
+      let entry = '<easygo>:<3cd5afcc-3a35>'
+      let encodedEntryURI = urlsafe_base64_encode(entry)
       let EncodedEntryURI = ''
       let Authorization = 'QBox '
       // axios.defaults.headers.post['Content-Type'] = 'application/json';
