@@ -154,6 +154,7 @@ export default {
       );
     },
     selectComponent(idx) {
+      // idx 组件的索引
       this.index = idx;
       top.postMessage({ type: "selectComponent", index: idx }, this.fatherurl);
     },

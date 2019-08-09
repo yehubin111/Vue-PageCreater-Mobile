@@ -150,7 +150,7 @@ export default {
     getQiniuToken() {
       axios.get(URL.qiniutoken).then(res => {
         this.SET_QINIUTOKEN(res.data.token);
-      });
+      }); 
     },
     qiniuUpload() {
       this.toLoading('正在生成网页');

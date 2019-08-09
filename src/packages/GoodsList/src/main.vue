@@ -7,7 +7,7 @@
   >
     <div
       class="goodbox"
-      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': defaultFr}"
       v-if="list.length == 0"
     >
       <div class="default" v-for="(g,index) in defaultList" :key="index">
@@ -61,7 +61,7 @@
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac" v-if="marketPriceText">
+          <p class="mprice row-flex ac" :style="{'color': marketPriceColor}" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span
               class="mprice-text ff-l"
@@ -130,7 +130,7 @@
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac" v-if="marketPriceText">
+          <p class="mprice row-flex ac" :style="{'color': marketPriceColor}" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span
               class="mprice-text ff-l"
@@ -187,7 +187,7 @@
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
-          <p class="mprice row-flex ac" v-if="marketPriceText">
+          <p class="mprice row-flex ac" :style="{'color': marketPriceColor}" v-if="marketPriceText">
             <span class="mprice-tip ff-l">{{marketPriceText}}</span>
             <span
               class="mprice-text ff-l"
@@ -240,7 +240,7 @@ export default {
     },
     tag_1_text: {
       type: String,
-      default: "立省"
+      default: ""
     },
     tag_1_color: {
       type: String,
@@ -256,16 +256,20 @@ export default {
     },
     marketPriceText: {
       type: String,
-      default: "黑卡会员"
+      default: "VIP会员"
+    },
+    marketPriceColor: {
+      type: String,
+      default: "#000"
     },
     marketPriceStyle: Boolean,
     memberPriceText: {
       type: String,
-      default: "VIP会员"
+      default: "黑卡会员"
     },
     memberPriceStyle: {
       type: String,
-      default: "1"
+      default: "2"
     },
     sellPriceText: {
       type: String,
@@ -273,7 +277,7 @@ export default {
     },
     buttonText: {
       type: String,
-      default: "立即购买"
+      default: ""
     },
     buttonTextColor: {
       type: String,
@@ -291,12 +295,14 @@ export default {
       type: String,
       default: ""
     },
-    brand: true,
-    productName: true,
-    // loading: {
-    //   type: Boolean,
-    //   default: false
-    // },
+    brand: {
+      type: Boolean,
+      default: true
+    },
+    productName: {
+      type: Boolean,
+      default: true
+    },
     loadOption: {
       type: Object,
       default: () => {
@@ -310,7 +316,7 @@ export default {
     },
     sloter: {
       type: Object
-    },
+    }
   },
   data() {
     return {
@@ -344,6 +350,10 @@ export default {
         marketPriceText: {
           name: "市场价(marketPrice)",
           type: "input"
+        },
+        marketPriceColor: {
+          name: "市场价颜色",
+          type: "color"
         },
         marketPriceStyle: {
           name: "市场价中划线",
@@ -400,6 +410,11 @@ export default {
     };
   },
   computed: {
+    defaultFr() {
+      if (this.columnCount == "double") return "1fr 1fr";
+      else if (this.columnCount == "three") return "1fr 1fr 1fr";
+      else return "1fr";
+    },
     defaultList() {
       let arr = [];
       while (arr.length < this.count) {
@@ -408,7 +423,9 @@ export default {
       return arr;
     },
     tpid() {
-      return this.sloter && this.sloter.topicid ? this.sloter.topicid : this.topicid;
+      return this.sloter && this.sloter.topicid
+        ? this.sloter.topicid
+        : this.topicid;
     },
     ref() {
       return `goodslist${this.tpid}`;

@@ -25,6 +25,7 @@
         <el-button type="primary" slot="reference" @click="toCreate">生成网页</el-button>
         <el-button type="primary" slot="reference" @click="getConfig">查看配置</el-button>
         <el-button type="primary" slot="reference" @click="toEdit">编辑网页</el-button>
+        <!-- <el-button @click="remove">删除</el-button> -->
       </div>
     </div>
   </div>
@@ -73,6 +74,18 @@ export default {
     }
   },
   methods: {
+    remove() {
+      let token = this.$store.state.qiniutoken
+      // cf991615-8369
+      let EncodedEntryURI = ''
+      let Authorization = 'QBox '
+      // axios.defaults.headers.post['Content-Type'] = 'application/json';
+      axios.post('http://p7.highstreet.top/delete','',{
+          headers: { Platform: "2", Authorization: Authorization }
+        }).then(res => {
+
+      }).catch()
+    },
     toEdit() {
       this.$prompt("请输入需要编辑的页面地址", "提示", {
         confirmButtonText: "确定",
@@ -81,10 +94,13 @@ export default {
         inputErrorMessage: "地址不正确"
       })
         .then(({ value }) => {
+          
           let key = getSearch("pageid", value);
           this.$emit("pageEdit", key);
         })
-        .catch(() => {});
+        .catch(() => {
+          console.log("错误");
+        });
     },
     onLoad() {
       this.$emit("frameOnLoad", this.$refs.frame);

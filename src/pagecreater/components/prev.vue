@@ -30,9 +30,11 @@ export default {
   },
   mounted() {
     console.log("prev页面");
-    this.componentsconfig = JSON.parse(
-      JSON.stringify(this.$store.state.componentsconfig)
-    );
+    console.log(this.$store.state.qiniutoken)
+    console.log(this.$store.state.componentsconfig)
+    // this.componentsconfig = JSON.parse(
+    //   JSON.stringify(this.$store.state.componentsconfig)
+    // );
     window.addEventListener("message", this.onMessage);
   },
   beforeDestroy: function() {
@@ -65,6 +67,7 @@ export default {
     // },
     onMessage(msg) {
       console.group("prev.vue 收到消息");
+      console.log(msg.data);
       let config = msg.data["config"];
       let index = msg.data["index"];
       let type = msg.data["type"];
