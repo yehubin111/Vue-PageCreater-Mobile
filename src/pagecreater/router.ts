@@ -3,7 +3,7 @@ import Router from "vue-router";
 
 import index from "./components/Template.vue";
 import preview from "./components/PreviewFrame.vue";
-import prev from "./components/prev.vue";
+import prev from "./components/Prev.vue";
 
 Vue.use(Router);
 

@@ -182,6 +182,9 @@ export default {
     border: 1px dashed #ddd;
     flex: 0 0 100%;
   }
+  .placeholder {
+    height: 40px;
+  }
 }
 .page > .dragBox::after {
   display: none;

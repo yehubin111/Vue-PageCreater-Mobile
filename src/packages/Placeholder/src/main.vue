@@ -18,7 +18,7 @@ export default {
 
 <style lang="less" scoped>
 .placeholder {
-  height: 40px;
+  height: 0px;
   background-color: #fafafa;
 }
 </style>

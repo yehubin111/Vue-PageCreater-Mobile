@@ -190,7 +190,6 @@ export default {
 
       if (me.pattern == "roll") {
         let n = me.listindex;
-        console.log(scrolltop);
         me.scrollarr.forEach((v, i) => {
           if (scrolltop >= v) {
             n = i;
@@ -201,7 +200,6 @@ export default {
             scrolltop + document.documentElement.clientHeight &&
           me.scrollarr.length == me.list.length
         ) {
-          console.log('last');
           n = me.list.length - 1;
         }
         me.listindex = n;
@@ -226,7 +224,6 @@ export default {
       this.scrollarr = this.scrolltag.map(
         v => v.offsetTop - this.baseInfo.height
       );
-      console.log(this.scrollarr);
     },
     refId() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
