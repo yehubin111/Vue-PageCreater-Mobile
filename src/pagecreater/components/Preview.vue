@@ -25,6 +25,15 @@
         <el-button type="primary" slot="reference" @click="toCreate">生成网页</el-button>
         <el-button type="primary" slot="reference" @click="getConfig">查看配置</el-button>
         <el-button type="primary" slot="reference" @click="toEdit">编辑网页</el-button>
+        <el-popover
+          placement="top"
+          width="160"
+          trigger="hover" style="margin-left:10px;" v-show="pageurl">
+          <div class="qrcode_box">
+            <canvas id="qrcode"></canvas>
+          </div>
+          <el-button slot="reference">扫码查看</el-button>
+        </el-popover>
         <!-- <el-button @click="remove">删除</el-button> -->
       </div>
     </div>
@@ -35,6 +44,7 @@
 import { textCopy, getSearch } from "@/assets/common";
 import { getBaseUrl } from "@/assets/url.ts";
 import axios from "axios";
+import QRCode from "qrcode";
 let BASE = getBaseUrl();
 export default {
   props: {
@@ -71,9 +81,18 @@ export default {
       // if(n) {
       //   textCopy('#copyButton');
       // }
+      this.qrcode(n)
     }
   },
   methods: {
+    qrcode(url) {
+      // 获取页面的canvas
+      var msg = document.getElementById("qrcode");
+      // 将获取到的数据（val）画到msg（canvas）上
+      QRCode.toCanvas(msg, url, function() {
+        // console.log(error)
+      });
+    },
     remove() {
       let token = this.$store.state.qiniutoken
       // cf991615-8369
