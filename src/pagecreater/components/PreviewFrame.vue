@@ -3,6 +3,7 @@
     <module
       v-if="componentsconfig.length > 0"
       :componentsconfig="componentsconfig"
+      :onfocus="true"
       @selectComponent="selectComponent"
       @delComponent="delComponent"
       @dragComponent="dragComponent"

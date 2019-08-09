@@ -13,7 +13,7 @@
   >
     <div
       class="module"
-      :class="{on: index.toString() === i.toString()}"
+      :class="{on: onfocus && index.toString() === i.toString()}"
       @click.stop="selectComponent(i)"
       v-for="(temp, i) in componentsconfig"
       :key="i"
@@ -31,6 +31,7 @@
             :index="childindex"
             :cindex="cindex !== undefined && cindex !== null?`${cindex}-${i}`:i"
             :sloter="sloter"
+            :onfocus="onfocus && onindex == i.toString()"
             @dragComponent="_dragModule"
             @delComponent="_delComponent"
             @selectComponent="_selectComponent"
@@ -62,6 +63,9 @@ export default {
     cindex: {
       type: Number | String
     },
+    onfocus: {
+      type: Boolean
+    },
     sloter: {
       type: Object
     }
@@ -85,7 +89,10 @@ export default {
   computed: {
     ...mapState(['dragStatus']),
     childindex() {
-      return this.index.toString().substring(2);
+      return this.index.toString().split('-').slice(1).join('-');
+    },
+    onindex() {
+      return this.index.toString().split('-')[0];
     }
   },
   watch: {

@@ -226,6 +226,7 @@ export default {
     },
     // 选择组件
     selectComponent(idx) {
+      console.log(idx);
       this.index = idx;
       if (this.index == -1) {
         this.editprops = {};
