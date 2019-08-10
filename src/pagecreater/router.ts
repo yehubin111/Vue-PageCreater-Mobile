@@ -26,27 +26,6 @@ const router = new Router({
       component: prev
     }
   ]
-  // routes: [
-  //     {
-  //         path: '/pagecreater',
-  //         name: 'pagecreater',
-  //         component: pagecreater,
-  //         redirect: () => {
-  //             return '/pagecreater/index';
-  //         },
-  //         children: [
-  //             {
-  //                 path: 'index',
-  //                 name: 'index',
-  //                 component: index,
-  //             }, {
-  //                 path: 'preview',
-  //                 name: 'preview',
-  //                 component: preview,
-  //             },
-  //         ],
-  //     },
-  // ],
 });
 
 export default router;
