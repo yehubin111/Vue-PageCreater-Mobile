@@ -93,21 +93,21 @@ export default {
         // console.log(error)
       });
     },
-    remove() {
-      let token = this.$store.state.qiniutoken
-      // cf991615-8369
-      // bucket 空间名称 easygo
-      let entry = '<easygo>:<3cd5afcc-3a35>'
-      let encodedEntryURI = urlsafe_base64_encode(entry)
-      let EncodedEntryURI = ''
-      let Authorization = 'QBox '
-      // axios.defaults.headers.post['Content-Type'] = 'application/json';
-      axios.post('http://p7.highstreet.top/delete','',{
-          headers: { Platform: "2", Authorization: Authorization }
-        }).then(res => {
+    // remove() {
+    //   let token = this.$store.state.qiniutoken
+    //   // cf991615-8369
+    //   // bucket 空间名称 easygo
+    //   let entry = '<easygo>:<3cd5afcc-3a35>'
+    //   let encodedEntryURI = urlsafe_base64_encode(entry)
+    //   let EncodedEntryURI = ''
+    //   let Authorization = 'QBox '
+    //   // axios.defaults.headers.post['Content-Type'] = 'application/json';
+    //   axios.post('http://p7.highstreet.top/delete','',{
+    //       headers: { Platform: "2", Authorization: Authorization }
+    //     }).then(res => {
 
-      }).catch()
-    },
+    //   }).catch()
+    // },
     toEdit() {
       this.$prompt("请输入需要编辑的页面地址", "提示", {
         confirmButtonText: "确定",
