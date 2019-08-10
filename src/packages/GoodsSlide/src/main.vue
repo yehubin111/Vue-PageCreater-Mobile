@@ -203,8 +203,6 @@ export default {
           type: "radio",
           bind: ["left", "right"]
         },
-        brand: { name: "品牌", type: "switch", default: true },
-        productName: { name: "商品名称", type: "switch", default: true },
         marketPriceText: {
           name: "市场价(marketPrice)",
           type: "input"
