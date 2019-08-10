@@ -123,8 +123,14 @@ export default {
       type: String,
       default: "#fff"
     },
-    brand: true,
-    productName: false,
+    brand: {
+      type: Boolean,
+      default: true
+    },
+    productName: {
+      type: Boolean,
+      default: false
+    },
     tag_1_text: {
       type: String,
       default: ""
