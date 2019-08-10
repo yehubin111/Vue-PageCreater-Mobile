@@ -3,6 +3,7 @@
     <module
       v-if="componentsconfig.length > 0"
       :componentsconfig="componentsconfig"
+      :onfocus="true"
       @selectComponent="selectComponent"
       @delComponent="delComponent"
       @dragComponent="dragComponent"
@@ -22,6 +23,7 @@ export default {
   },
   data() {
     return {
+      editstatus: false,
       globalconfig: {},
       componentsconfig: [],
       index: -1,
@@ -46,9 +48,15 @@ export default {
       //   return;
       // }
       if (this.index == -1) return;
-      this.componentsconfig[this.index].info = info;
-      this.componentsconfig[this.index].props = this.$i2c(info);
-      top.postMessage({ type: "initComponent", info: info }, this.fatherurl);
+      let obj = this.$iLocal(this.componentsconfig, this.index);
+      obj.info = info;
+      obj.props = this.$i2c(info);
+      top.postMessage(
+        { type: "initComponent", info: info, index: this.index },
+        this.fatherurl
+      );
+
+      this.editstatus = false;
     },
     // deepUpdate(origin, config) {
     //   Object.keys(config).forEach(v => {
@@ -75,7 +83,6 @@ export default {
           break;
         case "addComponent":
           this.componentsconfig.push(config);
-          console.log(index);
           this.index = index;
           break;
         case "editComponent":
@@ -84,12 +91,40 @@ export default {
           obj.info = info;
           break;
         case "editInit":
-          console.log('editInit')
-          console.log(config)
-          this.index = -1;
-          this.componentsconfig = config;
+          // this.componentsconfig.push(config[2]);
+          //   this.index = 0;
+          this.componentsconfig.length = 0;
+          this.editInit(config);
           break;
       }
+    },
+    async editInit(config, n) {
+      for (let i = 0; i < config.length; i++) {
+        // 先提取component
+        let component = config[i].component ? JSON.parse(JSON.stringify(config[i].component)) : null;
+        if (component) config[i].component.length = 0;
+        if (n !== undefined) {
+          this.$iLocal(this.componentsconfig, n).component.push(config[i]);
+        } else {
+          this.componentsconfig.push(config[i]);
+        }
+        this.editstatus = true;
+        this.index = n !== undefined ? `${n}-${i}` : i;
+        await this.toWait();
+        // 如果有component，依次添加
+        if (component) {
+          this.editInit(component, i);
+        }
+      }
+    },
+    toWait() {
+      return new Promise((resolve, reject) => {
+        setInterval(() => {
+          if (!this.editstatus) {
+            resolve("wait");
+          }
+        });
+      });
     },
     // 更换组件顺序回调
     dragComponent(type, newindex, oldindex) {
@@ -130,7 +165,7 @@ export default {
       // } else if (this.index > idx) {
       //   this.index--;
       // }
-      this.$iLocal(this.componentsconfig, idx, 'del');
+      this.$iLocal(this.componentsconfig, idx, "del");
       top.postMessage({ type: "delComponent", index: idx }, this.fatherurl);
     }
   }

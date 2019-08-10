@@ -17,20 +17,32 @@
 
 <script>
 import axios from "@/packages/axiosPack";
-import Toast from 'vant/lib/toast';
+import Toast from "vant/lib/toast";
 import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
 import { URL } from "@/assets/url.ts";
 export default {
-  name: "HsImageGroup", 
+  name: "HsImageGroup",
   props: {
     count: {
-      type: Number,
+      type: Number | String,
       default: 1
     },
     list: {
       type: Array,
-      default: () => []
+      default: () => {
+        return [
+          {
+            url: "",
+            alert: "",
+            alertwidth: "0",
+            topic: "",
+            goodsdetail: "",
+            h5link: "",
+            couponid: ""
+          }
+        ];
+      }
     },
     gap: {
       type: String,
@@ -55,7 +67,7 @@ export default {
       alertstatus: false,
       userToken: "",
       keyOption: {
-        padding: { name: '边距（上 左右 下）', type: 'padding' },
+        padding: { name: "边距（上 左右 下）", type: "padding" },
         count: { name: "数量", type: "radio", bind: ["list"] },
         gap: { name: "图片间隔", type: "pxinput" },
         clickEvent: {
@@ -71,40 +83,34 @@ export default {
               key: "url",
               name: "图片",
               child: {
-                url: { name: "图片", default: "", type: "fileupload" },
+                url: { name: "图片", type: "fileupload" },
                 alert: {
                   name: "弹出框图片",
-                  default: "",
                   type: "fileupload",
                   accept: "clickEvent"
                 },
                 alertwidth: {
                   name: "弹出框图片宽度",
-                  default: "0px",
                   type: "input",
                   accept: "clickEvent"
                 },
                 topic: {
                   name: "专题编号",
-                  default: "",
                   type: "input",
                   accept: "clickEvent"
                 },
                 goodsdetail: {
                   name: "商品id",
-                  default: "",
                   type: "input",
                   accept: "clickEvent"
                 },
                 h5link: {
                   name: "h5链接",
-                  default: "",
                   type: "input",
                   accept: "clickEvent"
                 },
                 couponid: {
                   name: "优惠券",
-                  default: "",
                   type: "input",
                   accept: "clickEvent"
                 }
@@ -138,15 +144,14 @@ export default {
   methods: {
     getCoupon(code) {
       let params = new FormData();
-      params.append('cpBatchNumber', code);
-      axios.post(
-        URL.coupon, params,
-        {
+      params.append("cpBatchNumber", code);
+      axios
+        .post(URL.coupon, params, {
           headers: { Platform: "2", Authorization: this.userToken }
-        }
-      ).then(res => {
-        Toast(res.msg);
-      });
+        })
+        .then(res => {
+          Toast(res.msg);
+        });
     },
     clickCallback(i) {
       switch (this.clickEvent) {

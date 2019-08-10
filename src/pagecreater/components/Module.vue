@@ -7,13 +7,14 @@
     }"
     :list="componentsconfig"
     @start="CHANGE_DRAGGERSTATUS(true)"
+    @end="CHANGE_DRAGGERSTATUS(false)"
     group="drag"
     @change="dragModule"
     :options="dragOptions"
   >
     <div
       class="module"
-      :class="{on: index.toString() === i.toString()}"
+      :class="{on: onfocus && index.toString() === i.toString()}"
       @click.stop="selectComponent(i)"
       v-for="(temp, i) in componentsconfig"
       :key="i"
@@ -31,9 +32,11 @@
             :index="childindex"
             :cindex="cindex !== undefined && cindex !== null?`${cindex}-${i}`:i"
             :sloter="sloter"
+            :onfocus="onfocus && onindex == i.toString()"
             @dragComponent="_dragModule"
             @delComponent="_delComponent"
             @selectComponent="_selectComponent"
+            @initComponent="initConfig"
           ></module>
         </template>
       </component>
@@ -61,6 +64,9 @@ export default {
     cindex: {
       type: Number | String
     },
+    onfocus: {
+      type: Boolean
+    },
     sloter: {
       type: Object
     }
@@ -84,7 +90,10 @@ export default {
   computed: {
     ...mapState(['dragStatus']),
     childindex() {
-      return this.index.toString().substring(2);
+      return this.index.toString().split('-').slice(1).join('-');
+    },
+    onindex() {
+      return this.index.toString().split('-')[0];
     }
   },
   watch: {
@@ -92,7 +101,6 @@ export default {
   methods: {
     ...mapMutations(['CHANGE_DRAGGERSTATUS']),
     initConfig(info) {
-      console.log('initconfig');
       if (!this.dragStatus && !this.del) {
         this.$emit("initComponent", info);
       }
@@ -181,6 +189,9 @@ export default {
     box-sizing: border-box;
     border: 1px dashed #ddd;
     flex: 0 0 100%;
+  }
+  .placeholder {
+    height: 40px;
   }
 }
 .page > .dragBox::after {

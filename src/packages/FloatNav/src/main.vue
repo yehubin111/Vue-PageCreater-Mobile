@@ -20,7 +20,7 @@
         >{{nav.name}}</li>
       </ul>
     </div>
-    <div class="slot-area">
+    <div class="slot-area" ref="slotarea">
       <slot :topicid="topicid"></slot>
     </div>
   </div>
@@ -54,7 +54,26 @@ export default {
     },
     list: {
       type: Array,
-      default: () => []
+      default: () => {
+        return [
+          {
+            name: "tab",
+            tabtopicid: ""
+          },
+          {
+            name: "tab",
+            tabtopicid: ""
+          },
+          {
+            name: "tab",
+            tabtopicid: ""
+          },
+          {
+            name: "tab",
+            tabtopicid: ""
+          }
+        ];
+      }
     }
   },
   data() {
@@ -62,8 +81,12 @@ export default {
       navfloat: false,
       navtop: 0,
       listindex: 0,
+      scrolltag: [],
+      scrollarr: [],
       // {navcount: '', list: [{name: ''}, ]}
       keyOption: {
+        navcount: { name: "数量", type: "radio", bind: ["list"] },
+        pattern: { name: "模式", type: "radio", bind: ["tabtopicid"] },
         baseInfo: {
           name: "基本信息",
           child: {
@@ -84,8 +107,6 @@ export default {
             focusColor: { name: "高亮字体颜色", type: "color", default: "#000" }
           }
         },
-        navcount: { name: "数量", type: "radio", bind: ["list"] },
-        pattern: { name: "模式", type: "radio", bind: ["tabtopicid"] },
         list: {
           name: "菜单项",
           accept: "navcount",
@@ -149,13 +170,42 @@ export default {
   },
   watch: {},
   mounted() {
+    this.$refs.slotarea.children[0].childNodes.forEach(v => {
+      if (v.getAttribute("tag") == "placeholder") {
+        this.scrolltag.push(v);
+      }
+    });
+    this.scrolltag = this.scrolltag.slice(0, this.list.length);
+    setTimeout(() => {
+      this.initScrolltop();
+    }, 1000)
+
     let me = this;
     window.addEventListener("scroll", function() {
+      // 初始化各个placeholder位置
+      me.initScrolltop();
+
       let scrolltop =
         document.documentElement.scrollTop || document.body.scrollTop;
       me.navtop = me.$refs[me.ref].offsetTop;
-      console.log(me.navtop);
       me.navfloat = scrolltop > me.navtop ? true : false;
+
+      if (me.pattern == "roll") {
+        let n = me.listindex;
+        me.scrollarr.forEach((v, i) => {
+          if (scrolltop >= v) {
+            n = i;
+          }
+        });
+        if (
+          document.documentElement.scrollHeight ==
+            scrolltop + document.documentElement.clientHeight &&
+          me.scrollarr.length == me.list.length
+        ) {
+          n = me.list.length - 1;
+        }
+        me.listindex = n;
+      }
     });
   },
   computed: {
@@ -166,19 +216,32 @@ export default {
       return this.list.slice(0, this.navcount);
     },
     topicid() {
-      return this.list[this.listindex]
+      return this.pattern == 'tab' && this.list[this.listindex]
         ? this.list[this.listindex].tabtopicid
         : "";
     }
   },
   methods: {
+    initScrolltop() {
+      this.scrollarr = this.scrolltag.map(
+        v => v.offsetTop - this.baseInfo.height
+      );
+    },
     refId() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     },
     toChange(i) {
       this.listindex = i;
-      document.documentElement.scrollTop = this.navtop;
-      document.body.scrollTop = this.navtop;
+      let scroll = 0;
+      if (this.pattern == "tab") {
+        scroll = this.navtop;
+      } else if (!this.scrollarr[i]) {
+        scroll = 0;
+      } else {
+        scroll = this.scrollarr[i];
+      }
+      document.documentElement.scrollTop = scroll;
+      document.body.scrollTop = scroll;
     }
   }
 };

@@ -143,9 +143,7 @@ export default {
           this.dragComponent(componentsconfig, index);
           break;
         case "initComponent":
-          console.log("Template onMessage");
-          console.log(info);
-          this.initComponent(info);
+          this.initComponent(info, index);
           break;
       }
     },
@@ -195,7 +193,8 @@ export default {
       this.selectComponent(this.index);
     },
     // 初始化组件props信息
-    initComponent(info) {
+    initComponent(info, index) {
+      this.index = index;
       this.editprops = this.$i2c(info);
       this.editinfo = info;
       this.SET_COMPONENTCONFIG({ index: this.index, config: this.editprops });

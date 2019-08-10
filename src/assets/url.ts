@@ -21,7 +21,7 @@ export function getBaseUrl(): BaseUrl {
     switch (process.env.VUE_APP_URLBASE) {
         case 'development':
             base['web'] = '';
-            base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top';
+            base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top'; //'http://dev-mgr-yuncang.highstreet.top';
             // base['out'] = '';
             break;
         case 'testing':

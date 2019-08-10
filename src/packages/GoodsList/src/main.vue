@@ -7,7 +7,7 @@
   >
     <div
       class="goodbox"
-      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': columnCount == 'double'? '1fr 1fr': '1fr'}"
+      :style="{'grid-gap': $px2vw(gap), 'grid-template-columns': defaultFr}"
       v-if="list.length == 0"
     >
       <div class="default" v-for="(g,index) in defaultList" :key="index">
@@ -216,7 +216,7 @@
 
 <script>
 import axios from "@/packages/axiosPack";
-import { debounceFc } from "@/assets/common";
+// import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
@@ -295,12 +295,14 @@ export default {
       type: String,
       default: ""
     },
-    brand: true,
-    productName: true,
-    // loading: {
-    //   type: Boolean,
-    //   default: false
-    // },
+    brand: {
+      type: Boolean,
+      default: true
+    },
+    productName: {
+      type: Boolean,
+      default: true
+    },
     loadOption: {
       type: Object,
       default: () => {
@@ -318,6 +320,7 @@ export default {
   },
   data() {
     return {
+      timeout: null,
       list: [],
       url: URL.goodslist,
       pageOffset: 0,
@@ -330,7 +333,7 @@ export default {
         topicid: { name: "专题号", type: "input" },
         columnCount: { name: "列数", type: "radio" },
         count: { name: "商品数", type: "input" },
-        gap: { name: "商品间隔", type: "input" },
+        gap: { name: "商品间隔", type: "pxinput" },
         tag_1_text: { name: "标签", type: "input" },
         tag_1_color: {
           name: "标签颜色",
@@ -408,6 +411,11 @@ export default {
     };
   },
   computed: {
+    defaultFr() {
+      if (this.columnCount == "double") return "1fr 1fr";
+      else if (this.columnCount == "three") return "1fr 1fr 1fr";
+      else return "1fr";
+    },
     defaultList() {
       let arr = [];
       while (arr.length < this.count) {
@@ -427,15 +435,14 @@ export default {
   mounted() {
     // 初始化获取数据
     if (this.tpid && this.count) {
-      console.log("mounted");
       this.pageSize = this.count;
       this.loading = true;
       this.getData();
     }
     // 初始化添加下拉加载
     if (this.loadOption["loading"]) {
-      window.removeEventListener("scroll", this.loadMore, false);
-      window.addEventListener("scroll", this.loadMore, false);
+      window.removeEventListener("scroll", this.loadMore, true);
+      window.addEventListener("scroll", this.loadMore, true);
     }
   },
   destroyed() {
@@ -448,7 +455,7 @@ export default {
       let distance = 300; // 距离底部多少开始执行加载
       let cheight = this.$refs[this.ref].clientHeight; // load模块高度
       let ctop = this.$refs[this.ref].offsetTop; // load模块到页面顶部距离
-      // console.log(this.ref, cheight, this.$refs[this.ref].offsetTop);
+
       if (
         scrolltop + document.documentElement.clientHeight >
         cheight + ctop - distance
@@ -456,20 +463,44 @@ export default {
         if (this.loading) return;
         this.loading = true;
         this.pageSize = this.loadOption["option"].count;
-        // this.pageOffset += parseInt(this.pageSize);
         this.getData();
       }
     },
-    debounceFunc: (() => {
-      return debounceFc(function() {
+    debounceFc(fn, wait) {
+      let timeout;
+      return function() {
+        const me = this;
+        const argu = arguments[0];
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(() => {
+          func.call(me, argu);
+        }, wait);
+      };
+    },
+    debounceFunc() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => {
         this.pageSize = this.count;
         this.pageOffset = 0;
         this.list = [];
         this.getData();
-      }, 1000);
-    })(),
+      }, 300);
+    },
+    // debounceFunc: (() => {
+    //   console.log(this);
+    //   return this.debounceFc(function() {
+    // this.pageSize = this.count;
+    // this.pageOffset = 0;
+    // this.list = [];
+    // this.getData();
+    //   }, 300);
+    // })(),
     getData() {
-      console.log(this.pageSize);
       let url = this.url
         .replace("{topicId}", this.tpid.trim())
         .replace("{count}", this.pageSize.trim())

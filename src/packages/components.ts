@@ -51,6 +51,11 @@ const components: Components[] = [
         moduleName: 'HsGoodsTest',
         show: false,
     },
+    {
+        name: 'Placeholder',
+        moduleName: 'HsPlaceholder',
+        show: true,
+    },
 ];
 
 export default components;

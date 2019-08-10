@@ -60,7 +60,7 @@ export const radioSelect: RadioSelect = {
     }
   ],
   memberPriceStyle: [{ key: "1", value: "1" }, { key: "2", value: "2" }],
-  pattern: [{ key: 'tab', value: 'tab模式' }]
+  pattern: [{ key: 'tab', value: 'tab模式' }, { key: 'roll', value: '滚动模式' }]
 };
 
 interface RadioSelectChild {

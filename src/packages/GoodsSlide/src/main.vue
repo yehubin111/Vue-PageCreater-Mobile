@@ -97,7 +97,7 @@
 
 <script>
 import axios from "@/packages/axiosPack";
-import { debounceFc } from "@/assets/common";
+// import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
@@ -123,8 +123,14 @@ export default {
       type: String,
       default: "#fff"
     },
-    brand: true,
-    productName: false,
+    brand: {
+      type: Boolean,
+      default: true
+    },
+    productName: {
+      type: Boolean,
+      default: false
+    },
     tag_1_text: {
       type: String,
       default: ""
@@ -203,8 +209,6 @@ export default {
           type: "radio",
           bind: ["left", "right"]
         },
-        brand: { name: "品牌", type: "switch", default: true },
-        productName: { name: "商品名称", type: "switch", default: true },
         marketPriceText: {
           name: "市场价(marketPrice)",
           type: "input"
@@ -271,11 +275,19 @@ export default {
     console.log("destroyed");
   },
   methods: {
-    debounceFunc: (() => {
-      return debounceFc(function() {
+    // debounceFunc: (() => {
+    //   return debounceFc(function() {
+    //     this.getData();
+    //   }, 1000);
+    // })(),
+    debounceFunc() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => {
         this.getData();
-      }, 1000);
-    })(),
+      }, 300);
+    },
     getData() {
       let url = this.url
         .replace("{pageOffset}", this.pageOffset)

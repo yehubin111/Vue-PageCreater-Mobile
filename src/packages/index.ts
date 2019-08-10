@@ -5,6 +5,7 @@ import GoodsTest from './GoodsTest';
 import GoodsListOther from './GoodsListOther';
 import FloatNav from './FloatNav';
 import GoodsSlide from './GoodsSlide';
+import Placeholder from './Placeholder';
 
 const components = [
     Banner,
@@ -13,7 +14,8 @@ const components = [
     GoodsTest,
     GoodsListOther,
     FloatNav,
-    GoodsSlide
+    GoodsSlide,
+    Placeholder
 ];
 
 interface ConfigArray {
@@ -27,43 +29,54 @@ interface ConfigArray {
 }
 
 const install = (Vue: any, opts = {}): void => {
-  console.log("index.ts install");
   components.forEach((component: any) => {
     // 扩展组件created方法
     component.created = function() {
-      const allInfo: ConfigArray[] = this._getConfig(this.keyOption);
-      console.log("created");
-      console.log(allInfo);
+      const allInfo: ConfigArray[] = this.$getConfig(this, this.keyOption);
       this.$emit("initConfig", allInfo);
     };
     // 添加getConfig方法
-    component.methods._getConfig = function(info: any): ConfigArray[] {
-      const me = this;
-      console.log(me);
-      // const arr: ConfigArray[] = [];
-      const obj: any = {};
-      Object.keys(info).forEach(
-        (v): void => {
-          console.log(v);
-          obj[v] = {
-            default: me[v],
-            ...info[v]
-          };
-        }
-      );
-      return obj;
-    };
+    // component.methods._getConfig = function(me: any, info: any, type: string): ConfigArray[] {
+    //   console.log(this);
+    //   let obj: any = type == 'Array'?[]:{};
+    //   Object.keys(info).forEach(
+    //     (v): void => {
+    //       // console.log(v);
+    //       if (typeof info[v]['child'] == 'object') {
+    //         let type = Array.isArray(info[v]['child']) ? "Array": "Object";
+    //         let that = me[v];
+    //         obj[v] = {
+    //           child: me._getConfig(that, info[v]['child'], type),
+    //           ...info[v]
+    //         }
+    //       }
+    //       //  else if (this._typeJudge(info[v]['child'], 'Object')) {
+    //       //   obj[v] = {
+    //       //     child: this._getConfig(info[v]['child']),
+    //       //     ...info[v]
+    //       //   }
+    //       // } 
+    //       else {
+    //         obj[v] = {
+    //           default: me[v],
+    //           ...info[v]
+    //         };
+    //       }
+    //     }
+    //   );
+    //   return obj;
+    // };
     // 添加类型判断方法
-    component.methods._typeJudge = function(
-      data: any,
-      type: string
-    ): boolean | string {
-      if (type) {
-        return Object.prototype.toString.call(data).slice(8, -1) === type;
-      } else {
-        return Object.prototype.toString.call(data).slice(8, -1);
-      }
-    };
+    // component.methods._typeJudge = function(
+    //   data: any,
+    //   type: string
+    // ): boolean | string {
+    //   if (type) {
+    //     return Object.prototype.toString.call(data).slice(8, -1) === type;
+    //   } else {
+    //     return Object.prototype.toString.call(data).slice(8, -1);
+    //   }
+    // };
     Vue.component(component.name, component);
   });
 };
@@ -80,5 +93,6 @@ export default {
     GoodsTest,
     GoodsListOther,
     FloatNav,
-    GoodsSlide
+    GoodsSlide,
+    Placeholder
 };
