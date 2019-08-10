@@ -56,15 +56,6 @@ export default {
       this.componentsconfig[this.index].props = this.$i2c(info);
       top.postMessage({ type: "initComponent", info: info }, this.fatherurl);
     },
-    // deepUpdate(origin, config) {
-    //   Object.keys(config).forEach(v => {
-    //     if (typeof config[v] == "object") {
-    //       this.deepUpdate(origin[v], config[v]);
-    //     } else {
-    //       origin[v] = config[v];
-    //     }
-    //   });
-    // },
     onMessage(msg) {
       console.group("prev.vue 收到消息");
       console.log(msg.data);
