@@ -254,7 +254,7 @@ export default {
       return arr;
     },
     columns() {
-      return `repeat(${this.count}, 100px)`;
+      return `repeat(${this.count}, ${this.$px2vw(100)})`;
     },
     paddingTop() {
       return this.padding.split(" ")[0];

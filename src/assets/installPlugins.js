@@ -33,7 +33,7 @@ export default {
         // px转vw
         Vue.prototype.$px2vw = function (px) {
             const base = 375; // 基准宽度
-            return px.split(' ').map(v => parseInt(v) * 100 / base + 'vw').join(' ');
+            return px.toString().split(' ').map(v => parseInt(v) * 100 / base + 'vw').join(' ');
         }
         // 初始化获取info
         Vue.prototype.$getConfig = function (me, info, type) {
