@@ -7,6 +7,7 @@
     }"
     :list="componentsconfig"
     @start="CHANGE_DRAGGERSTATUS(true)"
+    @end="CHANGE_DRAGGERSTATUS(false)"
     group="drag"
     @change="dragModule"
     :options="dragOptions"

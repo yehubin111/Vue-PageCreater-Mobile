@@ -176,7 +176,9 @@ export default {
       }
     });
     this.scrolltag = this.scrolltag.slice(0, this.list.length);
-    this.initScrolltop();
+    setTimeout(() => {
+      this.initScrolltop();
+    }, 1000)
 
     let me = this;
     window.addEventListener("scroll", function() {

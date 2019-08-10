@@ -41,7 +41,7 @@ export default {
       console.log(this.componentsconfig);
     },
     initComponent(info) {
-      // console.log(`%cinit ${this.index}`, "color: red");
+      console.log(`%cinit ${this.index}`, "color: red");
       // // 排除删除引起的组件重置
       // if(this.deltime) {
       //   this.deltime = false;

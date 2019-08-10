@@ -216,7 +216,7 @@
 
 <script>
 import axios from "@/packages/axiosPack";
-import { debounceFc } from "@/assets/common";
+// import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
@@ -320,6 +320,7 @@ export default {
   },
   data() {
     return {
+      timeout: null,
       list: [],
       url: URL.goodslist,
       pageOffset: 0,
@@ -434,15 +435,14 @@ export default {
   mounted() {
     // 初始化获取数据
     if (this.tpid && this.count) {
-      console.log("mounted");
       this.pageSize = this.count;
       this.loading = true;
       this.getData();
     }
     // 初始化添加下拉加载
     if (this.loadOption["loading"]) {
-      window.removeEventListener("scroll", this.loadMore, false);
-      window.addEventListener("scroll", this.loadMore, false);
+      window.removeEventListener("scroll", this.loadMore, true);
+      window.addEventListener("scroll", this.loadMore, true);
     }
   },
   destroyed() {
@@ -455,7 +455,7 @@ export default {
       let distance = 300; // 距离底部多少开始执行加载
       let cheight = this.$refs[this.ref].clientHeight; // load模块高度
       let ctop = this.$refs[this.ref].offsetTop; // load模块到页面顶部距离
-      // console.log(this.ref, cheight, this.$refs[this.ref].offsetTop);
+
       if (
         scrolltop + document.documentElement.clientHeight >
         cheight + ctop - distance
@@ -463,20 +463,44 @@ export default {
         if (this.loading) return;
         this.loading = true;
         this.pageSize = this.loadOption["option"].count;
-        // this.pageOffset += parseInt(this.pageSize);
         this.getData();
       }
     },
-    debounceFunc: (() => {
-      return debounceFc(function() {
+    debounceFc(fn, wait) {
+      let timeout;
+      return function() {
+        const me = this;
+        const argu = arguments[0];
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(() => {
+          func.call(me, argu);
+        }, wait);
+      };
+    },
+    debounceFunc() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => {
         this.pageSize = this.count;
         this.pageOffset = 0;
         this.list = [];
         this.getData();
-      }, 1000);
-    })(),
+      }, 300);
+    },
+    // debounceFunc: (() => {
+    //   console.log(this);
+    //   return this.debounceFc(function() {
+    // this.pageSize = this.count;
+    // this.pageOffset = 0;
+    // this.list = [];
+    // this.getData();
+    //   }, 300);
+    // })(),
     getData() {
-      console.log(this.pageSize);
       let url = this.url
         .replace("{topicId}", this.tpid.trim())
         .replace("{count}", this.pageSize.trim())

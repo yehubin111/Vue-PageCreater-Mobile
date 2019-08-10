@@ -97,7 +97,7 @@
 
 <script>
 import axios from "@/packages/axiosPack";
-import { debounceFc } from "@/assets/common";
+// import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
@@ -271,11 +271,19 @@ export default {
     console.log("destroyed");
   },
   methods: {
-    debounceFunc: (() => {
-      return debounceFc(function() {
+    // debounceFunc: (() => {
+    //   return debounceFc(function() {
+    //     this.getData();
+    //   }, 1000);
+    // })(),
+    debounceFunc() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => {
         this.getData();
-      }, 1000);
-    })(),
+      }, 300);
+    },
     getData() {
       let url = this.url
         .replace("{pageOffset}", this.pageOffset)
