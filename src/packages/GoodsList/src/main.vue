@@ -256,7 +256,7 @@ export default {
     },
     marketPriceText: {
       type: String,
-      default: "VIP会员"
+      default: ""
     },
     marketPriceColor: {
       type: String,
@@ -273,7 +273,7 @@ export default {
     },
     sellPriceText: {
       type: String,
-      default: ""
+      default: "VIP会员"
     },
     buttonText: {
       type: String,
