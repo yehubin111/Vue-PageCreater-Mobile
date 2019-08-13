@@ -4,6 +4,9 @@ interface BaseUrl {
     out: string;
     [index: string]: string;
 }
+interface GetBaseUrl {
+    (): BaseUrl;
+}
 interface Object {
     [index: string]: string
 }
@@ -12,7 +15,7 @@ interface Url {
     web: Object;
     [index: string]: Object;
 }
-export function getBaseUrl(): BaseUrl {
+export const getBaseUrl: GetBaseUrl = function () {
     let base = {
         web: '',
         mgr: '',

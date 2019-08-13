@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import nav from "@/packages/components.ts";
+  import nav from "@/packages/components";
   export default {
     data() {
       return {
