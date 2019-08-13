@@ -26,9 +26,9 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { Msgsuccess } from "@/assets/plugins.ts";
+import { Msgsuccess } from "@/assets/plugins";
 import { typeJudge, getUUID, debounceFc } from "@/assets/common";
-import { getBaseUrl, URL } from "@/assets/url.ts";
+import { getBaseUrl, URL } from "@/assets/url";
 let BASE = getBaseUrl();
 import { globalInfo } from "../regular";
 import axios from "axios";

@@ -12,7 +12,6 @@ interface Components {
     moduleName: string;
     component?: Components[];
     show?: boolean;
-    info?: CompInfo[];
 }
 const components: Components[] = [
     {

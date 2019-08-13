@@ -10,6 +10,7 @@
     "build:product": "vue-cli-service build --mode production"
   },
   "dependencies": {
+    "@types/clipboard": "^2.0.1",
     "axios": "^0.19.0",
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",

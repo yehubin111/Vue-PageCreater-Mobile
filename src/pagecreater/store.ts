@@ -21,34 +21,34 @@ const state: State = {
     qiniutoken: '',
     dragStatus: false,
 };
-const mutations: any = {
-    ADD_COMPONENTCONFIG(state: State, config: any) {
+const mutations: MutationTree<State> = {
+    ADD_COMPONENTCONFIG(state, config) {
         state.componentsconfig.push(config);
     },
-    EDIT_COMPONENTCONFIG(state: State, { index, config }: any) {
-        const obj = this._vm.$iLocal(state.componentsconfig, index);
+    EDIT_COMPONENTCONFIG(state, { index, config }) {
+        const obj = (<any>this._vm).$iLocal(state.componentsconfig, index);
         const prop = obj.props;
         obj.props = Object.assign(prop, config);
     },
-    SET_COMPONENTINFO(state: State, { index, info }: any) {
-        this._vm.$iLocal(state.componentsconfig, index).info = info;
+    SET_COMPONENTINFO(state, { index, info }) {
+        (<any>this._vm).$iLocal(state.componentsconfig, index).info = info;
     },
-    SET_COMPONENTCONFIG(state: State, { index, config }: any) {
-        this._vm.$iLocal(state.componentsconfig, index).props = config;
+    SET_COMPONENTCONFIG(state, { index, config }) {
+        (<any>this._vm).$iLocal(state.componentsconfig, index).props = config;
     },
-    DEL_COMPONENTCONFIG(state: State, index: number) {
-        this._vm.$iLocal(state.componentsconfig, index, 'del');
+    DEL_COMPONENTCONFIG(state, index) {
+        (<any>this._vm).$iLocal(state.componentsconfig, index, 'del');
     },
-    DRAG_COMPONENTCONFIG(state: State, { config }: DragComponentConfig) {
+    DRAG_COMPONENTCONFIG(state, { config }) {
         state.componentsconfig = config;
     },
-    EDITINIT(state: State, { config }: DragComponentConfig) {
+    EDITINIT(state, { config }) {
         state.componentsconfig = config;
     },
-    SET_QINIUTOKEN(state: State, token: string) {
+    SET_QINIUTOKEN(state, token) {
         state.qiniutoken = token;
     },
-    CHANGE_DRAGGERSTATUS(state: State, status: boolean) {
+    CHANGE_DRAGGERSTATUS(state, status) {
         console.log(status);
         state.dragStatus = status;
     }
