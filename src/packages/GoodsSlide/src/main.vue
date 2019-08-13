@@ -53,7 +53,7 @@
                   v-if="brand"
                 >{{g.productBrandNameEng}} {{g.productBrandName ? '/'+g.productBrandName : ''}}</p>
                 <p
-                  class="name ff-l"
+                  class="name ff-l elps"
                   v-if="productName"
                 >{{g.productName ? g.productName : g.productEngName}}</p>
                 <p class="info row-flex ac price_1" v-if="memberPriceStyle == '1' &&memberPriceText">
@@ -62,7 +62,7 @@
                   <span class="price ff-m">{{g.memberPrice}}</span>
                 </p>
                 <p class="info row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-                  <span class="tag">{{memberPriceText}}</span>
+                  <span class="tag" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
                   <span class="unit ff-m">￥</span>
                   <span class="price ff-m">{{g.memberPrice}}</span>
                 </p>
@@ -70,7 +70,7 @@
                   <span class="tag">{{marketPriceText}}</span>
                   <span class="unit ff-m">￥</span>
                   <span
-                    class="price ff-m"
+                    class="price ff-l"
                     :style="{'text-decoration': marketPriceStyle ? 'line-through' : 'none'}"
                   >{{g.marketPrice}}</span>
                 </p>
@@ -407,14 +407,14 @@ export default {
               // height: 9px;
               // line-height: 8px;
               color: #000;
-              font-size: 8px;
+              font-size: 12px;
               // margin-bottom: 3px;
             }
             .name {
               padding: 0px 8px;
-              height: 8px;
+              height: 12px;
               color: #000;
-              font-size: 8px;
+              font-size: 10px;
               margin-bottom: 5px;
             }
             .info {
@@ -422,16 +422,16 @@ export default {
               // margin-bottom: 2px;
             }
             .price_1 {
-              height: 8px;
+              height: 10px;
               margin-bottom: 1px;
               .label{
-                font-size: 7px;
+                font-size: 8px;
               }
               .unit {
-                font-size: 7px;
+                font-size: 8px;
               }
               .price {
-                font-size: 8px;
+                font-size: 12px;
               }
             }
             .price_2 {
@@ -441,25 +441,40 @@ export default {
                 border: 0.5px solid #ea302b;
                 font-size: 7px;
                 text-align: center;
-                line-height: 12px;
-                width: 34px;
+                line-height: 10px;
+                // width: 37px;
+                height: 10px;
+                padding:0px 2px;
                 border-radius: 2px;
                 margin-right: 1px;
+                &.width{
+                  width: 36px;
+                  overflow: hidden;
+                }
               }
             }
             .market {
               // line-height: 8px;
               color: #777;
-              font-size: 6px;
+              font-size: 8px;
               margin-bottom: 1px;
               .tag{
-                font-size: 6px;
+                font-size: 8px;
               } 
               .unit{
-                font-size: 6px;
+                font-size: 8px;
               }
               .price{
-                font-size: 6px;
+                font-size: 10px;
+                font-weight: normal;
+              }
+            }
+            .mprice{
+              .mprice-tip{
+                font-size: 10px;
+              }
+              .mprice-text{
+                font-size: 10px;
               }
             }
             .button-box {
@@ -474,7 +489,7 @@ export default {
               text-align: center;
               background-color: #aaa;
               border-radius: 5px;
-              font-size: 7px;
+              font-size: 8px;
               font-weight: 500;
               color: rgba(255, 255, 255, 1);
             }

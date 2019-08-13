@@ -57,7 +57,7 @@
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
           <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-tip" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
@@ -126,7 +126,7 @@
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
           <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-tip" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
@@ -183,7 +183,7 @@
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
           <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-            <span class="price-tip">{{memberPriceText}}</span>
+            <span class="price-tip" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
@@ -625,14 +625,19 @@ export default {
           }
           &.price_2 {
             .price-tip {
-              width: 34px;
+              // width: 34px;
               border: 0.5px solid #ea302b;
               border-radius: 2px;
               text-align: center;
-              line-height: 11px;
+              height: 10px;
+              line-height: 10px;
               font-size: 7px;
               margin-right: 2px;
               color: #ea302b;
+              &.width{
+                width: 36px;
+                overflow: hidden;
+              }
             }
           }
           .price-unit {
@@ -836,14 +841,19 @@ export default {
           }
           &.price_2 {
             .price-tip {
-              width: 34px;
+              // width: 34px;
               border: 0.5px solid #ea302b;
               border-radius: 2px;
               text-align: center;
-              line-height: 8px;
+              height: 10px;
+              line-height: 10px;
               font-size: 7px;
               margin-right: 2px;
               color: #ea302b;
+              &.width{
+                width: 36px;
+                overflow: hidden;
+              }
             }
           }
           .price-unit {
