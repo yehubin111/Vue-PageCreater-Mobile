@@ -155,7 +155,7 @@ export default {
     qiniuUpload() {
       this.toLoading('正在生成网页');
       let me = this;
-      let filename = `${getUUID()}`;
+      let filename = `hs-${getUUID()}`;
       let config = {
         globalconfig: this.globalconfig,
         componentsconfig: this.componentsconfig
