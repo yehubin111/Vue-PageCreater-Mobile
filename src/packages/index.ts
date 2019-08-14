@@ -1,4 +1,5 @@
 import Banner from './Banner';
+import BannerBox from './BannerBox';
 import ImageGroup from './ImageGroup';
 import GoodsList from './GoodsList';
 import GoodsTest from './GoodsTest';
@@ -9,6 +10,7 @@ import Placeholder from './Placeholder';
 
 const components = [
     Banner,
+    BannerBox,
     ImageGroup,
     GoodsList,
     GoodsTest,
@@ -88,6 +90,7 @@ if (typeof window !== "undefined" && (window as any).Vue) {
 export default {
     install,
     Banner,
+    BannerBox,
     ImageGroup,
     GoodsList,
     GoodsTest,

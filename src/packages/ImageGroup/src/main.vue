@@ -191,6 +191,7 @@ export default {
     .default {
       box-sizing: border-box;
       padding: 10px;
+      background-color: #fff;
       p {
         height: 0;
         padding-top: 75%;

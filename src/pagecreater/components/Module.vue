@@ -189,6 +189,7 @@ export default {
     box-sizing: border-box;
     border: 1px dashed #ddd;
     flex: 0 0 100%;
+    background-color: #fff;
   }
   .placeholder {
     height: 40px;
@@ -206,6 +207,8 @@ export default {
   border: 1px dashed #ddd;
   .slot-cont {
     padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .modulectrl {
     background-color: rgba(0, 0, 0, 0.4);
