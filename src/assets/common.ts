@@ -52,3 +52,27 @@ export function debounceFc(func: any, wait: number) {
         }, wait);
     };
 }
+
+export function lazyLoad() {
+    const config = {
+        root: null, // 根元素，默认为浏览器视口
+        rootMargin: '0px', // 上下滑动的时候 要超过100px才会生成通知
+        threshold: 0 // 越过绑定元素的比例
+    }
+    
+    let observer = new IntersectionObserver(function (entries) {
+        entries.forEach(v => {
+            // 判断是否进入视图区
+            if(v.isIntersecting) {
+                console.log('lazyload trigger')
+                let img = v.target.getAttribute('data-src');
+                v.target.setAttribute('src', img!);
+                // 解除绑定
+                observer.unobserve(v.target);
+                console.log('lazyload off')
+            }
+        })
+    }, config);
+
+    return observer;
+}

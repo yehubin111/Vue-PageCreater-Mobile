@@ -3,10 +3,23 @@ import App from './App.vue';
 import router from './router';
 import HsModule from '@/packages';
 import Plugins from '@/assets/installPlugins.js';
+import { lazyLoad } from '@/assets/common';
 import 'vant/lib/toast/style';
 
-Vue.use(Plugins); 
+Vue.use(Plugins);
 Vue.use(HsModule);
+
+const observer = lazyLoad();
+
+Vue.directive('load', {
+    bind(el, binding, vnode) {
+
+    },
+    inserted(el, binding, vnode) {
+        console.log(el, binding, vnode);
+        observer.observe(el);
+    }
+})
 
 new Vue({
     router,
