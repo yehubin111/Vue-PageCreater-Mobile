@@ -16,7 +16,6 @@ Vue.directive('load', {
 
     },
     inserted(el, binding, vnode) {
-        console.log(el, binding, vnode);
         observer.observe(el);
     }
 })
