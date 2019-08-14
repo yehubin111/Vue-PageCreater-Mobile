@@ -44,6 +44,14 @@ export default {
                 if (me[v] !== undefined) {
                     if (typeof info[v]['child'] == 'object') {
                         let type = Array.isArray(info[v]['child']) ? "Array" : "Object";
+                        // 数组特殊情况 info初始化数量与props对应字段数量不同
+                        if (type == 'Array') {
+                            let infoobj = info[v]['child'][0];
+                            info[v]['child'] = [];
+                            while(info[v]['child'].length < me[v].length) {
+                                info[v]['child'].push(infoobj);
+                            }
+                        }
                         obj[v] = {
                             ...info[v],
                             child: _that.$getConfig(me[v], info[v]['child'], type)
