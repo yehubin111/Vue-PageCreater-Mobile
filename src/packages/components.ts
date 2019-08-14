@@ -20,6 +20,12 @@ const components: Components[] = [
         show: true,
     },
     {
+        name: 'BannerBox',
+        moduleName: 'HsBannerBox',
+        component: [],
+        show: false,
+    },
+    {
         name: 'ImageGroup',
         moduleName: 'HsImageGroup',
         show: true,
