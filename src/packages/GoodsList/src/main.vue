@@ -28,7 +28,7 @@
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
-          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FnflM1EXyD3c0x_Wf4KXGAY6HVyo" alt />
+          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
           <div
             class="tag"
             :class="tagPosition"
@@ -97,7 +97,7 @@
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
-          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FnflM1EXyD3c0x_Wf4KXGAY6HVyo" alt />
+          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
           <div
             class="tag"
             :class="tagPosition"
@@ -166,7 +166,7 @@
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
-          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FnflM1EXyD3c0x_Wf4KXGAY6HVyo" alt />
+          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
         </div>
         <div class="infoall">
           <p
