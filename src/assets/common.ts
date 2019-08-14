@@ -64,12 +64,12 @@ export function lazyLoad() {
         entries.forEach(v => {
             // 判断是否进入视图区
             if(v.isIntersecting) {
-                console.log('lazyload trigger')
+                // console.log('lazyload trigger')
                 let img = v.target.getAttribute('data-src');
                 v.target.setAttribute('src', img!);
                 // 解除绑定
                 observer.unobserve(v.target);
-                console.log('lazyload off')
+                // console.log('lazyload off')
             }
         })
     }, config);
