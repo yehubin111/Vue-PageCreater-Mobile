@@ -23,7 +23,7 @@ const components: Components[] = [
         name: 'BannerBox',
         moduleName: 'HsBannerBox',
         component: [],
-        show: false,
+        show: true,
     },
     {
         name: 'ImageGroup',
