@@ -192,7 +192,7 @@ export default {
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         topicid: { name: "专题号", type: "input" },
-        count: { name: "数量", type: "input" },
+        count: { name: "商品数量", type: "input" },
         gap: { name: "商品间隔", type: "pxinput" },
         backgroundColor: { name: "背景色", type: "color" },
         brand: { name: "品牌", type: "switch", default: true },
