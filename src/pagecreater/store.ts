@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex, { MutationTree } from "vuex";
-import VuexPersistence from "vuex-persist";
-const vuexLocal: any = new VuexPersistence({
-  storage: window.localStorage
-});
+// import VuexPersistence from "vuex-persist";
+// const vuexLocal: any = new VuexPersistence({
+//   storage: window.localStorage
+// });
 
 Vue.use(Vuex);
 
