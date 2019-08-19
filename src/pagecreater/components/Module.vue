@@ -3,7 +3,7 @@
     tag="div"
     class="dragBox"
     :class="{
-      'dragAreaEdit': true
+      'dragAreaEdit': draggerbox
     }"
     :list="componentsconfig"
     @start="CHANGE_DRAGGERSTATUS(true)"
@@ -33,6 +33,7 @@
             :cindex="cindex !== undefined && cindex !== null?`${cindex}-${i}`:i"
             :sloter="sloter"
             :onfocus="onfocus && onindex == i.toString()"
+            :draggerbox="temp.component.length == 0"
             @dragComponent="_dragModule"
             @delComponent="_delComponent"
             @selectComponent="_selectComponent"
@@ -69,6 +70,10 @@ export default {
     },
     sloter: {
       type: Object
+    },
+    draggerbox: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -195,9 +200,9 @@ export default {
     height: 40px;
   }
 }
-.page > .dragBox::after {
-  display: none;
-}
+// .page > .dragBox::after {
+//   display: none;
+// }
 .dragger-on {
   opacity: 0.5;
   background-color: #c8ebfb;

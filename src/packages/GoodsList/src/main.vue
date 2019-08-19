@@ -332,7 +332,7 @@ export default {
         backgroundColor: { name: "背景色", type: "color" },
         topicid: { name: "专题号", type: "input" },
         columnCount: { name: "列数", type: "radio" },
-        count: { name: "商品数", type: "input" },
+        count: { name: "首屏商品数", type: "input" },
         gap: { name: "商品间隔", type: "pxinput" },
         tag_1_text: { name: "标签", type: "input" },
         tag_1_color: {

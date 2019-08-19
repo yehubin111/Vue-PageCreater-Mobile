@@ -36,7 +36,7 @@ export default {
       keyOption: {
         url: { name: "图片", type: "fileupload" },
         padding: { name: "边距（上 左右 下）", type: "padding" },
-        position: { name: "定位", type: "radio" }
+        position: { name: "子元素定位", type: "radio" }
       }
     };
   },
