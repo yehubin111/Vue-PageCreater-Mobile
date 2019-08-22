@@ -33,7 +33,7 @@
           JSON.stringify({
             props: {},
             ...n
-          })
+          }) 
         );
       },
       holeConfig() {
