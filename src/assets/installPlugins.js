@@ -37,6 +37,7 @@ export default {
         }
         // 初始化获取info
         Vue.prototype.$getConfig = function (me, info, type) {
+            console.log('getconfig');
             let _that = this;
             let obj = type == 'Array' ? [] : {};
             Object.keys(info).forEach((v) => {
