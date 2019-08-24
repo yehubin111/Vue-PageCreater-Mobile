@@ -196,6 +196,8 @@ export default {
     flex: 0 0 100%;
     background-color: #fff;
   }
+}
+.dragBox {
   .placeholder {
     height: 40px;
   }
