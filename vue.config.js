@@ -18,9 +18,9 @@ module.exports = {
   },
   configureWebpack: config => {
     // 性能检测，文件大小超过最大限制，会提示
-    // config.performance = {
-    //     hints: false
-    // };
+    config.performance = {
+        hints: false
+    };
     config.resolve = {
       extensions: [".js", ".vue", ".json", ".css", "svg", ".ts"],
       alias: {
