@@ -1,7 +1,7 @@
 // 一些需要补充单位的属性 key: unit
-export const unitKey: UnitKey = {
-  padding: "px"
-};
+// export const unitKey: UnitKey = {
+//   padding: "px"
+// };
 // 全局配置
 export const globalInfo: GlobalInfoStyle = {
   title: { name: "标题", default: "", type: "input" },
@@ -65,15 +65,15 @@ export const radioSelect: RadioSelect = {
 };
 
 interface RadioSelectChild {
-  [index: string]: string | number;
+  [propName: string]: string | number;
 }
 interface RadioSelect {
-  [index: string]: RadioSelectChild[];
+  [propName: string]: RadioSelectChild[];
 }
 
-interface UnitKey {
-  [index: string]: string;
-}
+// interface UnitKey {
+//   [propName: string]: string;
+// }
 
 interface GlobalInfoStyleChild {
   name: string;
@@ -83,5 +83,5 @@ interface GlobalInfoStyleChild {
   type?: string;
 }
 interface GlobalInfoStyle {
-  [index: string]: GlobalInfoStyleChild;
+  [propName: string]: GlobalInfoStyleChild;
 }

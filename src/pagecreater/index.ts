@@ -5,13 +5,19 @@ import store from './store';
 import ElmentUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import HsModule from '@/packages';
+import Mixins from './mixins';
 import Plugins from '@/assets/installPlugins.js';
 import { lazyLoad } from '@/assets/common';
 import 'vant/lib/toast/style';
 
 Vue.use(Plugins);
-Vue.use(HsModule);
 Vue.use(ElmentUI);
+// 混入初始化获取config
+Object.keys(HsModule).forEach(v => {
+    if(v != 'install')
+        (HsModule as any)[v].mixins = [Mixins];
+})
+Vue.use(HsModule);
 
 const observer = lazyLoad();
 

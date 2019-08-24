@@ -25,7 +25,7 @@
         :sloter="sloter"
         @initConfig="initConfig"
       >
-        <template v-if="temp.component" slot-scope="sloter">
+        <template v-if="temp.component" #default="sloter">
           <module
             class="slot-cont"
             :componentsconfig="temp.component"
