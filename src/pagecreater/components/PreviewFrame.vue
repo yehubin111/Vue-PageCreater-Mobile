@@ -110,21 +110,18 @@ export default {
         }
         this.editstatus = true;
         this.index = n !== undefined ? `${n}-${i}` : i;
+        // console.log(`%c${this.index}`, 'color: green;font-size: 20px');
         await this.toWait();
         // 如果有component，依次添加
-        if (component) {
-          this.editInit(component, i);
+        if (component) {         
+          await this.editInit(component, this.index);
         }
       }
+      Promise.resolve('wait');
     },
     toWait() {
-      return new Promise((resolve, reject) => {
-        setInterval(() => {
-          if (!this.editstatus) {
-            resolve("wait");
-          }
-        });
-      });
+      if (!this.editstatus) 
+        Promise.resolve('wait');
     },
     // 更换组件顺序回调
     dragComponent(type, newindex, oldindex) {
