@@ -296,6 +296,9 @@ export default {
       axios.get(url).then(res => {
         console.log(res);
         this.list = res.data.productsList;
+        this.list.forEach(v => {
+          v.mainPicAddress += '?imageView2/0/w/400';
+        })
       });
     },
     toGoodsDetialPage(productId) {
