@@ -507,6 +507,9 @@ export default {
         .replace("{pageOffset}", this.pageOffset);
       axios.get(url).then(res => {
         let r = res.data.productsList;
+        r.forEach(v => {
+          v.mainPicAddress += '?imageView2/0/w/400'
+        })
         this.list = this.list.concat(r);
         this.pageOffset += parseInt(this.pageSize);
         if (res.count <= this.pageOffset) {
