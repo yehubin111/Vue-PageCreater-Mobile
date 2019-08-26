@@ -1,9 +1,10 @@
 
 import { typeJudge } from './common';
+import { CompInfo, InfoObject, ComConfig } from '@/pagecreater/types';
 export default {
-    install(Vue) {
+    install(Vue: any) {
         // info to config
-        Vue.prototype.$i2c = function (info, type) {
+        Vue.prototype.$i2c = function (info: InfoObject | Array<CompInfo>, type?: string): ComConfig {
             let config = type == 'Array' ? [] : {};
             Object.keys(info).forEach(v => {
                 let childtype = typeJudge(info[v].child);
@@ -48,7 +49,7 @@ export default {
                         if (type == 'Array') {
                             let infoobj = info[v]['child'][0];
                             info[v]['child'] = [];
-                            while(info[v]['child'].length < me[v].length) {
+                            while (info[v]['child'].length < me[v].length) {
                                 info[v]['child'].push(infoobj);
                             }
                         }

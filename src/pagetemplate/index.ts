@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import HsModule from '@/packages';
-import Plugins from '@/assets/installPlugins.js';
+import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
 import 'vant/lib/toast/style';
 
