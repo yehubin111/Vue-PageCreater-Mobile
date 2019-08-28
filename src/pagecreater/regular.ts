@@ -1,11 +1,11 @@
-import { CompInfo, InfoObject, ComConfig } from '@/pagecreater/types';
+import { Info } from '@/pagecreater/types';
 
 // 一些需要补充单位的属性 key: unit
 // export const unitKey: UnitKey = {
 //   padding: "px"
 // };
 // 全局配置
-export const globalInfo: InfoObject = {
+export const globalInfo: Info = {
   title: { name: "标题", default: "", type: "input" },
   styles: {
     name: "样式",

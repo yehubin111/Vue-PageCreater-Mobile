@@ -1,11 +1,7 @@
 
-interface Components {
-    name: string;
-    moduleName: string;
-    component?: Components[];
-    show?: boolean;
-}
-const components: Components[] = [
+import { Config } from '@/pagecreater/types';
+
+const components: Config[] = [
     {
         name: 'Banner',
         moduleName: 'HsBanner',
