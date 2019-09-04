@@ -63,7 +63,7 @@ export function getUserToken() {
     try {
         switch (DeviceType) {
             case 'Android':
-                (window as any).JSInterface.getAppToken();
+                (window as any).JSInterface.getAppToken('1');
                 break;
             case 'IOS':
                 (window as any).webkit.messageHandlers.getAppToken.postMessage(null);
