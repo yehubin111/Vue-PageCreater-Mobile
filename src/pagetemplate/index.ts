@@ -28,13 +28,7 @@ Vue.directive('load', {
 })
 
 new Vue({
-    el: '#app',
     router,
     template: '<App/>',
-    components: { App }
-})
-// new Vue({
-//     router,
-//     template: '<App/>',
-//     components: { App },
-// }).$mount('#app');
+    components: { App },
+}).$mount('#app');

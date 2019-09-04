@@ -9,7 +9,6 @@ import axios from "axios";
 import { getSearch } from "@/assets/common";
 import Module from "./Module";
 import { hsChangeTitle } from "@/packages/phonePlugins";
-// import Toast from "vant/lib/toast";
 export default {
   data() {
     return {
@@ -22,9 +21,7 @@ export default {
     Module
   },
   created() {
-    // let pageid = this.$route.params.pageid;
     let pageid = getSearch('pageid');
-    // Toast(pageid);
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
