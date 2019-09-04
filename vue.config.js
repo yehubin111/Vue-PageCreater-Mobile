@@ -7,7 +7,7 @@ function resolve(dir) {
 module.exports = {
   lintOnSave: false,
   pages: {
-    pagetemplate: {
+    index: {
       entry: "./src/pagetemplate/index.ts",
       template: "./src/pagetemplate/index.html"
     },

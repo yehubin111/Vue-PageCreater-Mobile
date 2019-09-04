@@ -15,19 +15,24 @@ export default new Router({
         //     component: index,
         // },
         {
-            path: '/pagetemplate/:pageid',
-            name: 'pagetemplate',
-            component: index,
-            // redirect: () => {
-            //     return '/pagetemplate/index';
-            // },
-            // children: [
-            //     {
-            //         path: 'index/:pageid',
-            //         name: 'index',
-            //         component: index,
-            //     },
-            // ],
+            path: '/',
+            name: 'index',
+            component: pagetemplate,
+            redirect: () => {
+                return '/pagetemplate';
+            },
+            children: [
+                {
+                    path: 'pagetemplate/:pageid',
+                    name: 'pagetemplate',
+                    component: index,
+                },
+            ],
         },
+        // {
+        //     path: '/pagetemplate/:pageid',
+        //     name: 'pagetemplate',
+        //     component: index,
+        // },
     ],
 });
