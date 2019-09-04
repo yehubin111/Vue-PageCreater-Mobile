@@ -1,5 +1,4 @@
-// import Vue from 'vue';
-import Vue from 'vue/dist/vue.js'
+import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import HsModule from '@/packages';
@@ -10,14 +9,14 @@ import 'vant/lib/toast/style';
 Vue.use(Plugins);
 Vue.use(HsModule);
 
-const observer = lazyLoad();
+// const observer = lazyLoad();
 
 Vue.directive('load', {
     bind(el, binding, vnode) {
 
     },
     inserted(el, binding, vnode) {
-        observer.observe(el);
+        // observer.observe(el);
     }
 })
 
