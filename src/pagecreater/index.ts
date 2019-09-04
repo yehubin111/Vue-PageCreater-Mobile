@@ -19,14 +19,21 @@ Object.keys(HsModule).forEach(v => {
 })
 Vue.use(HsModule);
 
-const observer = lazyLoad();
+let observer: any = null;
+if(typeof IntersectionObserver != 'undefined')
+    observer= lazyLoad();
 
 Vue.directive('load', {
     bind(el, binding, vnode) {
 
     },
     inserted(el, binding, vnode) {
-        observer.observe(el);
+        if(observer)
+            observer.observe(el);
+        else {
+            let img = el.getAttribute('data-src');
+            el.setAttribute('src', img!);
+        }
     }
 })
 
