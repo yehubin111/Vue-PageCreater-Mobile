@@ -1,4 +1,5 @@
-import Vue from 'vue';
+// import Vue from 'vue';
+import Vue from 'vue/dist/vue.js'
 import App from './App.vue';
 import router from './router';
 import HsModule from '@/packages';
@@ -21,7 +22,13 @@ Vue.directive('load', {
 })
 
 new Vue({
+    el: '#app',
     router,
     template: '<App/>',
-    components: { App },
-}).$mount('#app');
+    components: { App }
+})
+// new Vue({
+//     router,
+//     template: '<App/>',
+//     components: { App },
+// }).$mount('#app');

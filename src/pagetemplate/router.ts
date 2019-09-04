@@ -1,4 +1,5 @@
-import Vue from 'vue';
+// import Vue from 'vue';
+import Vue from 'vue/dist/vue.js'
 import Router from 'vue-router';
 
 // import index from './components/Index.vue';
@@ -13,7 +14,7 @@ export default new Router({
             path: '/',
             name: 'index',
             component: pagetemplate,
-        },
+        }
         // {
         //     path: '/',
         //     name: 'index',
