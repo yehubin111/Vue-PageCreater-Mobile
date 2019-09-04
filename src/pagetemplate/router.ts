@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import pagetemplate from './components/Index.vue';
-import index from './components/Template.vue';
+import index from './components/Index.vue';
+import pagetemplate from './components/Template.vue';
 
 Vue.use(Router);
 
@@ -17,7 +17,7 @@ export default new Router({
         {
             path: '/',
             name: 'index',
-            component: pagetemplate,
+            component: index,
             redirect: () => {
                 return '/pagetemplate';
             },
@@ -25,7 +25,7 @@ export default new Router({
                 {
                     path: 'pagetemplate/:pageid',
                     name: 'pagetemplate',
-                    component: index,
+                    component: pagetemplate,
                 },
             ],
         },
