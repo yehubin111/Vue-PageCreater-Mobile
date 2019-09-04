@@ -23,7 +23,7 @@ export default {
   created() {
     let pageid = getSearch("pageid");
     let url = `${this.baseurl}/${pageid}`;
-    axios.get(url).then(res => {
+    axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
     });
   },
