@@ -6,7 +6,7 @@ import ElmentUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import HsModule from '@/packages';
 import Mixins from './mixins';
-import Plugins from '@/assets/installPlugins.js';
+import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
 import 'vant/lib/toast/style';
 

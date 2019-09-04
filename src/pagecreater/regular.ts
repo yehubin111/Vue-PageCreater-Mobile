@@ -1,9 +1,11 @@
+import { Info } from '@/pagecreater/types';
+
 // 一些需要补充单位的属性 key: unit
 // export const unitKey: UnitKey = {
 //   padding: "px"
 // };
 // 全局配置
-export const globalInfo: GlobalInfoStyle = {
+export const globalInfo: Info = {
   title: { name: "标题", default: "", type: "input" },
   styles: {
     name: "样式",
@@ -69,19 +71,4 @@ interface RadioSelectChild {
 }
 interface RadioSelect {
   [propName: string]: RadioSelectChild[];
-}
-
-// interface UnitKey {
-//   [propName: string]: string;
-// }
-
-interface GlobalInfoStyleChild {
-  name: string;
-  key?: string;
-  default?: string;
-  child?: GlobalInfoStyle;
-  type?: string;
-}
-interface GlobalInfoStyle {
-  [propName: string]: GlobalInfoStyleChild;
 }

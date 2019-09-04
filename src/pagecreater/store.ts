@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex, { MutationTree } from "vuex";
+import { Config } from '@/pagecreater/types';
 // import VuexPersistence from "vuex-persist";
 // const vuexLocal: any = new VuexPersistence({
 //   storage: window.localStorage
@@ -8,12 +9,9 @@ import Vuex, { MutationTree } from "vuex";
 Vue.use(Vuex);
 
 interface State {
-    componentsconfig: any[];
+    componentsconfig: Config[];
     qiniutoken: string;
     dragStatus: boolean;
-}
-interface DragComponentConfig {
-  config: any[];
 }
 
 const state: State = {
@@ -22,7 +20,7 @@ const state: State = {
     dragStatus: false,
 };
 const mutations: MutationTree<State> = {
-    ADD_COMPONENTCONFIG(state, config) {
+    ADD_COMPONENTCONFIG(state, config: Config) {
         state.componentsconfig.push(config);
     },
     EDIT_COMPONENTCONFIG(state, { index, config }) {

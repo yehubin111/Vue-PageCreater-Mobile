@@ -6,6 +6,7 @@
     var srcFilterTags = ['script', 'iframe'];
     // 域名白名单 可以加多个
     var whiteList = ['chunk-common', 'chunk-vendors', 'pagetemplate', 'httpHijacked'];
+    var whiteSign = 'shendun-eddy'; // 页面内script白名单标识
     var whiteListReg = [];
 
     // 正则匹配
@@ -16,7 +17,7 @@
     // 白名单助手
     var inWhileList = function (addedNode) {
         // shendun-eddy 是script的白名单标签
-        if (addedNode.src === '' && addedNode.getAttribute('shendun-eddy') !== null) {
+        if (addedNode.src === '' && addedNode.getAttribute(whiteSign) !== null) {
             return true;
         }
 
