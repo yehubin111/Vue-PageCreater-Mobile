@@ -21,7 +21,7 @@ export default {
     Module
   },
   created() {
-    let pageid = getSearch("pageid");
+    let pageid = getSearch('pageid');
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
