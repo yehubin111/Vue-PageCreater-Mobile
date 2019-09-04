@@ -22,8 +22,9 @@ export default {
     Module
   },
   created() {
+    Toast(location.href);
     let pageid = getSearch("pageid");
-    Toast(pageid);
+    // Toast(pageid);
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
