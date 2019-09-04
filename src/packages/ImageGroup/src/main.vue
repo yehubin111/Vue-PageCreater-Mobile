@@ -137,6 +137,7 @@ export default {
     if (this.clickEvent == "couponid") {
       getUserToken();
       window.jsGetAppToken = token => {
+        Toast('------' + token);
         this.userToken = token; // Android可以获取到, IOS获取为空
       };
     }
