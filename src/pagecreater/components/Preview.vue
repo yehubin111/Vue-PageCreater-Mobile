@@ -116,8 +116,7 @@ export default {
         inputErrorMessage: "地址不正确"
       })
         .then(({ value }) => {
-          
-          let key = getSearch("pageid", value);
+          let key = getSearch("pageid", decodeURIComponent(value));
           this.$emit("pageEdit", key);
         })
         .catch(() => {
