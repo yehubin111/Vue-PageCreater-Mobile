@@ -99,7 +99,7 @@ export default {
     },
     backgroundOn: {
       type: String,
-      default: "http://p7.highstreet.top/Fsy6R8Lkdvfg-B24xt0KQ2K8AZ_P"
+      default: "http://p7.highstreet.top/FkenwUzPp7JPjDVxr2FIr9GmsUrE"
     },
     buttonUrl: {
       type: String,
