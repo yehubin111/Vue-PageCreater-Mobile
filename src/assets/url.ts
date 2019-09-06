@@ -34,7 +34,7 @@ export const getBaseUrl: GetBaseUrl = function () {
         case 'testing':
             base['web'] = ''; // http://dev-web-yuncang.highstreet.top
             base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top'; // 
-            base['weex'] = 'http://test.weex.yuncang.highstreet.top';
+            base['weex'] = 'http://dev-weex-yuncang.highstreet.top';
             // base['out'] = '';
             break;
         case 'production':
