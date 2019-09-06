@@ -204,9 +204,10 @@ export default {
         day: "今天您还有{count}次抽奖机会",
         total: "您有{count}次抽奖机会"
       };
+      let left = this.countleft - this.countuse;
       return info[this.counttype].replace(
         "{count}",
-        this.countleft - this.countuse
+        left < 0 ? 0 : left
       );
     }
   },
