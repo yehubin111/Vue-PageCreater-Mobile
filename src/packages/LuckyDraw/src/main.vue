@@ -14,7 +14,7 @@
             <!-- <div class="lucky-default" v-if="!lk">
               <img src="http://p7.highstreet.top/FpzTudN9Ol95xpDFVAYoF6N6Qw3O" alt />
             </div> -->
-            <div class="lucky-goods column-flex ac jc">
+            <div class="lucky-goods column-flex ac jc" v-if="lk">
               <p class="lucky-icon row-flex ac jc">
                 <img :src="lk.pic" alt />
               </p>
