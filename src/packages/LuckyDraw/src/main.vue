@@ -265,9 +265,14 @@ export default {
             Toast(r.msg);
           }
           return false;
+        } else if (r.code == 0)
+          // 云朵次数判断
+          return this.luckyCheck();
+        else {
+          Toast(r.msg);
+          return false;
         }
-        // 云朵次数判断
-        return this.luckyCheck();
+          
       });
     },
     luckyCheck() {
