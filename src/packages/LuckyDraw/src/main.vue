@@ -11,10 +11,10 @@
             class="lucksel column-flex ac jc"
             :style="{'background-image': present == index ? `url(${backgroundOn})` : 'none'}"
           >
-            <div class="lucky-default" v-if="!lk">
+            <!-- <div class="lucky-default" v-if="!lk">
               <img src="http://p7.highstreet.top/FpzTudN9Ol95xpDFVAYoF6N6Qw3O" alt />
-            </div>
-            <div class="lucky-goods column-flex ac jc" v-else>
+            </div> -->
+            <div class="lucky-goods column-flex ac jc">
               <p class="lucky-icon row-flex ac jc">
                 <img :src="lk.pic" alt />
               </p>
