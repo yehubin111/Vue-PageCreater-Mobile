@@ -34,8 +34,9 @@ AXIOS.interceptors.request.use(
         // 获取token
         if (!config.headers.Authorization) {
             config.headers.Authorization = await getToken();
+            Toast('--' + config.headers.Authorization);
         }
-        Toast(config.headers.Authorization);
+       
         return config;
     }
 )
