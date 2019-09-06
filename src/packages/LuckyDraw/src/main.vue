@@ -230,7 +230,7 @@ export default {
     getUserToken() {
       getUserToken();
       window.jsGetAppToken = usertoken => {
-        this.header.Authorization = usertoken;
+        this.header.headers.Authorization = usertoken;
       };
     },
     async infoInit() {
