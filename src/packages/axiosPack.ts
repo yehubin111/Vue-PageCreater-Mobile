@@ -20,7 +20,7 @@ const getToken = (function() {
         else {
             getUserToken();
             (window as any).jsGetAppToken = (usertoken: string) => {
-                Toast('--' + usertoken);
+                Toast('---' + usertoken);
                 token = usertoken;
                 Promise.resolve(token);
             }
