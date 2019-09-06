@@ -253,6 +253,7 @@ export default {
       let params = {
         id: this.luckId
       };
+      Toast(JSON.stringify(this.header));
       return _axios.post(URL.luckycheck, params, this.header).then(res => {
         let r = res.data;
         // 弹窗
