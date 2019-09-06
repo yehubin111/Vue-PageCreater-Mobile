@@ -35,6 +35,7 @@ AXIOS.interceptors.request.use(
         if (!config.headers.Authorization) {
             config.headers.Authorization = await getToken();
         }
+        Toast(config.headers);
         return config;
     }
 )
