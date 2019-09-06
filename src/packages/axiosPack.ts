@@ -1,24 +1,40 @@
 import axios from 'axios'
 import Toast from 'vant/lib/toast';
+import { getUserToken } from "@/packages/phonePlugins";
 
 const AXIOS = axios.create({
     // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
     timeout: 10000,
-    // headers: {
-    //     'X-Token': localStorage.getItem('atom_token')
-    // },
+    headers: {
+        Platform: "2",
+        // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
+    },
     // loadDom: ''
 })
+
+const getToken = (function() {
+    let token = "";
+    return function () {
+        if (token)
+            Promise.resolve(token);
+        else {
+            getUserToken();
+            (window as any).jsGetAppToken = (usertoken: string) => {
+                token = usertoken;
+                Promise.resolve(token);
+            }
+        }
+    }
+})();
 
 // let LOAD;
 // request拦截器
 AXIOS.interceptors.request.use(
-    config => {
-        // 请求拦截，加入loading
-        // if (config.loadDom || config.fullscreen) {
-        //     let dom = document.getElementById(config.loadDom);
-        //     LOAD = Loading.service({ target: dom, fullscreen: config.fullscreen });
-        // }
+    async config => {
+        // 获取token
+        if (!config.headers.Authorization) {
+            config.headers.Authorization = await getToken();
+        }
         return config;
     }
 )

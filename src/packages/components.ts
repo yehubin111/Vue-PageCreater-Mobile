@@ -49,6 +49,11 @@ const components: Config[] = [
         moduleName: 'HsPlaceholder',
         show: true,
     },
+    {
+        name: 'LuckyDraw',
+        moduleName: 'HsLuckyDraw',
+        show: true
+    },
 ];
 
 export default components;
