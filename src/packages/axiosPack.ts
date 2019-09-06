@@ -12,19 +12,22 @@ const AXIOS = axios.create({
     // loadDom: ''
 })
 
-const getToken = (function() {
+const getToken = (function () {
     let token = "";
     return function () {
-        if (token)
-            Promise.resolve(token);
-        else {
-            getUserToken();
-            (window as any).jsGetAppToken = (usertoken: string) => {
-                Toast('---' + usertoken);
-                token = usertoken;
-                Promise.resolve(token);
+        return new Promise((resolve, reject) => {
+            if (token)
+                resolve(token);
+            else {
+                getUserToken();
+                (window as any).jsGetAppToken = (usertoken: string) => {
+                    Toast('---' + usertoken);
+                    token = usertoken;
+                    resolve(token);
+                }
             }
-        }
+        })
+
     }
 })();
 
@@ -35,9 +38,9 @@ AXIOS.interceptors.request.use(
         // 获取token
         if (!config.headers.Authorization) {
             config.headers.Authorization = await getToken();
-            
+
         }
-       
+
         return config;
     }
 )
