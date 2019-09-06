@@ -8,8 +8,7 @@ const AXIOS = axios.create({
     headers: {
         Platform: "2",
         // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
-    },
-    // loadDom: ''
+    }
 })
 
 const getToken = (function () {
@@ -26,11 +25,9 @@ const getToken = (function () {
                 }
             }
         })
-
     }
 })();
 
-// let LOAD;
 // request拦截器
 AXIOS.interceptors.request.use(
     async config => {
@@ -48,7 +45,7 @@ AXIOS.interceptors.response.use(
     res => {
         let r = res.data;
         if (r.code && r.code != 0) {
-            // Toast(r.msg);
+            Toast(r.msg);
             return Promise.reject('error');
         } else {
             return r;
