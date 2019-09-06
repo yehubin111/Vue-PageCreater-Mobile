@@ -58,7 +58,7 @@
             <br />
             {{award.rewardinfo}}
           </p>
-          <p class="dialog-button" v-show="award.rewardtype != 4" @click="toLookOver">立即查看</p>
+          <p class="dialog-button" v-show="award.rewardType != 4" @click="toLookOver">立即查看</p>
         </div>
         <div class="dialog-cloud column-flex ac" v-else-if="resulttype == 2">
           <p class="dialog-button" @click="getCloud">立即赚云朵</p>
