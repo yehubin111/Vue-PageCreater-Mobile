@@ -13,7 +13,7 @@
           >
             <!-- <div class="lucky-default" v-if="!lk">
               <img src="http://p7.highstreet.top/FpzTudN9Ol95xpDFVAYoF6N6Qw3O" alt />
-            </div>-->
+            </div> -->
             <div class="lucky-goods column-flex ac jc" v-if="lk">
               <p class="lucky-icon row-flex ac jc">
                 <img :src="lk.pic" alt />
@@ -74,15 +74,9 @@
 <script>
 import axios from "@/packages/axiosPack";
 import _axios from "axios";
-import Toast from "vant/lib/toast";
+import Toast from 'vant/lib/toast';
 import { URL } from "@/assets/url";
-import {
-  getUserToken,
-  toScheme,
-  toMyCoupon,
-  toMyCloud,
-  toMyCard
-} from "@/packages/phonePlugins";
+import { getUserToken, toScheme, toMyCoupon, toMyCloud, toMyCard } from "@/packages/phonePlugins";
 
 export default {
   name: "HsLuckyDraw",
@@ -185,17 +179,12 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    // 获取token
-    // this.getUserToken();
-    getUserToken();
-    window.jsGetAppToken = usertoken => {
-      Toast(usertoken);
-      this.header.headers.Authorization = usertoken;
-    };
     // 初始化获取数据
     if (this.luckId) {
-      this.infoInit();
+      await this.infoInit();
     }
+    // 获取token 
+    this.getUserToken();
   },
   computed: {
     countStyle() {
@@ -245,11 +234,11 @@ export default {
         this.header.headers.Authorization = usertoken;
       };
     },
-    async infoInit() {
+    infoInit() {
       let params = {
         id: this.luckId
       };
-      axios.post(URL.luckydraw, params).then(res => {
+      return axios.post(URL.luckydraw, params).then(res => {
         let r = res.data;
         this.list = r.lotteryRewardVos;
         this.list.splice(this.buttonIndex, 0, null);
@@ -259,6 +248,8 @@ export default {
           r.lottery.timeInDay > 0
             ? r.lottery.timeInDay - r.todayTimes
             : r.lottery.timeInSum - r.sumTimes;
+
+        return res;
       });
     },
     validCheck() {
@@ -285,6 +276,7 @@ export default {
           Toast(r.msg);
           return false;
         }
+          
       });
     },
     luckyCheck() {
