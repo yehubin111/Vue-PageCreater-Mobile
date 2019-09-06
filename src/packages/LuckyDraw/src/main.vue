@@ -230,6 +230,7 @@ export default {
     getUserToken() {
       getUserToken();
       window.jsGetAppToken = usertoken => {
+        Toast(usertoken);
         this.header.headers.Authorization = usertoken;
       };
     },
