@@ -5,4 +5,5 @@ declare module '*.vue' {
 // declare module 'vue/types/vue'
 
 declare module '@/assets/installPlugins.js';
-declare module 'vant/lib/toast'
+declare module 'vant/lib/toast';
+declare module 'vant/lib/dialog';

@@ -4,13 +4,14 @@ import router from './router';
 import HsModule from '@/packages';
 import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
-import { Dialog, Toast } from 'vant';
+// import { Dialog, Toast } from 'vant';
+import Dialog from 'vant/lib/dialog';
 import 'vant/lib/index.css';
 
 Vue.use(Plugins);
 Vue.use(HsModule);
 Vue.use(Dialog);
-Vue.use(Toast);
+// Vue.use(Toast);
 
 let observer: any = null;
 if(typeof IntersectionObserver != 'undefined')

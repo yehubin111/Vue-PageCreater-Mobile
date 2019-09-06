@@ -74,6 +74,7 @@
 <script>
 import axios from "@/packages/axiosPack";
 import _axios from "axios";
+import Toast from 'vant/lib/toast';
 import { URL } from "@/assets/url";
 import { getUserToken, toScheme, toMyCoupon, toMyCloud, toMyCard } from "@/packages/phonePlugins";
 
@@ -178,7 +179,7 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    // 获取token
+    // 获取token 
     this.getUserToken();
     // 初始化获取数据
     if (this.luckId) {
@@ -261,7 +262,7 @@ export default {
             this.errordialog = true;
             this.errtype = 2;
           } else {
-            this.$toast(r.msg);
+            Toast(r.msg);
           }
           return false;
         }
