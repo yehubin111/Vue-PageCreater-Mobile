@@ -58,6 +58,22 @@ export function hsChangeTitle(title: string) {
     }
 }
 
+// 获取用户信息
+export function getUserInfo() {
+    try {
+        switch (DeviceType) {
+            case 'Android':
+                (window as any).JSInterface.getUserInfo();
+                break;
+            case 'IOS':
+                (window as any).webkit.messageHandlers.getUserInfo.postMessage(null);
+                break;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 // getUserInfo 获取用户token
 export function getUserToken() {
     try {

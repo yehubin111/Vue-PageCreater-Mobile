@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Toast from 'vant/lib/toast';
-import { getUserToken } from "@/packages/phonePlugins";
+import { getUserInfo } from "@/packages/phonePlugins";
 
 const AXIOS = axios.create({
     // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
@@ -18,9 +18,9 @@ const getToken = (function() {
         if (token)
             Promise.resolve(token);
         else {
-            getUserToken();
-            (window as any).jsGetAppToken = (usertoken: string) => {
-                token = usertoken;
+            getUserInfo();
+            (window as any).iosUserInfo = (json: string) => {
+                token = JSON.parse(json).token;
                 Promise.resolve(token);
             }
         }
