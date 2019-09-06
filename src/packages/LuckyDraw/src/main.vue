@@ -175,7 +175,7 @@ export default {
       }
     };
   },
-  mounted() {
+  async mounted() {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
