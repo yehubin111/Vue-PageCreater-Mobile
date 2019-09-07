@@ -176,7 +176,10 @@ export default {
       luckystart: null,
       header: {
         headers: {
-          Authorization: "0db0242aad6b5266fa7b61857ba34b22"
+          Authorization:
+            process.env.VUE_APP_URLBASE == "production"
+              ? "989c594b138a1ac42325706180f49010"
+              : "0db0242aad6b5266fa7b61857ba34b22"
         }
       }
     };
@@ -390,10 +393,11 @@ export default {
   },
   watch: {
     usertoken(n, o) {
+      console.log("gettoken", n);
       if (n) {
         this.header.headers.Authorization = n;
       }
-      if (this.luckId) {
+      if (this.header.headers.Authorization && this.luckId) {
         this.infoInit();
       }
     },
