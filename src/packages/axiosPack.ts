@@ -6,7 +6,6 @@ const AXIOS = axios.create({
     // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
     timeout: 10000,
     headers: {
-        Platform: "2",
         // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
     }
 })
@@ -32,9 +31,10 @@ const getToken = (function () {
 AXIOS.interceptors.request.use(
     async config => {
         // 获取token
-        if (!config.headers.Authorization) {
-            config.headers.Authorization = await getToken();
-        }
+        // if (config.token && !config.headers.Authorization) {
+        //     config.headers.Authorization = await getToken();
+        // }
+        // config.headers.Authorization = await getToken();
 
         return config;
     }
