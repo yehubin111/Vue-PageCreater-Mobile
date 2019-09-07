@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
+import store from './store';
 import HsModule from '@/packages';
 import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
@@ -33,6 +34,7 @@ Vue.directive('load', {
 
 new Vue({
     router,
+    store,
     template: '<App/>',
     components: { App },
 }).$mount('#app');

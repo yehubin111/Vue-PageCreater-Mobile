@@ -13,7 +13,7 @@
           >
             <!-- <div class="lucky-default" v-if="!lk">
               <img src="http://p7.highstreet.top/FpzTudN9Ol95xpDFVAYoF6N6Qw3O" alt />
-            </div> -->
+            </div>-->
             <div class="lucky-goods column-flex ac jc" v-if="lk">
               <p class="lucky-icon row-flex ac jc">
                 <img :src="lk.pic" alt />
@@ -74,9 +74,15 @@
 <script>
 import axios from "@/packages/axiosPack";
 import _axios from "axios";
-import Toast from 'vant/lib/toast';
+import Toast from "vant/lib/toast";
 import { URL } from "@/assets/url";
-import { getUserToken, toScheme, toMyCoupon, toMyCloud, toMyCard } from "@/packages/phonePlugins";
+import {
+  toScheme,
+  toMyCoupon,
+  toMyCloud,
+  toMyCard
+} from "@/packages/phonePlugins";
+import { mapState } from "vuex";
 
 export default {
   name: "HsLuckyDraw",
@@ -179,14 +185,9 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    // 初始化获取数据
-    if (this.luckId) {
-      await this.infoInit();
-    }
-    // 获取token 
-    this.getUserToken();
   },
   computed: {
+    ...mapState(["usertoken"]),
     countStyle() {
       return {
         color: this.font.color,
@@ -205,10 +206,7 @@ export default {
         total: "您有{count}次抽奖机会"
       };
       let left = this.countleft - this.countuse;
-      return info[this.counttype].replace(
-        "{count}",
-        left < 0 ? 0 : left
-      );
+      return info[this.counttype].replace("{count}", left < 0 ? 0 : left);
     }
   },
   methods: {
@@ -228,17 +226,11 @@ export default {
     getCloud() {
       toScheme(URL.taskcenter);
     },
-    getUserToken() {
-      getUserToken();
-      window.jsGetAppToken = usertoken => {
-        this.header.headers.Authorization = usertoken;
-      };
-    },
     infoInit() {
       let params = {
         id: this.luckId
       };
-      return axios.post(URL.luckydraw, params).then(res => {
+      return axios.post(URL.luckydraw, params, this.header).then(res => {
         let r = res.data;
         this.list = r.lotteryRewardVos;
         this.list.splice(this.buttonIndex, 0, null);
@@ -275,7 +267,6 @@ export default {
           Toast(r.msg);
           return false;
         }
-          
       });
     },
     luckyCheck() {
@@ -398,6 +389,14 @@ export default {
     }
   },
   watch: {
+    usertoken(n, o) {
+      if (n) {
+        this.header.headers.Authorization = n;
+      }
+      if (this.luckId) {
+        this.infoInit();
+      }
+    },
     luckId(n, o) {
       if (n) {
         this.debounceFunc();
