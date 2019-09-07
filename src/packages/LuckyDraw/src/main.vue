@@ -80,7 +80,8 @@ import {
   toScheme,
   toMyCoupon,
   toMyCloud,
-  toMyCard
+  toMyCard,
+  getUserToken
 } from "@/packages/phonePlugins";
 import { mapState } from "vuex";
 
@@ -185,7 +186,8 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    if (this.luckId && this.header.headers.Authorization) {
+    await this.getUserToken();
+    if (this.luckId) {
       this.infoInit();
     }
   },
@@ -213,6 +215,15 @@ export default {
     }
   },
   methods: {
+    getUserToken() {
+      return new Promise((resolve, reject) => {
+        getUserToken();
+        window.jsGetAppToken = token => {
+          this.header.headers.Authorization = token;
+          resolve();
+        };
+      });
+    },
     toLookOver() {
       // 跳转  我的优惠券, 会员卡...
       // 1 优惠券  2云朵 3会员卡  4实物
@@ -393,12 +404,12 @@ export default {
     }
   },
   watch: {
-    usertoken(n, o) {
-      this.header.headers.Authorization = n;
-      if (this.luckId) {
-        this.infoInit();
-      }
-    },
+    // usertoken(n, o) {
+    //   this.header.headers.Authorization = n;
+    //   if (this.luckId) {
+    //     this.infoInit();
+    //   }
+    // },
     luckId(n, o) {
       if (n) {
         this.debounceFunc();
