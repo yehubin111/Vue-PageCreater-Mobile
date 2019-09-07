@@ -226,6 +226,7 @@ export default {
     height: 20px;
     line-height: 20px;
     border-radius: 10px;
+    z-index: 10;
     i {
       cursor: pointer;
     }
