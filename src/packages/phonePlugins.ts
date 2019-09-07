@@ -94,7 +94,7 @@ export function getUserToken() {
         }
     } catch (e) {
         setTimeout(function(){
-            window.jsGetAppToken(userToken);
+            (window as any).jsGetAppToken(userToken);
         }, 300)
         console.log(e);
     }
