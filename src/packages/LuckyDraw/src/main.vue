@@ -185,6 +185,9 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
+    if (this.luckId && this.header.headers.Authorization) {
+      this.infoInit();
+    }
   },
   computed: {
     ...mapState(["usertoken"]),
@@ -391,7 +394,6 @@ export default {
   },
   watch: {
     usertoken(n, o) {
-      console.log(n);
       this.header.headers.Authorization = n;
       if (this.luckId) {
         this.infoInit();
