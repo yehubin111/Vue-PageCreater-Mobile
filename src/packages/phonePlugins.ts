@@ -88,14 +88,8 @@ export function getUserToken() {
             case 'IOS':
                 (window as any).webkit.messageHandlers.getAppToken.postMessage(null);
                 break;
-            default:
-                throw new Error('error');
-                break;
         }
     } catch (e) {
-        setTimeout(function(){
-            (window as any).jsGetAppToken(userToken);
-        }, 300)
         console.log(e);
     }
 }

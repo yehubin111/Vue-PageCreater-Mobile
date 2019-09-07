@@ -241,7 +241,6 @@ export default {
       toScheme(URL.taskcenter);
     },
     infoInit() {
-      Toast(JSON.stringify(this.header));
       let params = {
         id: this.luckId
       };
