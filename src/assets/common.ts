@@ -59,11 +59,11 @@ export function lazyLoad() {
         rootMargin: '0px', // 上下滑动的时候 要超过100px才会生成通知
         threshold: 0 // 越过绑定元素的比例
     }
-    
+
     let observer = new IntersectionObserver(function (entries) {
         entries.forEach(v => {
             // 判断是否进入视图区
-            if(v.isIntersecting || v.intersectionRatio > 0) {
+            if (v.isIntersecting || v.intersectionRatio > 0) {
                 // console.log('lazyload trigger');
                 let img = v.target.getAttribute('data-src');
                 v.target.setAttribute('src', img!);

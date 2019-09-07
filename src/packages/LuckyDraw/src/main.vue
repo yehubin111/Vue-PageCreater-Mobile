@@ -80,7 +80,8 @@ import {
   toScheme,
   toMyCoupon,
   toMyCloud,
-  toMyCard
+  toMyCard,
+  getUserToken
 } from "@/packages/phonePlugins";
 import { mapState } from "vuex";
 
@@ -176,10 +177,7 @@ export default {
       luckystart: null,
       header: {
         headers: {
-          Authorization:
-            process.env.VUE_APP_URLBASE == "production"
-              ? "989c594b138a1ac42325706180f49010"
-              : "0db0242aad6b5266fa7b61857ba34b22"
+          Authorization: ""
         }
       }
     };
@@ -187,6 +185,10 @@ export default {
   async mounted() {
     while (this.list.length < this.listlength) {
       this.list.push(null);
+    }
+    await this.getUserToken();
+    if (this.luckId) {
+      this.infoInit();
     }
   },
   computed: {
@@ -213,6 +215,15 @@ export default {
     }
   },
   methods: {
+    getUserToken() {
+      return new Promise((resolve, reject) => {
+        getUserToken();
+        window.jsGetAppToken = token => {
+          this.header.headers.Authorization = token;
+          resolve();
+        };
+      });
+    },
     toLookOver() {
       // 跳转  我的优惠券, 会员卡...
       // 1 优惠券  2云朵 3会员卡  4实物
@@ -392,15 +403,12 @@ export default {
     }
   },
   watch: {
-    usertoken(n, o) {
-      console.log("gettoken", n);
-      if (n) {
-        this.header.headers.Authorization = n;
-      }
-      if (this.header.headers.Authorization && this.luckId) {
-        this.infoInit();
-      }
-    },
+    // usertoken(n, o) {
+    //   this.header.headers.Authorization = n;
+    //   if (this.luckId) {
+    //     this.infoInit();
+    //   }
+    // },
     luckId(n, o) {
       if (n) {
         this.debounceFunc();
