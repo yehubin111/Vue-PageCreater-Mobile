@@ -10,22 +10,22 @@ const AXIOS = axios.create({
     }
 })
 
-const getToken = (function () {
-    let token = "";
-    return function () {
-        return new Promise((resolve, reject) => {
-            if (token)
-                resolve(token);
-            else {
-                getUserToken();
-                (window as any).jsGetAppToken = (usertoken: string) => {
-                    token = usertoken;
-                    resolve(token);
-                }
-            }
-        })
-    }
-})();
+// const getToken = (function () {
+//     let token = "";
+//     return function () {
+//         return new Promise((resolve, reject) => {
+//             if (token)
+//                 resolve(token);
+//             else {
+//                 getUserToken();
+//                 (window as any).jsGetAppToken = (usertoken: string) => {
+//                     token = usertoken;
+//                     resolve(token);
+//                 }
+//             }
+//         })
+//     }
+// })();
 
 // request拦截器
 AXIOS.interceptors.request.use(

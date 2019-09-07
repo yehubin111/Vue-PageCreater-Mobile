@@ -12,12 +12,14 @@ interface State {
     componentsconfig: Config[];
     qiniutoken: string;
     dragStatus: boolean;
+    usertoken: string;
 }
 
 const state: State = {
     componentsconfig: [],
     qiniutoken: '',
     dragStatus: false,
+    usertoken: ""
 };
 const mutations: MutationTree<State> = {
     ADD_COMPONENTCONFIG(state, config: Config) {
@@ -49,6 +51,9 @@ const mutations: MutationTree<State> = {
     CHANGE_DRAGGERSTATUS(state, status) {
         console.log(status);
         state.dragStatus = status;
+    },
+    SETUSERTOEKN(state, token) {
+        state.usertoken = token;
     }
 };
 const actions = {};
