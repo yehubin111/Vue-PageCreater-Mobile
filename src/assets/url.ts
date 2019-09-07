@@ -61,7 +61,8 @@ const url: Url = {
         luckycheck: '/api_yuncang/lottery/checkLotteryVaild', // 抽空校验
     },
     weex: {
-        taskcenter: '/taskcenter.js'
+        taskcenter: '/taskcenter.js', // 任务中心
+        secklist: '/secklist.js' // 秒杀列表
     }
 }
 let _url: Object = {};
