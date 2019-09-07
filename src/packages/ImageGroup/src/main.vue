@@ -18,7 +18,7 @@
 <script>
 import axios from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
-import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
+import { toGoodsDetial, toTopic, getUserToken, toScheme } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
 import { URL } from "@/assets/url";
 export default {
@@ -39,7 +39,8 @@ export default {
             topic: "",
             goodsdetail: "",
             h5link: "",
-            couponid: ""
+            couponid: "",
+            weexpage: "taskcenter"
           }
         ];
       }
@@ -73,7 +74,7 @@ export default {
         clickEvent: {
           name: "点击事件",
           type: "radio",
-          bind: ["alert", "topic", "goodsdetail", "h5link", "couponid"]
+          bind: ["alert", "topic", "goodsdetail", "h5link", "couponid", "weex"]
         },
         list: {
           name: "图片列表",
@@ -112,6 +113,11 @@ export default {
                 couponid: {
                   name: "优惠券",
                   type: "input",
+                  accept: "clickEvent"
+                },
+                weexpage: {
+                  name: "页面",
+                  type: "radio",
                   accept: "clickEvent"
                 }
               }
@@ -169,6 +175,9 @@ export default {
           break;
         case "couponid":
           this.getCoupon(i.couponid.trim());
+          break;
+        case "weex":
+          toScheme(URL[i.weexpage]);
           break;
       }
     }

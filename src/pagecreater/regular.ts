@@ -37,7 +37,12 @@ export const radioSelect: RadioSelect = {
     { key: "topic", value: "跳专题页" },
     { key: "goodsdetail", value: "跳商品详情页" },
     { key: "h5link", value: "跳h5链接" },
-    { key: "couponid", value: "优惠券" }
+    { key: "couponid", value: "优惠券" },
+    { key: "weex", value: "跳weex页面" }
+  ],
+  weexpage: [
+    { key: 'taskcenter', value: "任务中心" },
+    { key: 'secklist', value: "秒杀列表" }
   ],
   navcount: [
     { key: 1, value: "1项" },
