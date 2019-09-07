@@ -176,10 +176,7 @@ export default {
       luckystart: null,
       header: {
         headers: {
-          Authorization:
-            process.env.VUE_APP_URLBASE == "production"
-              ? "989c594b138a1ac42325706180f49010"
-              : "0db0242aad6b5266fa7b61857ba34b22"
+          Authorization: ""
         }
       }
     };
@@ -230,6 +227,7 @@ export default {
       toScheme(URL.taskcenter);
     },
     infoInit() {
+      Toast(JSON.stringify(this.header));
       let params = {
         id: this.luckId
       };
@@ -393,11 +391,9 @@ export default {
   },
   watch: {
     usertoken(n, o) {
-      console.log("gettoken", n);
-      if (n) {
-        this.header.headers.Authorization = n;
-      }
-      if (this.header.headers.Authorization && this.luckId) {
+      console.log(n);
+      this.header.headers.Authorization = n;
+      if (this.luckId) {
         this.infoInit();
       }
     },

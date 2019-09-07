@@ -74,6 +74,10 @@ export function getUserInfo() {
     }
 }
 
+// token
+export const userToken = process.env.VUE_APP_URLBASE == "production"
+    ? "989c594b138a1ac42325706180f49010"
+    : "0db0242aad6b5266fa7b61857ba34b22"
 // getUserInfo 获取用户token
 export function getUserToken() {
     try {
@@ -84,8 +88,14 @@ export function getUserToken() {
             case 'IOS':
                 (window as any).webkit.messageHandlers.getAppToken.postMessage(null);
                 break;
+            default:
+                throw new Error('error');
+                break;
         }
     } catch (e) {
+        setTimeout(function(){
+            window.jsGetAppToken(userToken);
+        }, 300)
         console.log(e);
     }
 }
