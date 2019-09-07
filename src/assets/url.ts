@@ -2,6 +2,7 @@ interface BaseUrl {
     web: string;
     mgr: string;
     out: string;
+    weex: string;
     [index: string]: string;
 }
 interface GetBaseUrl {
@@ -13,28 +14,33 @@ interface Object {
 interface Url {
     mgr: Object;
     web: Object;
+    weex: Object;
     [index: string]: Object;
 }
 export const getBaseUrl: GetBaseUrl = function () {
     let base = {
         web: '',
         mgr: '',
-        out: ''
+        out: '',
+        weex: ''
     };
     switch (process.env.VUE_APP_URLBASE) {
         case 'development':
             base['web'] = '';
             base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top'; //'http://dev-mgr-yuncang.highstreet.top';
+            base['weex'] = 'http://dev-weex-yuncang.highstreet.top';
             // base['out'] = '';
             break;
         case 'testing':
             base['web'] = ''; // http://dev-web-yuncang.highstreet.top
             base['mgr'] = 'http://dev-mgr-yuncang.highstreet.top'; // 
+            base['weex'] = 'http://dev-weex-yuncang.highstreet.top';
             // base['out'] = '';
             break;
         case 'production':
             base['web'] = ''; // http://web.yuncang.highstreet.top
             base['mgr'] = 'http://mgr.yuncang.highstreet.top'; // 
+            base['weex'] = 'http://weex.yuncang.highstreet.top';
             // base['out'] = '';
             break;
     }
@@ -49,7 +55,13 @@ const url: Url = {
     },
     web: {
         goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset={pageOffset}&pageSize={count}",
-        coupon: '/api_yuncang/coupon/drawCouponForWap'
+        coupon: '/api_yuncang/coupon/drawCouponForWap',
+        luckydraw: '/api_yuncang/lottery/getLottery', // 初始化抽奖
+        getaward: '/api_yuncang/lottery/drawLottery', // 获取奖品
+        luckycheck: '/api_yuncang/lottery/checkLotteryVaild', // 抽空校验
+    },
+    weex: {
+        taskcenter: '/taskcenter.js'
     }
 }
 let _url: Object = {};

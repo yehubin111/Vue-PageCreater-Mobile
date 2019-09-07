@@ -8,10 +8,14 @@ import HsModule from '@/packages';
 import Mixins from './mixins';
 import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
-import 'vant/lib/toast/style';
+// import { Dialog, Toast } from 'vant';
+import Dialog from 'vant/lib/dialog';
+import 'vant/lib/index.css';
 
 Vue.use(Plugins);
 Vue.use(ElmentUI);
+Vue.use(Dialog);
+// Vue.use(Toast);
 // 混入初始化获取config
 Object.keys(HsModule).forEach(v => {
     if(v != 'install')

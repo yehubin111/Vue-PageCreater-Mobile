@@ -7,6 +7,7 @@ import GoodsListOther from './GoodsListOther';
 import FloatNav from './FloatNav';
 import GoodsSlide from './GoodsSlide';
 import Placeholder from './Placeholder';
+import LuckyDraw from './LuckyDraw';
 
 const components = [
     Banner,
@@ -17,7 +18,8 @@ const components = [
     GoodsListOther,
     FloatNav,
     GoodsSlide,
-    Placeholder
+    Placeholder,
+    LuckyDraw
 ];
 
 const install = (Vue: any, opts = {}): void => {
@@ -40,5 +42,6 @@ export default {
     GoodsListOther,
     FloatNav,
     GoodsSlide,
-    Placeholder
+    Placeholder,
+    LuckyDraw
 };

@@ -20,7 +20,7 @@ import axios from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
 import { toGoodsDetial, toTopic, getUserToken } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
-import { URL } from "@/assets/url.ts";
+import { URL } from "@/assets/url";
 export default {
   name: "HsImageGroup",
   props: {
@@ -146,9 +146,7 @@ export default {
       let params = new FormData();
       params.append("cpBatchNumber", code);
       axios
-        .post(URL.coupon, params, {
-          headers: { Platform: "2", Authorization: this.userToken }
-        })
+        .post(URL.coupon, params)
         .then(res => {
           Toast(res.msg);
         });
