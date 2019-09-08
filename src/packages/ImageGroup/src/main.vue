@@ -116,7 +116,7 @@ export default {
                   accept: "clickEvent"
                 },
                 weexpage: {
-                  name: "页面",
+                  name: "跳转页面",
                   type: "radio",
                   accept: "clickEvent"
                 }

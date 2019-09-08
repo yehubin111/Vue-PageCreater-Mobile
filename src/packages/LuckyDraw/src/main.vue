@@ -316,7 +316,7 @@ export default {
       let params = {
         id: this.luckId
       };
-      axios.post(URL.getaward, params).then(res => {
+      axios.post(URL.getaward, params, this.header).then(res => {
         let r = res.data;
         let idx = this.list.find((v, i) => {
           if (v && v.id == r.id) {
