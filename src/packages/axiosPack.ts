@@ -30,6 +30,7 @@ const AXIOS = axios.create({
 // request拦截器
 AXIOS.interceptors.request.use(
     async config => {
+        Toast(navigator.userAgent);
         // 获取token
         // if (config.token && !config.headers.Authorization) {
         //     config.headers.Authorization = await getToken();
@@ -45,7 +46,7 @@ AXIOS.interceptors.response.use(
     res => {
         let r = res.data;
         if (r.code && r.code != 0) {
-            Toast(r.msg);
+            // Toast(r.msg);
             return Promise.reject('error');
         } else {
             return r;
