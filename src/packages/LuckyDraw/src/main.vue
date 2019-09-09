@@ -186,7 +186,7 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    await this.getUserToken();
+    // await this.getUserToken();
     if (this.luckId) {
       this.infoInit();
     }
@@ -244,7 +244,7 @@ export default {
       let params = {
         id: this.luckId
       };
-      return axios.post(URL.luckydraw, params, this.header).then(res => {
+      return axios.post(URL.luckydraw, params).then(res => {
         let r = res.data;
         this.list = r.lotteryRewardVos;
         this.list.splice(this.buttonIndex, 0, null);
