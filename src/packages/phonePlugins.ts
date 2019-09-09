@@ -74,6 +74,19 @@ export function getUserInfo() {
     }
 }
 
+// 获取用户token from userAgent
+export function getUserTokenFromUA() {
+    const userToken = process.env.VUE_APP_URLBASE == "production"
+        ? "989c594b138a1ac42325706180f49010"
+        : "0db0242aad6b5266fa7b61857ba34b22";
+
+    let token = navigator.userAgent.substr(-32);
+    if (token.indexOf('/') != -1)
+        token = userToken;
+
+    return token;
+}
+
 // getUserInfo 获取用户token
 export function getUserToken() {
     try {
@@ -92,7 +105,7 @@ export function getUserToken() {
 
 // 打开weex 页面
 export function toScheme(url: string) {
-    let urlStr = 'taohuocang://post/weex?url='+url
+    let urlStr = 'taohuocang://post/weex?url=' + url
     try {
         switch (DeviceType) {
             case 'Android':

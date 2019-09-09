@@ -18,7 +18,7 @@
 <script>
 import axios from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
-import { toGoodsDetial, toTopic, getUserToken, toScheme } from "@/packages/phonePlugins";
+import { toGoodsDetial, toTopic, toScheme } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
 import { URL } from "@/assets/url";
 export default {
@@ -66,7 +66,6 @@ export default {
       alertimg: "",
       alertwidth: "",
       alertstatus: false,
-      userToken: "",
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         count: { name: "数量", type: "radio", bind: ["list"] },
@@ -140,12 +139,6 @@ export default {
     }
   },
   mounted() {
-    // if (this.clickEvent == "couponid") {
-    //   getUserToken();
-    //   window.jsGetAppToken = token => {
-    //     this.userToken = token; // Android可以获取到, IOS获取为空
-    //   };
-    // }
   },
   methods: {
     getCoupon(code) {

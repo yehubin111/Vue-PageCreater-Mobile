@@ -81,7 +81,7 @@ import {
   toMyCoupon,
   toMyCloud,
   toMyCard,
-  getUserToken
+  getUserTokenFromUA
 } from "@/packages/phonePlugins";
 import { mapState } from "vuex";
 
@@ -187,14 +187,13 @@ export default {
       this.list.push(null);
     }
     // 初始化获取token
-    this.getUserToken();
+    this.header.headers.Authorization = getUserTokenFromUA();
     // 初始化奖品数据
     if (this.luckId) {
       this.infoInit();
     }
   },
   computed: {
-    ...mapState(["usertoken"]),
     countStyle() {
       return {
         color: this.font.color,
@@ -217,13 +216,6 @@ export default {
     }
   },
   methods: {
-    getUserToken() {
-      getUserToken();
-      window.jsGetAppToken = token => {
-        this.header.headers.Authorization = token;
-        resolve();
-      };
-    },
     toLookOver() {
       // 跳转  我的优惠券, 会员卡...
       // 1 优惠券  2云朵 3会员卡  4实物
