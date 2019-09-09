@@ -140,12 +140,12 @@ export default {
     }
   },
   mounted() {
-    if (this.clickEvent == "couponid") {
-      getUserToken();
-      window.jsGetAppToken = token => {
-        this.userToken = token; // Android可以获取到, IOS获取为空
-      };
-    }
+    // if (this.clickEvent == "couponid") {
+    //   getUserToken();
+    //   window.jsGetAppToken = token => {
+    //     this.userToken = token; // Android可以获取到, IOS获取为空
+    //   };
+    // }
   },
   methods: {
     getCoupon(code) {

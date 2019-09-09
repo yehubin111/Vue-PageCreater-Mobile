@@ -186,7 +186,9 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    // await this.getUserToken();
+    // 初始化获取token
+    this.getUserToken();
+    // 初始化奖品数据
     if (this.luckId) {
       this.infoInit();
     }
@@ -216,13 +218,11 @@ export default {
   },
   methods: {
     getUserToken() {
-      return new Promise((resolve, reject) => {
-        getUserToken();
-        window.jsGetAppToken = token => {
-          this.header.headers.Authorization = token;
-          resolve();
-        };
-      });
+      getUserToken();
+      window.jsGetAppToken = token => {
+        this.header.headers.Authorization = token;
+        resolve();
+      };
     },
     toLookOver() {
       // 跳转  我的优惠券, 会员卡...
@@ -316,7 +316,7 @@ export default {
       let params = {
         id: this.luckId
       };
-      axios.post(URL.getaward, params, this.header).then(res => {
+      axios.post(URL.getaward, params).then(res => {
         let r = res.data;
         let idx = this.list.find((v, i) => {
           if (v && v.id == r.id) {
@@ -403,12 +403,6 @@ export default {
     }
   },
   watch: {
-    // usertoken(n, o) {
-    //   this.header.headers.Authorization = n;
-    //   if (this.luckId) {
-    //     this.infoInit();
-    //   }
-    // },
     luckId(n, o) {
       if (n) {
         this.debounceFunc();
