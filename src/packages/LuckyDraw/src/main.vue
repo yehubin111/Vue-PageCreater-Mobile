@@ -83,6 +83,7 @@ import {
   toMyCard,
   getUserTokenFromUA
 } from "@/packages/phonePlugins";
+import { debounceFc } from "@/assets/common";
 import { mapState } from "vuex";
 
 export default {
@@ -385,14 +386,19 @@ export default {
         }
       }, this.speed);
     },
-    debounceFunc() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = setTimeout(() => {
+    debounceFunc: (() => {
+      return debounceFc(function() {
         this.infoInit();
       }, 300);
-    }
+    })(),
+    // debounceFunc() {
+    //   if (this.timeout) {
+    //     clearTimeout(this.timeout);
+    //   }
+    //   this.timeout = setTimeout(() => {
+    //     this.infoInit();
+    //   }, 300);
+    // }
   },
   watch: {
     luckId(n, o) {
@@ -532,6 +538,7 @@ export default {
 }
 
 .luckydraw {
+  position: relative;
   /deep/ .van-dialog {
     overflow: inherit;
   }

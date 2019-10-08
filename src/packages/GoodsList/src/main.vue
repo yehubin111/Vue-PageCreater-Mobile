@@ -28,7 +28,12 @@
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
-          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
+          <img
+            v-load
+            :data-src="g.mainPicAddress"
+            src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX"
+            alt
+          />
           <div
             class="tag"
             :class="tagPosition"
@@ -57,7 +62,10 @@
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
           <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-            <span class="price-tip" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
+            <span
+              class="price-tip"
+              :class="{'width': memberPriceText.length > 5 ? true : false}"
+            >{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
@@ -97,7 +105,12 @@
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
-          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
+          <img
+            v-load
+            :data-src="g.mainPicAddress"
+            src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX"
+            alt
+          />
           <div
             class="tag"
             :class="tagPosition"
@@ -126,7 +139,10 @@
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
           <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-            <span class="price-tip" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
+            <span
+              class="price-tip"
+              :class="{'width': memberPriceText.length > 5 ? true : false}"
+            >{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
@@ -166,7 +182,12 @@
         @click="toGoodsDetialPage(g.productId.toString())"
       >
         <div class="img">
-          <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
+          <img
+            v-load
+            :data-src="g.mainPicAddress"
+            src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX"
+            alt
+          />
         </div>
         <div class="infoall">
           <p
@@ -183,7 +204,10 @@
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
           <p class="price row-flex ac price_2" v-if="memberPriceStyle == '2' &&memberPriceText">
-            <span class="price-tip" :class="{'width': memberPriceText.length > 5 ? true : false}">{{memberPriceText}}</span>
+            <span
+              class="price-tip"
+              :class="{'width': memberPriceText.length > 5 ? true : false}"
+            >{{memberPriceText}}</span>
             <span class="price-unit ff-m">￥</span>
             <span class="price-text ff-m">{{g.memberPrice}}</span>
           </p>
@@ -216,7 +240,7 @@
 
 <script>
 import axios from "@/packages/axiosPack";
-// import { debounceFc } from "@/assets/common";
+import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
@@ -466,40 +490,25 @@ export default {
         this.getData();
       }
     },
-    debounceFc(fn, wait) {
-      let timeout;
-      return function() {
-        const me = this;
-        const argu = arguments[0];
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-
-        timeout = setTimeout(() => {
-          func.call(me, argu);
-        }, wait);
-      };
-    },
-    debounceFunc() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = setTimeout(() => {
+    // debounceFunc() {
+    //   if (this.timeout) {
+    //     clearTimeout(this.timeout);
+    //   }
+    //   this.timeout = setTimeout(() => {
+    //     this.pageSize = this.count;
+    //     this.pageOffset = 0;
+    //     this.list = [];
+    //     this.getData();
+    //   }, 300);
+    // },
+    debounceFunc: (() => {
+      return debounceFc(function() {
         this.pageSize = this.count;
         this.pageOffset = 0;
         this.list = [];
         this.getData();
       }, 300);
-    },
-    // debounceFunc: (() => {
-    //   console.log(this);
-    //   return this.debounceFc(function() {
-    // this.pageSize = this.count;
-    // this.pageOffset = 0;
-    // this.list = [];
-    // this.getData();
-    //   }, 300);
-    // })(),
+    })(),
     getData() {
       let url = this.url
         .replace("{topicId}", this.tpid.trim())
@@ -508,8 +517,8 @@ export default {
       axios.get(url).then(res => {
         let r = res.data.productsList;
         r.forEach(v => {
-          v.mainPicAddress += '?imageView2/0/w/400'
-        })
+          v.mainPicAddress += "?imageView2/0/w/400";
+        });
         this.list = this.list.concat(r);
         this.pageOffset += parseInt(this.pageSize);
         if (res.count <= this.pageOffset) {
@@ -637,7 +646,7 @@ export default {
               font-size: 7px;
               margin-right: 2px;
               color: #ea302b;
-              &.width{
+              &.width {
                 width: 36px;
                 overflow: hidden;
               }
@@ -854,7 +863,7 @@ export default {
               font-size: 7px;
               margin-right: 2px;
               color: #ea302b;
-              &.width{
+              &.width {
                 width: 36px;
                 overflow: hidden;
               }
