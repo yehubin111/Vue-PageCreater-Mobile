@@ -6,6 +6,7 @@ function resolve(dir) {
 }
 module.exports = {
   lintOnSave: false,
+  publicPath: '/micromall/', // 部署应用包时的基本 URL
   pages: {
     pagetemplate: {
       entry: "./src/pagetemplate/index.ts",
