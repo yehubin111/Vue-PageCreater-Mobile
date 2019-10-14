@@ -173,9 +173,13 @@ export default {
         },
         complete(r) {
           me.fullscreenLoading.close();
-          me.pageurl = `${BASE["out"]}/pagetemplate.html?pageid=${r.key}#/`;
+          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html?pageid=${r.key}#/`;
         }
       });
+    },
+    getPath() {
+      let last = location.pathname.lastIndexOf('/');
+      return location.pathname.substring(0, last);
     },
     // 获取配置
     getConfig() {
