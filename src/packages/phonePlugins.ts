@@ -76,15 +76,25 @@ export function getUserInfo() {
 
 // 获取用户token from userAgent
 export function getUserTokenFromUA() {
-    const userToken = process.env.VUE_APP_URLBASE == "production"
-        ? "989c594b138a1ac42325706180f49010"
-        : "0db0242aad6b5266fa7b61857ba34b22";
-
+    let userToken = '';
+    let baseurl = encodeURIComponent(location.href);
+    // let loginpage = `${location.origin}/micromall/?frm=${baseurl}#/login`;
+    let loginpage = `http://dev-web-yuncang.highstreet.top/micromall/?frm=${baseurl}#/login`
     let token = navigator.userAgent.substr(-32);
-    if (token.indexOf('/') != -1)
-        token = userToken;
 
-    return token;
+    if (token.indexOf('/') == -1) {
+        userToken = token;
+    } else {
+        let storage = localStorage.getItem('vuex');
+        if(storage && JSON.parse(storage).token) {
+            userToken = JSON.parse(storage).token;
+        } else {
+            console.log(loginpage);
+            location.href = loginpage;
+        }
+    }
+    
+    return userToken;
 }
 
 // getUserInfo 获取用户token
