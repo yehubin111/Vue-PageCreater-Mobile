@@ -27,3 +27,8 @@ export interface Config {
     props?: Props; // 实际参数
     info?: Info; // info
 }
+// 保存到七牛配置
+export interface ConfigJson{
+    componentsconfig: Array<Config>,
+    globalconfig: Props
+}
