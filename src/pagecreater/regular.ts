@@ -7,6 +7,7 @@ import { Info } from '@/pagecreater/types';
 // 全局配置
 export const globalInfo: Info = {
   title: { name: "标题", default: "", type: "input" },
+  subhead: { name: '副标题', default: "", type: "input" },
   styles: {
     name: "样式",
     child: {
