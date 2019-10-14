@@ -93,7 +93,7 @@ export function getUserTokenFromUA() {
             location.href = loginpage;
         }
     }
-    
+    console.log(userToken);
     return userToken;
 }
 
