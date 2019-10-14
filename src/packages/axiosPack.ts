@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Toast from 'vant/lib/toast';
-// import { getUserToken } from "@/packages/phonePlugins";
+import { getUserTokenFromUA } from "@/packages/phonePlugins";
 
 const AXIOS = axios.create({
     // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
@@ -27,18 +27,10 @@ const AXIOS = axios.create({
 //     }
 // })();
 
-// token
-export const userToken = process.env.VUE_APP_URLBASE == "production"
-    ? "989c594b138a1ac42325706180f49010"
-    : "0db0242aad6b5266fa7b61857ba34b22";
 // request拦截器
 AXIOS.interceptors.request.use(
     async config => {
-        let token = navigator.userAgent.substr(-32);
-        if(token.indexOf('/') != -1) 
-            token = userToken;
-            
-        config.headers.Authorization = token;
+        config.headers.Authorization = getUserTokenFromUA();
         // 获取token
         // if (config.token && !config.headers.Authorization) {
         //     config.headers.Authorization = await getToken();
@@ -54,7 +46,7 @@ AXIOS.interceptors.response.use(
     res => {
         let r = res.data;
         if (r.code && r.code != 0) {
-            // Toast(r.msg);
+            Toast(r.msg);
             return Promise.reject('error');
         } else {
             return r;

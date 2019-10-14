@@ -81,8 +81,9 @@ import {
   toMyCoupon,
   toMyCloud,
   toMyCard,
-  getUserToken
+  getUserTokenFromUA
 } from "@/packages/phonePlugins";
+import { debounceFc } from "@/assets/common";
 import { mapState } from "vuex";
 
 export default {
@@ -187,14 +188,13 @@ export default {
       this.list.push(null);
     }
     // 初始化获取token
-    this.getUserToken();
+    this.header.headers.Authorization = getUserTokenFromUA();
     // 初始化奖品数据
     if (this.luckId) {
       this.infoInit();
     }
   },
   computed: {
-    ...mapState(["usertoken"]),
     countStyle() {
       return {
         color: this.font.color,
@@ -217,13 +217,6 @@ export default {
     }
   },
   methods: {
-    getUserToken() {
-      getUserToken();
-      window.jsGetAppToken = token => {
-        this.header.headers.Authorization = token;
-        resolve();
-      };
-    },
     toLookOver() {
       // 跳转  我的优惠券, 会员卡...
       // 1 优惠券  2云朵 3会员卡  4实物
@@ -393,14 +386,19 @@ export default {
         }
       }, this.speed);
     },
-    debounceFunc() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = setTimeout(() => {
+    debounceFunc: (() => {
+      return debounceFc(function() {
         this.infoInit();
       }, 300);
-    }
+    })(),
+    // debounceFunc() {
+    //   if (this.timeout) {
+    //     clearTimeout(this.timeout);
+    //   }
+    //   this.timeout = setTimeout(() => {
+    //     this.infoInit();
+    //   }, 300);
+    // }
   },
   watch: {
     luckId(n, o) {
@@ -540,6 +538,7 @@ export default {
 }
 
 .luckydraw {
+  position: relative;
   /deep/ .van-dialog {
     overflow: inherit;
   }
