@@ -177,6 +177,10 @@ export default {
         }
       });
     },
+    getPath() {
+      let last = location.pathname.lastIndexOf('/');
+      return location.pathname.substring(0, last);
+    },
     // 获取配置
     getConfig() {
       let config = {
