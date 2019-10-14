@@ -30,6 +30,7 @@ const AXIOS = axios.create({
 // request拦截器
 AXIOS.interceptors.request.use(
     async config => {
+        console.log(config);
         config.headers.Authorization = getUserTokenFromUA();
         // 获取token
         // if (config.token && !config.headers.Authorization) {
