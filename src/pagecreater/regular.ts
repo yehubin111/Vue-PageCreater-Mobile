@@ -8,6 +8,11 @@ import { Info } from '@/pagecreater/types';
 export const globalInfo: Info = {
   title: { name: "标题", default: "", type: "input" },
   subhead: { name: '副标题', default: "", type: "input" },
+  share: {
+    name: '开启分享',
+    default: false,
+    type: "switch"
+  },
   styles: {
     name: "样式",
     child: {

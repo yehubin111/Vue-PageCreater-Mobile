@@ -88,7 +88,7 @@ export default {
     toLoading(text) {
       this.fullscreenLoading = this.$loading({
         lock: true,
-        text: text ? text : 'Loading',
+        text: text ? text : "Loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)"
       });
@@ -150,10 +150,10 @@ export default {
     getQiniuToken() {
       axios.get(URL.qiniutoken).then(res => {
         this.SET_QINIUTOKEN(res.data.token);
-      }); 
+      });
     },
     qiniuUpload() {
-      this.toLoading('正在生成网页');
+      this.toLoading("正在生成网页");
       let me = this;
       let filename = `hs-${getUUID()}`;
       let config = {
@@ -173,12 +173,14 @@ export default {
         },
         complete(r) {
           me.fullscreenLoading.close();
-          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html?pageid=${r.key}#/`;
+          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html?${
+            me.globalconfig["share"] ? "showShare=1&" : ""
+          }pageid=${r.key}#/`;
         }
       });
     },
     getPath() {
-      let last = location.pathname.lastIndexOf('/');
+      let last = location.pathname.lastIndexOf("/");
       return location.pathname.substring(0, last);
     },
     // 获取配置

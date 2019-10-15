@@ -142,7 +142,6 @@ export default {
   },
   methods: {
     getCoupon(code) {
-      console.log(code);
       let params = new FormData();
       params.append("cpBatchNumber", code);
       axios

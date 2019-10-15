@@ -58,6 +58,22 @@ export function hsChangeTitle(title: string) {
     }
 }
 
+// 修改title
+export function activeShare(title: string, desc: string, link: string) {
+    try {
+        switch (DeviceType) {
+            case 'Android':
+                (window as any).JSInterface.activeShare(title, desc, link);
+                break;
+            case 'IOS':
+                (window as any).webkit.messageHandlers.activeShare.postMessage(title, desc, link);
+                break;
+        }
+    } catch (e) {
+        (console).log(e);
+    }
+}
+
 // 获取用户信息
 export function getUserInfo() {
     try {
@@ -89,11 +105,9 @@ export function getUserTokenFromUA() {
         if(storage && JSON.parse(storage).token) {
             userToken = JSON.parse(storage).token;
         } else {
-            console.log(loginpage);
             location.href = loginpage;
         }
     }
-    console.log(userToken);
     return userToken;
 }
 

@@ -8,7 +8,7 @@
 import axios from "axios";
 import { getSearch } from "@/assets/common";
 import Module from "./Module";
-import { hsChangeTitle } from "@/packages/phonePlugins";
+import { hsChangeTitle, activeShare } from "@/packages/phonePlugins";
 export default {
   data() {
     return {
@@ -45,7 +45,12 @@ export default {
   watch: {
     globalConfigs(n, o) {
       document.title = n.title;
+      // 页面标题
       hsChangeTitle(n.title);
+      // 是否开启分享
+      if (n.share) {
+        activeShare(n.title, n.subhead, location.href);
+      }
     }
   }
 };

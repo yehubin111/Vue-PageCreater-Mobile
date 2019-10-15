@@ -1,7 +1,7 @@
 export interface CompInfo {
     name: string; // 名称
     key?: string; // 参数名，与传入组件的参数对应
-    default?: string | number; // 默认值
+    default?: string | number | boolean; // 默认值
     child?: Info; // 子元素，多为列表形式
     type?: string;  // 编辑框类型
     accept?: string; // 向上受影响参数
