@@ -239,7 +239,7 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
@@ -346,7 +346,7 @@ export default {
     return {
       timeout: null,
       list: [],
-      url: URL.goodslist,
+      // url: URL.goodslist,
       pageOffset: 0,
       pageSize: 0,
       loading: false,
@@ -510,11 +510,12 @@ export default {
       }, 300);
     })(),
     getData() {
-      let url = this.url
-        .replace("{topicId}", this.tpid.trim())
-        .replace("{count}", this.pageSize.trim())
-        .replace("{pageOffset}", this.pageOffset);
-      axios.get(url).then(res => {
+      let params = {
+        topicId: this.tpid.trim(),
+        pageSize: this.pageSize.trim(),
+        pageOffset: this.pageOffset
+      };
+      Fetch.get('goodslist', params).then(res => {
         let r = res.data.productsList;
         r.forEach(v => {
           v.mainPicAddress += "?imageView2/0/w/400";

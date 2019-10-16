@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
@@ -187,7 +187,7 @@ export default {
   data() {
     return {
       list: [],
-      url: URL.goodslist,
+      // url: URL.goodslist,
       pageOffset: 0,
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
@@ -289,12 +289,12 @@ export default {
     //   }, 300);
     // },
     getData() {
-      let url = this.url
-        .replace("{pageOffset}", this.pageOffset)
-        .replace("{topicId}", this.topicid.trim())
-        .replace("{count}", this.count.trim());
-      axios.get(url).then(res => {
-        console.log(res);
+      let params = {
+        topicId: this.topicid.trim(),
+        pageSize: this.count.trim(),
+        pageOffset: this.pageOffset
+      };
+      Fetch.get('goodslist', params).then(res => {
         this.list = res.data.productsList;
         this.list.forEach(v => {
           v.mainPicAddress += '?imageView2/0/w/400';

@@ -3,6 +3,7 @@ interface BaseUrl {
     mgr: string;
     out: string;
     weex: string;
+    mall: string;
     [index: string]: string;
 }
 interface GetBaseUrl {
@@ -15,6 +16,7 @@ interface Url {
     mgr: Object;
     web: Object;
     weex: Object;
+    mall: Object;
     [index: string]: Object;
 }
 export const getBaseUrl: GetBaseUrl = function () {
@@ -22,7 +24,8 @@ export const getBaseUrl: GetBaseUrl = function () {
         web: '',
         mgr: '',
         out: '',
-        weex: ''
+        weex: '',
+        mall: ''
     };
     switch (process.env.VUE_APP_URLBASE) {
         case 'development':
@@ -45,6 +48,7 @@ export const getBaseUrl: GetBaseUrl = function () {
             break;
     }
     base['out'] = location.origin;
+    base['mall'] = location.origin;
     return base;
 }
 
@@ -54,7 +58,7 @@ const url: Url = {
         qiniutoken: "/mgr_yuncang/common/getQiniuToken",
     },
     web: {
-        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId?topicId={topicId}&pageOffset={pageOffset}&pageSize={count}",
+        goodslist: "/api_yuncang/topic/v2/queryProductsByTopicId",
         coupon: '/api_yuncang/coupon/drawCouponForWap',
         luckydraw: '/api_yuncang/lottery/getLottery', // 初始化抽奖
         getaward: '/api_yuncang/lottery/drawLottery', // 获取奖品
@@ -63,6 +67,9 @@ const url: Url = {
     weex: {
         taskcenter: '/taskcenter.js', // 任务中心
         secklist: '/secklist.js' // 秒杀列表
+    },
+    mall: {
+        login: '/micromall/?frm=${baseurl}#/login'
     }
 }
 let _url: Object = {};
@@ -73,3 +80,4 @@ Object.keys(url).forEach(v => {
     })
 })
 export let URL = _url;
+export let WHITELIST = ['goodslist', 'luckydraw']; // 无需鉴权白名单

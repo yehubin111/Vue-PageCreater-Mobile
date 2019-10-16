@@ -43,7 +43,7 @@
 <script>
 import { textCopy, getSearch } from "@/assets/common";
 import { getBaseUrl } from "@/assets/url";
-import axios from "axios";
+// import axios from "axios";
 import QRCode from "qrcode";
 let BASE = getBaseUrl();
 export default {

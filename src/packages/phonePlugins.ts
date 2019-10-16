@@ -1,3 +1,5 @@
+import { URL } from '@/assets/url';
+
 /* 客户端交互 */
 let DeviceType = '';
 if ((process as any).browser) {
@@ -94,11 +96,11 @@ export function getUserInfo() {
 export function getUserTokenFromUA() {
     let userToken = '';
     let baseurl = encodeURIComponent(location.href);
-    // let loginpage = `${location.origin}/micromall/?frm=${baseurl}#/login`;
-    let loginpage = `http://dev-web-yuncang.highstreet.top/micromall/?frm=${baseurl}#/login`
-    let token = navigator.userAgent.substr(-32);
+    let loginpage = URL.login.replace('{baseurl}', baseurl);
+    // let loginpage = `http://dev-web-yuncang.highstreet.top/micromall/?frm=${baseurl}#/login`
+    let token = inApp();
 
-    if (token.indexOf('/') == -1) {
+    if (token) {
         userToken = token;
     } else {
         let storage = localStorage.getItem('vuex');
@@ -109,6 +111,12 @@ export function getUserTokenFromUA() {
         }
     }
     return userToken;
+}
+
+// 判断是否在云仓app内部
+export function inApp() {
+    let token = navigator.userAgent.substr(-32);
+    return token.indexOf('/') == -1 ? token : false;
 }
 
 // getUserInfo 获取用户token

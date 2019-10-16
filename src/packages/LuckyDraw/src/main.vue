@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import _axios from "axios";
 import Toast from "vant/lib/toast";
 import { URL } from "@/assets/url";
@@ -187,8 +187,6 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    // 初始化获取token
-    this.header.headers.Authorization = getUserTokenFromUA();
     // 初始化奖品数据
     if (this.luckId) {
       this.infoInit();
@@ -237,7 +235,7 @@ export default {
       let params = {
         id: this.luckId
       };
-      return axios.post(URL.luckydraw, params).then(res => {
+      return Fetch.post("luckydraw", params).then(res => {
         let r = res.data;
         this.list = r.lotteryRewardVos;
         this.list.splice(this.buttonIndex, 0, null);
@@ -252,6 +250,9 @@ export default {
       });
     },
     validCheck() {
+      // 获取token
+      this.header.headers.Authorization = getUserTokenFromUA();
+
       let params = {
         id: this.luckId
       };
@@ -309,7 +310,7 @@ export default {
       let params = {
         id: this.luckId
       };
-      axios.post(URL.getaward, params).then(res => {
+      Fetch.post("getaward", params).then(res => {
         let r = res.data;
         let idx = this.list.find((v, i) => {
           if (v && v.id == r.id) {
@@ -390,7 +391,7 @@ export default {
       return debounceFc(function() {
         this.infoInit();
       }, 300);
-    })(),
+    })()
     // debounceFunc() {
     //   if (this.timeout) {
     //     clearTimeout(this.timeout);

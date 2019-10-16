@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
 import { toGoodsDetial, toTopic, toScheme } from "@/packages/phonePlugins";
 import AlertModule from "@/packages/components/AlertModule";
@@ -144,8 +144,8 @@ export default {
     getCoupon(code) {
       let params = new FormData();
       params.append("cpBatchNumber", code);
-      axios
-        .post(URL.coupon, params)
+      Fetch
+        .post('coupon', params)
         .then(res => {
           Toast(res.msg);
         });

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
@@ -107,7 +107,7 @@ export default {
   data() {
     return {
       list: [],
-      url: URL.goodslist,
+      // url: URL.goodslist,
       pageOffset: 0,
       pageSize: 0,
       loading: false,
@@ -205,11 +205,12 @@ export default {
       }, 300);
     })(),
     getData() {
-      let url = this.url
-        .replace("{topicId}", this.tpid.trim())
-        .replace("{count}", this.pageSize.trim())
-        .replace("{pageOffset}", this.pageOffset);
-      axios.get(url).then(res => {
+      let params = {
+        topicId: this.tpid.trim(),
+        pageSize: this.pageSize.trim(),
+        pageOffset: this.pageOffset
+      };
+      Fetch.get('goodslist', params).then(res => {
         let r = res.data.productsList;
         this.list = this.list.concat(r);
         this.pageOffset += parseInt(this.pageSize);

@@ -103,7 +103,7 @@ export default {
       let url = `${this.baseurl}/${key}`;
       axios.get(url).then(res => {
         let r = res.data;
-        this.globalconfig = r.globalconfig;
+        this.globalconfig = Object.assign({}, this.globalconfig, r.globalconfig);
         this.EDITINIT({ config: r.componentsconfig });
         this.framePostMessage({
           type: "editGlobal",
