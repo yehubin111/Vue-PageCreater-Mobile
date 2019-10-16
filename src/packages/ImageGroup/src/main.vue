@@ -162,7 +162,11 @@ export default {
           break;
         case "goodsdetail":
           if (isinapp) toGoodsDetial(i.goodsdetail.trim());
-          // else location.href = URL.productdetail.replace();
+          else
+            location.href = URL.productdetail
+              .replace("{productId}", i.goodsdetail)
+              .replace("{inviteCode}", i.goodsdetail)
+              .replace("{activeId}", '');
           break;
         case "h5link":
           location.href = i.h5link;
