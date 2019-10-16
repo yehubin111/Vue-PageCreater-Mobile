@@ -41,7 +41,7 @@ export default {
       console.log(this.componentsconfig);
     },
     initComponent(info) {
-      console.log(`%cinit ${this.index}`, "color: red");
+      // console.log(`%cinit ${this.index}`, "color: red");
       if (this.index == -1) return;
       let obj = this.$iLocal(this.componentsconfig, this.index);
       obj.info = info;
