@@ -51,10 +51,11 @@ export default {
       let obj = this.$iLocal(this.componentsconfig, this.index);
       obj.info = info;
       obj.props = this.$i2c(info);
-      top.postMessage(
-        { type: "initComponent", info: info, index: this.index },
-        this.fatherurl
-      );
+      // top.postMessage(
+      //   { type: "initComponent", info: info, index: this.index },
+      //   this.fatherurl
+      // );
+      console.log(obj);
 
       this.editstatus = false;
     },
