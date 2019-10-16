@@ -41,16 +41,16 @@ export default {
       console.log(this.componentsconfig);
     },
     initComponent(info) {
-      // console.log(`%cinit ${this.index}`, "color: red");
+      console.log(`%cinit ${this.index}`, "color: red");
       if (this.index == -1) return;
       let obj = this.$iLocal(this.componentsconfig, this.index);
       obj.info = info;
       obj.props = this.$i2c(info);
-      // top.postMessage(
-      //   { type: "initComponent", info: info, index: this.index },
-      //   this.fatherurl
-      // );
-      console.log(obj);
+      top.postMessage(
+        { type: "initComponent", info: info, index: this.index },
+        this.fatherurl
+      );
+      // console.log(obj);
 
       this.editstatus = false;
     },
