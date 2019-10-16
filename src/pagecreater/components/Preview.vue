@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      frameurl: `${BASE["out"]}/pagecreater.html#/preview`
+      frameurl: `${BASE["out"]}/h5activity/pagecreater.html#/preview`
     };
   },
   computed: {},
