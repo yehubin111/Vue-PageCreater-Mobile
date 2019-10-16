@@ -173,9 +173,7 @@ export default {
         },
         complete(r) {
           me.fullscreenLoading.close();
-          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html?${
-            me.globalconfig["share"] ? "showShare=1&" : ""
-          }pageid=${r.key}#/`;
+          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html?pageid=${r.key}#/`;
         }
       });
     },
