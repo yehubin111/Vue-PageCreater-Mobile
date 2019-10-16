@@ -69,7 +69,8 @@ const url: Url = {
         secklist: '/secklist.js' // 秒杀列表
     },
     mall: {
-        login: '/micromall/?frm=${baseurl}#/login'
+        login: '/micromall/?frm={baseurl}#/login',
+        productdetail: '/micromall/#/product_detail?productId={productId}&inviteCode={inviteCode}&activeId={activeId}'
     }
 }
 let _url: Object = {};

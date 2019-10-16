@@ -19,6 +19,7 @@
 import Fetch from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
 import { toGoodsDetial, toTopic, toScheme } from "@/packages/phonePlugins";
+import { inApp } from "@/assets/common";
 import AlertModule from "@/packages/components/AlertModule";
 import { URL } from "@/assets/url";
 export default {
@@ -138,19 +139,18 @@ export default {
       return arr.join(" ");
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     getCoupon(code) {
       let params = new FormData();
       params.append("cpBatchNumber", code);
-      Fetch
-        .post('coupon', params)
-        .then(res => {
-          Toast(res.msg);
-        });
+      Fetch.post("coupon", params).then(res => {
+        Toast(res.msg);
+      });
     },
     clickCallback(i) {
+      console.log(i);
+      let isinapp = inApp();
       switch (this.clickEvent) {
         case "alert":
           this.alertstatus = true;
@@ -161,7 +161,8 @@ export default {
           toTopic(i.topic.trim());
           break;
         case "goodsdetail":
-          toGoodsDetial(i.goodsdetail.trim());
+          if (isinapp) toGoodsDetial(i.goodsdetail.trim());
+          // else location.href = URL.productdetail.replace();
           break;
         case "h5link":
           location.href = i.h5link;

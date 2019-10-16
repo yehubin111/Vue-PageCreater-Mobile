@@ -1,5 +1,7 @@
 import Clipboard from 'clipboard';
 import { Msgsuccess } from './plugins';
+import { URL } from '@/assets/url';
+
 export function getSearch(key: string, url?: string) {
     let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : '';
     let _sh = urlsearch ? urlsearch[0].substr(1) : decodeURIComponent(location.search.substr(1));
@@ -74,4 +76,31 @@ export function lazyLoad() {
     }, config);
 
     return observer;
+}
+
+// 获取用户token from userAgent
+export function getUserTokenFromUA() {
+    let userToken = '';
+    let baseurl = encodeURIComponent(location.href);
+    let loginpage = URL.login.replace('{baseurl}', baseurl);
+    // let loginpage = `http://dev-web-yuncang.highstreet.top/micromall/?frm=${baseurl}#/login`
+    let token = inApp();
+
+    if (token) {
+        userToken = token;
+    } else {
+        let storage = localStorage.getItem('vuex');
+        if(storage && JSON.parse(storage).token) {
+            userToken = JSON.parse(storage).token;
+        } else {
+            location.href = loginpage;
+        }
+    }
+    return userToken;
+}
+
+// 判断是否在云仓app内部, 云仓app ua后32位为token
+export function inApp() {
+    let token = navigator.userAgent.substr(-32);
+    return token.indexOf('/') == -1 ? token : false;
 }

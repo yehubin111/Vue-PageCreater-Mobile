@@ -1,4 +1,3 @@
-import { URL } from '@/assets/url';
 
 /* 客户端交互 */
 let DeviceType = '';
@@ -90,33 +89,6 @@ export function getUserInfo() {
     } catch (e) {
         console.log(e);
     }
-}
-
-// 获取用户token from userAgent
-export function getUserTokenFromUA() {
-    let userToken = '';
-    let baseurl = encodeURIComponent(location.href);
-    let loginpage = URL.login.replace('{baseurl}', baseurl);
-    // let loginpage = `http://dev-web-yuncang.highstreet.top/micromall/?frm=${baseurl}#/login`
-    let token = inApp();
-
-    if (token) {
-        userToken = token;
-    } else {
-        let storage = localStorage.getItem('vuex');
-        if(storage && JSON.parse(storage).token) {
-            userToken = JSON.parse(storage).token;
-        } else {
-            location.href = loginpage;
-        }
-    }
-    return userToken;
-}
-
-// 判断是否在云仓app内部
-export function inApp() {
-    let token = navigator.userAgent.substr(-32);
-    return token.indexOf('/') == -1 ? token : false;
 }
 
 // getUserInfo 获取用户token

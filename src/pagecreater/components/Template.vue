@@ -173,7 +173,7 @@ export default {
         },
         complete(r) {
           me.fullscreenLoading.close();
-          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html?pageid=${r.key}#/`;
+          me.pageurl = `${BASE["out"]}${me.getPath()}/pagetemplate.html#/?pageid=${r.key}`;
         }
       });
     },
