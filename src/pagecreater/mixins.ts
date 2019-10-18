@@ -12,7 +12,6 @@ const mixins: any = {
     created() {
         const allInfo: ConfigArray[] = this.$getConfig(this, this.keyOption);
         this.$emit("initConfig", allInfo);
-        console.log('abcdefg' + JSON.stringify(allInfo));
     }
 }
 export default mixins;

@@ -38,8 +38,8 @@ class Fetch {
                 if (r.code == '0') {
                     return r;
                 } else {
-                    // token失效情况，跳转登录
-                    if ((r.code == 1002 || r.code == 1003) && !inApp()) {
+                    // 1003 token失效情况，跳转登录
+                    if (r.code == 1003 && !inApp()) {
                         let baseurl = encodeURIComponent(location.href);
                         let loginpage = URL.login.replace('{baseurl}', baseurl);
                         location.href = loginpage;

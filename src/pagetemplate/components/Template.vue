@@ -49,7 +49,7 @@ export default {
       hsChangeTitle(n.title);
       // 是否开启分享
       if (n.share) {
-        activeShare(n.title, n.subhead, location.href);
+        activeShare(n.title, n.subhead || "" , location.href);
       }
     }
   }
