@@ -60,6 +60,11 @@ import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsTest",
+  inject: {
+    pv_inviteCode: {
+      type: String
+    }
+  },
   props: {
     count: {
       type: String,
@@ -222,7 +227,7 @@ export default {
       });
     },
     toGoodsDetialPage(productId) {
-      toGoodsDetial(productId);
+      toGoodsDetial(productId, this.pv_inviteCode);
     }
   },
   watch: {

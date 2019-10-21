@@ -10,6 +10,14 @@ import { getSearch } from "@/assets/common";
 import Module from "./Module";
 import { hsChangeTitle, activeShare } from "@/packages/phonePlugins";
 export default {
+  provide: {
+    pv_inviteCode: {
+      type: String,
+      default: () => {
+        return this.$route.query.inviteCode;
+      }
+    }
+  },
   data() {
     return {
       // href: location.href,

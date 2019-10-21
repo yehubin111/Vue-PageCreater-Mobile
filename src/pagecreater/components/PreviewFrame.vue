@@ -21,6 +21,9 @@ export default {
   components: {
     Module
   },
+  provide: {
+    pv_inviteCode: ""
+  },
   data() {
     return {
       editstatus: false,

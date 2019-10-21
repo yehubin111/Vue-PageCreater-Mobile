@@ -1,3 +1,5 @@
+import { inApp } from '@/assets/common';
+import { URL } from '@/assets/url';
 
 /* 客户端交互 */
 let DeviceType = '';
@@ -12,18 +14,27 @@ if ((process as any).browser) {
 }
 
 // 前往商品详情页面
-export function toGoodsDetial(productId: string) {
-    try {
-        switch (DeviceType) {
-            case 'Android':
-                (window as any).JSInterface.toGoodsDetial(productId);
-                break;
-            case 'IOS':
-                (window as any).webkit.messageHandlers.toGoodsDetial.postMessage(productId);
-                break;
+export function toGoodsDetial(productId: string, inviteCode: string) {
+    if (inApp())
+        try {
+            switch (DeviceType) {
+                case 'Android':
+                    (window as any).JSInterface.toGoodsDetial(productId);
+                    break;
+                case 'IOS':
+                    (window as any).webkit.messageHandlers.toGoodsDetial.postMessage(productId);
+                    break;
+            }
+        } catch (e) {
+            (console).log(e);
         }
-    } catch (e) {
-        (console).log(e);
+    else {
+        if (!inviteCode) return;
+
+        let url = URL.productdetail.replace('{productId}', productId)
+            .replace('{inviteCode}', inviteCode)
+            .replace('{activeId}', '');
+        location.href = url;
     }
 }
 

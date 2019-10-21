@@ -7,19 +7,19 @@ interface FetchData {
     [propName: string]: any
 }
 class Fetch {
-    axios: AxiosInstance = axios.create({
+    private axios: AxiosInstance = axios.create({
         // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
         timeout: 10000,
         headers: {
             // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
         }
     });
-    urlname: string = "";
+    private urlname: string = "";
     constructor() {
         // 初始化axios拦截器
         this.init();
     }
-    init() {
+    private init() {
         let me = this;
         // request拦截器
         this.axios.interceptors.request.use(

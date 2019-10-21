@@ -24,6 +24,11 @@ import AlertModule from "@/packages/components/AlertModule";
 import { URL } from "@/assets/url";
 export default {
   name: "HsImageGroup",
+  inject: {
+    pv_inviteCode: {
+      type: String
+    }
+  },
   props: {
     count: {
       type: Number | String,
@@ -150,7 +155,6 @@ export default {
     },
     clickCallback(i) {
       console.log(i);
-      let isinapp = inApp();
       switch (this.clickEvent) {
         case "alert":
           this.alertstatus = true;
@@ -161,12 +165,7 @@ export default {
           toTopic(i.topic.trim());
           break;
         case "goodsdetail":
-          if (isinapp) toGoodsDetial(i.goodsdetail.trim());
-          else
-            location.href = URL.productdetail
-              .replace("{productId}", i.goodsdetail)
-              .replace("{inviteCode}", i.goodsdetail)
-              .replace("{activeId}", '');
+          toGoodsDetial(i.goodsdetail.trim(), this.pv_inviteCode);
           break;
         case "h5link":
           location.href = i.h5link;

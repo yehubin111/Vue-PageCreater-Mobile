@@ -43,3 +43,28 @@ type FooType = ReturnType<typeof Foo>;
 // NonNullable剔除null和undefined类型
 type testType = NonNullable<string | null | undefined>;
 let tl: testType = 'null';
+
+
+
+class Animal {
+    name: string;
+    constructor(theName: string) { this.name = theName; }
+}
+
+class Rhino extends Animal {
+    constructor() { super("Rhino"); }
+}
+
+class Employee {
+    name: string;
+    f: string;
+    constructor(theName: string) { this.name = theName; this.f = theName; }
+    at() {}
+}
+
+let animal = new Animal("Goat");
+let rhino = new Rhino();
+let employee = new Employee("Bob");
+
+animal = rhino;
+animal = employee;
