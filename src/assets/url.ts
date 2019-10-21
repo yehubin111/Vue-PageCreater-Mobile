@@ -69,9 +69,10 @@ const url: Url = {
         secklist: '/secklist.js' // 秒杀列表
     },
     mall: {
-        login: '/micromall/?frm={baseurl}#/login',
-        msecklist: '/micromall/#/secklist?inviteCode={inviteCode}',
-        productdetail: '/micromall/#/product_detail?productId={productId}&inviteCode={inviteCode}&activeId={activeId}'
+        login: '/micromall/?frm={baseurl}#/login', // 微商城登录
+        topic: '/micromall/#/topic?topicid={topicid}&inviteCode={inviteCode}', // 专题
+        msecklist: '/micromall/#/secklist?inviteCode={inviteCode}', // 秒杀
+        productdetail: '/micromall/#/product_detail?productId={productId}&inviteCode={inviteCode}&activeId={activeId}' // 商品详情
     }
 }
 let _url: Object = {};

@@ -9,7 +9,7 @@ import { lazyLoad } from '@/assets/common';
 import Dialog from 'vant/lib/dialog';
 import Overlay from 'vant/lib/overlay';
 import 'vant/lib/index.css';
-
+ 
 Vue.use(Plugins);
 Vue.use(HsModule);
 Vue.use(Dialog);

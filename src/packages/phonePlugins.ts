@@ -40,18 +40,26 @@ export function toGoodsDetial(productId: string, inviteCode: string) {
 }
 
 // 参数 专题id
-export function toTopic(topicId: string) {
-    try {
-        switch (DeviceType) {
-            case 'Android':
-                (window as any).JSInterface.toTopic(topicId);
-                break;
-            case 'IOS':
-                (window as any).webkit.messageHandlers.toTopic.postMessage({ topicId });
-                break;
+export function toTopic(topicId: string, inviteCode: string) {
+    if (inApp())
+        try {
+            switch (DeviceType) {
+                case 'Android':
+                    (window as any).JSInterface.toTopic(topicId);
+                    break;
+                case 'IOS':
+                    (window as any).webkit.messageHandlers.toTopic.postMessage({ topicId });
+                    break;
+            }
+        } catch (e) {
+            (console).log(e);
         }
-    } catch (e) {
-        (console).log(e);
+    else {
+        if (!jumpCtrl()) return;
+
+        let url = URL.topic.replace('{topicid}', topicId)
+            .replace('{inviteCode}', inviteCode)
+        location.href = url;
     }
 }
 

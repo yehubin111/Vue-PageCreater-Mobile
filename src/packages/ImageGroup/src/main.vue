@@ -161,7 +161,7 @@ export default {
           this.alertwidth = i.alertwidth;
           break;
         case "topic":
-          toTopic(i.topic.trim());
+          toTopic(i.topic.trim(), this.pv_inviteCode);
           break;
         case "goodsdetail":
           toGoodsDetial(i.goodsdetail.trim(), this.pv_inviteCode);

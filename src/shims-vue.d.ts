@@ -7,3 +7,4 @@ declare module '*.vue' {
 declare module '@/assets/installPlugins.js';
 declare module 'vant/lib/toast';
 declare module 'vant/lib/dialog';
+declare module 'vant/lib/overlay';
