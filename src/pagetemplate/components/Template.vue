@@ -10,13 +10,10 @@ import { getSearch } from "@/assets/common";
 import Module from "./Module";
 import { hsChangeTitle, activeShare } from "@/packages/phonePlugins";
 export default {
-  provide: {
-    pv_inviteCode: {
-      type: String,
-      default: () => {
-        return this.$route.query.inviteCode;
-      }
-    }
+  provide() {
+    return {
+      pv_inviteCode: this.$route.query.inviteCode
+    };
   },
   data() {
     return {
@@ -29,15 +26,13 @@ export default {
     Module
   },
   created() {
-    let pageid = getSearch('pageid');
+    let pageid = getSearch("pageid");
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
     });
   },
-  mounted() {
-    
-  },
+  mounted() {},
   computed: {
     globalConfigs() {
       return this.configs.globalconfig;
@@ -57,7 +52,7 @@ export default {
       hsChangeTitle(n.title);
       // 是否开启分享
       if (n.share) {
-        activeShare(n.title, n.subhead || "" , location.href);
+        activeShare(n.title, n.subhead || "", location.href);
       }
     }
   }
