@@ -21,7 +21,6 @@ import Toast from "vant/lib/toast";
 import { toGoodsDetial, toTopic, toScheme } from "@/packages/phonePlugins";
 import { inApp } from "@/assets/common";
 import AlertModule from "@/packages/components/AlertModule";
-import { URL } from "@/assets/url";
 export default {
   name: "HsImageGroup",
   inject: {
@@ -174,7 +173,7 @@ export default {
           this.getCoupon(i.couponid.trim());
           break;
         case "weex":
-          toScheme(URL[i.weexpage]);
+          toScheme(i.weexpage, this.pv_inviteCode);
           break;
       }
     }

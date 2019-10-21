@@ -70,6 +70,7 @@ const url: Url = {
     },
     mall: {
         login: '/micromall/?frm={baseurl}#/login',
+        msecklist: '/micromall/#/secklist?inviteCode={inviteCode}',
         productdetail: '/micromall/#/product_detail?productId={productId}&inviteCode={inviteCode}&activeId={activeId}'
     }
 }
