@@ -82,7 +82,8 @@ import {
   toMyCloud,
   toMyCard
 } from "@/packages/phonePlugins";
-import { debounceFc, getUserTokenFromUA } from "@/assets/common";
+import { debounceFc } from "@/assets/common";
+import { getUserTokenFromUA } from '@/packages/common';
 import { mapState } from "vuex";
 
 export default {

@@ -1,4 +1,4 @@
-import { inApp } from '@/assets/common';
+import { inApp, jumpCtrl } from '@/packages/common';
 import { URL } from '@/assets/url';
 
 /* 客户端交互 */
@@ -29,7 +29,7 @@ export function toGoodsDetial(productId: string, inviteCode: string) {
             (console).log(e);
         }
     else {
-        if (!inviteCode) return;
+        if (!jumpCtrl()) return;
 
         let url = URL.productdetail.replace('{productId}', productId)
             .replace('{inviteCode}', inviteCode)

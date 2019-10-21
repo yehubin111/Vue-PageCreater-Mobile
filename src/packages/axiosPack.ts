@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import Toast from 'vant/lib/toast';
-import { getUserTokenFromUA, inApp } from "@/assets/common";
+import { getUserTokenFromUA, inApp } from "@/packages/common";
 import { URL, WHITELIST } from "@/assets/url";
 
 interface FetchData {
