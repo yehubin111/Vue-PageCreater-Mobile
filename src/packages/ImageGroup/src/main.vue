@@ -153,8 +153,6 @@ export default {
       });
     },
     clickCallback(i) {
-      console.log(this.pv_inviteCode);
-      return;
       switch (this.clickEvent) {
         case "alert":
           this.alertstatus = true;
