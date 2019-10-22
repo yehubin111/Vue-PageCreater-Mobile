@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="alert" @click="cancelAlert" v-show="status">
-      <img :src="alertimg" alt :style="{width: alertwidth}"/>
+      <img :src="alertimg" alt :style="{width: $px2vw(alertwidth)}"/>
     </div>
   </transition>
 </template>
