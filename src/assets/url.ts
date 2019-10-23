@@ -83,4 +83,4 @@ Object.keys(url).forEach(v => {
     })
 })
 export let URL = _url;
-export let WHITELIST = ['goodslist', 'luckydraw']; // 无需鉴权白名单
+export let WHITELIST = ['goodslist']; // 无需鉴权白名单
