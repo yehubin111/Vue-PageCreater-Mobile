@@ -87,7 +87,7 @@ export function activeShare(title: string, desc: string, link: string) {
                 (window as any).JSInterface.activeShare(title, desc, link);
                 break;
             case 'IOS':
-                (window as any).webkit.messageHandlers.activeShare.postMessage(title, desc, link);
+                (window as any).webkit.messageHandlers.activeShare.postMessage({title, desc, link});
                 break;
         }
     } catch (e) {
