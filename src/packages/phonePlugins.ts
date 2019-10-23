@@ -81,6 +81,9 @@ export function hsChangeTitle(title: string) {
 
 // 修改title
 export function activeShare(title: string, desc: string, link: string) {
+    alert(JSON.stringify({title, desc, link}));
+    setTimeout(() => {
+
     try {
         switch (DeviceType) {
             case 'Android':
@@ -93,6 +96,7 @@ export function activeShare(title: string, desc: string, link: string) {
     } catch (e) {
         (console).log(e);
     }
+    }, 5000)
 }
 
 // 获取用户信息
