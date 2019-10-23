@@ -1,7 +1,7 @@
-import { URL } from '@/assets/url';
+import { URL, GRAYLIST } from '@/assets/url';
 
 // 获取用户token from userAgent
-export function getUserTokenFromUA() {
+export function getUserTokenFromUA(urlname: string) {
     let userToken = '';
     let baseurl = encodeURIComponent(location.href);
     let loginpage = URL.login.replace('{baseurl}', baseurl);
@@ -14,6 +14,8 @@ export function getUserTokenFromUA() {
         let storage = localStorage.getItem('vuex');
         if(storage && JSON.parse(storage).token) {
             userToken = JSON.parse(storage).token;
+        } else if (GRAYLIST.includes(urlname)) {
+            userToken = '';
         } else {
             if (!jumpCtrl()) return;
             location.href = loginpage;

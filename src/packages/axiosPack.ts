@@ -24,9 +24,11 @@ class Fetch {
         // request拦截器
         this.axios.interceptors.request.use(
             async config => {
+                let urlname = config.params.urlname;
                 // 不在白名单中的要先获取token
-                if(!WHITELIST.includes(me.urlname))
-                    config.headers.Authorization = getUserTokenFromUA();
+                if (!WHITELIST.includes(urlname))
+                    config.headers.Authorization = getUserTokenFromUA(urlname);
+                delete config.params.urlname;
                 return config;
             }
         )
@@ -55,7 +57,12 @@ class Fetch {
         let url = URL[urlname];
 
         return new Promise((resolve, reject) => {
-            this.axios.post(url, params)
+            this.axios({
+                url,
+                data: params,
+                method: 'post',
+                params: { urlname }
+            })
                 .then(response => {
                     resolve(response);
                 });
@@ -72,7 +79,12 @@ class Fetch {
         url = `${URL[urlname]}?${str.substr(1)}`;
 
         return new Promise((resolve, reject) => {
-            this.axios.get(url, {})
+            this.axios({
+                url,
+                data: {},
+                method: 'get',
+                params: { urlname }
+            })
                 .then(response => {
                     resolve(response);
                 });

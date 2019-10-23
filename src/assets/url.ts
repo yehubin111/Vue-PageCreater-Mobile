@@ -84,3 +84,4 @@ Object.keys(url).forEach(v => {
 })
 export let URL = _url;
 export let WHITELIST = ['goodslist']; // 无需鉴权白名单
+export let GRAYLIST = ['luckydraw']; // 特殊接口，无token可不传
