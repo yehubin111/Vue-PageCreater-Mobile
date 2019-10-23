@@ -52,7 +52,9 @@ export default {
       hsChangeTitle(n.title);
       // 是否开启分享
       if (n.share) {
-        activeShare(n.title, n.subhead || "", location.href);
+        // 去掉#后面的内容
+        let spl = location.href.indexOf('#');
+        activeShare(n.title, n.subhead || "", location.href.substring(0, spl));
       }
     }
   }
