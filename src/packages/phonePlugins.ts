@@ -2,6 +2,7 @@ import { inApp, jumpCtrl } from '@/packages/common';
 import { setSearch } from '@/assets/common';
 import { URL } from '@/assets/url';
 import store from '@/pagetemplate/store';
+import { Toast } from 'vant'
 
 /* 客户端交互 */
 let DeviceType = '';
@@ -233,44 +234,51 @@ type AppPageName = 'taskcenter' | 'coupon' | 'card' | 'cloud';
 // 浏览器中H5唤起APP并打开商品详情页面
 export function openApp(name: AppPageName, params?: any) {
     let startType = {
-        'taskcenter': '105',
-        'coupon': '106',
-        'card': '107',
-        'cloud': '108'
+        'taskcenter': '请至APP——首页——任务中心做任务获得哦～',
+        'coupon': '请至APP——我的——我的优惠券中查看哦～',
+        'card': '请至APP——我的——我的会员卡中查看哦～',
+        'cloud': '请至APP—我的——我的云朵中查看收入信息哦～'
     };
-    let option = {
-        startType: startType[name],
-        productId: '',
-        activeProductId: ''
-    }
-    params = Object.assign({}, option, params);
-    let search = Object.entries(params).map(v => v.join('=')).join('&');
-    if (isWeixin()) {
-        let hashindex = location.href.indexOf('#');
-        let hash = location.href.substring(hashindex);
-        location.href = location.href.substring(0, hashindex) + '#/?' + setSearch('toapp', name, hash);
-        alert(location.href);
-        store.commit('SETSTATE', { key: 'openSafari', value: true });
-        return;
-    }
-    try {
-        switch (DeviceType) {
-            case 'Android':
-                window.location.href = 'taohuocang://post/splash?' + search;
-                setTimeout(function () {
-                    location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.highstreet.taobaocang&fromcase=40002#opened';
-                }, 2000);
-                break;
-            case 'IOS':
-                window.location.href = 'taohuocang://post/splash?' + search;
-                setTimeout(function () {
-                    let url = 'https://apps.apple.com/cn/app/%E9%AB%98%E8%A1%97%E4%BA%91%E4%BB%93%E6%B5%B7%E6%B7%98-%E5%A5%A2%E4%BE%88%E5%93%81%E5%85%A8%E7%90%83%E6%B5%B7%E5%A4%96%E4%BB%A3%E8%B4%AD%E6%8A%98%E6%89%A3%E5%B9%B3%E5%8F%B0/id1451281746';
-                    location.replace(url)
-                }, 2000);
-                break;
-        }
+    Toast(startType[name]);
+    // let startType = {
+    //     'taskcenter': '105',
+    //     'coupon': '106',
+    //     'card': '107',
+    //     'cloud': '108'
+    // };
+    // let option = {
+    //     startType: startType[name],
+    //     productId: '',
+    //     activeProductId: ''
+    // }
+    // params = Object.assign({}, option, params);
+    // let search = Object.entries(params).map(v => v.join('=')).join('&');
+    // if (isWeixin()) {
+    //     let hashindex = location.href.indexOf('#');
+    //     let hash = location.href.substring(hashindex);
+    //     location.href = location.href.substring(0, hashindex) + '#/?' + setSearch('toapp', name, hash);
+    //     alert(location.href);
+    //     store.commit('SETSTATE', { key: 'openSafari', value: true });
+    //     return;
+    // }
+    // try {
+    //     switch (DeviceType) {
+    //         case 'Android':
+    //             window.location.href = 'taohuocang://post/splash?' + search;
+    //             setTimeout(function () {
+    //                 location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.highstreet.taobaocang&fromcase=40002#opened';
+    //             }, 2000);
+    //             break;
+    //         case 'IOS':
+    //             window.location.href = 'taohuocang://post/splash?' + search;
+    //             setTimeout(function () {
+    //                 let url = 'https://apps.apple.com/cn/app/%E9%AB%98%E8%A1%97%E4%BA%91%E4%BB%93%E6%B5%B7%E6%B7%98-%E5%A5%A2%E4%BE%88%E5%93%81%E5%85%A8%E7%90%83%E6%B5%B7%E5%A4%96%E4%BB%A3%E8%B4%AD%E6%8A%98%E6%89%A3%E5%B9%B3%E5%8F%B0/id1451281746';
+    //                 location.replace(url)
+    //             }, 2000);
+    //             break;
+    //     }
 
-    } catch (e) {
-        console.log(e);
-    }
+    // } catch (e) {
+    //     console.log(e);
+    // }
 }

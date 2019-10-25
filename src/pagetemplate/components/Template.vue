@@ -26,12 +26,13 @@ export default {
     Module
   },
   created() {
-    let toapp = this.$route.query.toapp;
-    // 如果不是微信环境，打开页面跳转toapp地址
-    if(!isWeixin() && toapp) {
-      openApp(toapp);
-    }
+    // let toapp = this.$route.query.toapp;
+    // // 如果不是微信环境，打开页面跳转toapp地址
+    // if(!isWeixin() && toapp) {
+    //   openApp(toapp);
+    // }
     let pageid = getSearch("pageid");
+    // let pageid = this.$route.query.pageid;
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
