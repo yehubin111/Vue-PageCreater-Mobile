@@ -249,6 +249,7 @@ export function openApp(name: AppPageName, params?: any) {
         let hashindex = location.href.indexOf('#');
         let hash = location.href.substring(hashindex);
         location.href = location.href.substring(0, hashindex) + '#/?' + setSearch('toapp', name, hash);
+        alert(location.href);
         store.commit('SETSTATE', { key: 'openSafari', value: true });
         return;
     }
