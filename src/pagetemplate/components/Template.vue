@@ -8,7 +8,7 @@
 import axios from "axios";
 import { getSearch } from "@/assets/common";
 import Module from "./Module";
-import { hsChangeTitle, activeShare } from "@/packages/phonePlugins";
+import { hsChangeTitle, activeShare, isWeixin, openApp } from "@/packages/phonePlugins";
 export default {
   provide() {
     return {
@@ -26,6 +26,11 @@ export default {
     Module
   },
   created() {
+    let toapp = this.$route.query.toapp;
+    // 如果不是微信环境，打开页面跳转toapp地址
+    if(!isWeixin() && toapp) {
+      openApp(toapp);
+    }
     let pageid = getSearch("pageid");
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {

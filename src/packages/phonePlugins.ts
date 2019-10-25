@@ -1,4 +1,5 @@
 import { inApp, jumpCtrl } from '@/packages/common';
+import { setSearch } from '@/assets/common';
 import { URL } from '@/assets/url';
 import store from '@/pagetemplate/store';
 
@@ -245,6 +246,9 @@ export function openApp(name: AppPageName, params?: any) {
     params = Object.assign({}, option, params);
     let search = Object.entries(params).map(v => v.join('=')).join('&');
     if (isWeixin()) {
+        let hashindex = location.href.indexOf('#');
+        let hash = location.href.substring(hashindex);
+        location.href = location.href.substring(0, hashindex) + '#/?' + setSearch('toapp', name, hash);
         store.commit('SETSTATE', { key: 'openSafari', value: true });
         return;
     }

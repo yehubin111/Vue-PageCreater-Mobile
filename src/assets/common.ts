@@ -12,6 +12,16 @@ export function getSearch(key: string, url?: string) {
     return _search.get(key);
 }
 
+export function setSearch(key: string, val: string, url?: string) {
+    console.log(key, val, url);
+    let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : location.search.match(/(?:\?)[^\#]*/g);
+    let _sh = urlsearch ? urlsearch[0].substr(1) : "";
+
+    let _search = new URLSearchParams(_sh);
+    _search.set(key, val)
+    return _search.toString();
+}
+
 export function typeJudge(data: any, type?: string) {
     if (!type)
         return Object.prototype.toString.call(data).slice(8, -1)
