@@ -14,7 +14,6 @@ class Fetch {
             // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
         }
     });
-    private urlname: string = "";
     constructor() {
         // 初始化axios拦截器
         this.init();
@@ -53,7 +52,6 @@ class Fetch {
         )
     }
     post(urlname: string, params: FetchData) {
-        this.urlname = urlname;
         let url = URL[urlname];
 
         return new Promise((resolve, reject) => {
@@ -70,7 +68,6 @@ class Fetch {
 
     }
     get(urlname: string, params: FetchData) {
-        this.urlname = urlname;
         let url = URL[urlname];
         let str = '';
         Object.keys(params).forEach(v => {

@@ -89,10 +89,10 @@
       </el-radio-group>
     </template>
     <!-- 数字输入框 -->
-    <!-- <template v-else-if="">
-      <p class="title">{{info[type]}}</p>
-      <el-input-number v-model="state" @change="editComponent" :min="1" label></el-input-number>
-    </template>-->
+    <template v-if="infotype == 'number'">
+      <p class="title">{{infotitle}}</p>
+      <el-input-number v-model="state" @change="editComponent" :min="1" :max="15" label></el-input-number>
+    </template>
     <!-- 颜色选择器 -->
     <template v-else-if="infotype == 'color'">
       <p class="title">{{infotitle}}</p>

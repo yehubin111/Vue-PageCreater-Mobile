@@ -85,7 +85,7 @@ export default {
       scrollarr: [],
       // {navcount: '', list: [{name: ''}, ]}
       keyOption: {
-        navcount: { name: "数量", type: "radio", bind: ["list"] },
+        navcount: { name: "数量", type: "number", bind: ["list"] },
         pattern: { name: "模式", type: "radio", bind: ["tabtopicid"] },
         baseInfo: {
           name: "基本信息",
@@ -253,16 +253,22 @@ export default {
   // height: 38px;
   background-color: #fff;
   .float {
-    width: 100%;
+    // width: 100%;
     background-color: #fff;
     top: 0;
     left: 0;
     z-index: 99;
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
+    height: 100%;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     li {
       height: 100%;
-      flex: 1;
+      flex: 0 0 22%;
+      flex-grow: 1;
       font-size: 14px;
       text-align: center;
       // &.on {
