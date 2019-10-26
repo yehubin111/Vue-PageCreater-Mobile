@@ -150,6 +150,8 @@ export default {
       params.append("cpBatchNumber", code);
       Fetch.post("coupon", params).then(res => {
         Toast(res.msg);
+      }).catch(err => {
+        console.log(err);
       });
     },
     clickCallback(i) {

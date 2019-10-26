@@ -7,6 +7,7 @@ export function getUserTokenFromUA(urlname: string) {
     let loginpage = URL.login.replace('{baseurl}', baseurl);
     // let loginpage = `http://dev-web-yuncang.highstreet.top/micromall/?frm=${baseurl}#/login`
     let token = inApp();
+    let cancel = false; // 是否取消请求
 
     if (token) {
         userToken = token;
@@ -17,13 +18,12 @@ export function getUserTokenFromUA(urlname: string) {
         } else if (GRAYLIST.includes(urlname)) {
             userToken = '';
         } else {
-            if (!jumpCtrl()) return;
+            cancel = true;
+            if (!jumpCtrl()) return[cancel, userToken];
             location.href = loginpage;
-            // 阻塞2s
-            barrageTime(2000);
         }
     }
-    return userToken;
+    return [cancel, userToken];
 }
 
 // 阻塞延时

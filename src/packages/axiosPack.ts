@@ -22,13 +22,26 @@ class Fetch {
         let me = this;
         // request拦截器
         this.axios.interceptors.request.use(
-            async config => {
+            config => {
                 let urlname = config.params.urlname;
-                // 不在白名单中的要先获取token
-                if (!WHITELIST.includes(urlname))
-                    config.headers.Authorization = getUserTokenFromUA(urlname);
+                /**
+                 * token获取规则
+                 * 1、不在白名单中的要先获取token
+                 * 2、在灰名单中的如果获取不到token依然可以发送请求
+                 * 3、获取不到token的则跳转登录，取消请求
+                 */
+                if (!WHITELIST.includes(urlname)) {
+                    let token = getUserTokenFromUA(urlname);
+                    config.headers.Authorization = token[1];
+                    if (token[0]) {
+                        return Promise.reject(new Error('no Authorization'))
+                    }
+                }
                 delete config.params.urlname;
                 return config;
+            }, err => {
+                console.log(err);
+                return Promise.reject(err)
             }
         )
 
@@ -39,15 +52,19 @@ class Fetch {
                 if (r.code == '0') {
                     return r;
                 } else {
+                    let msg = r.msg;
                     // 1003 token失效情况，跳转登录
                     if (r.code == 1003 && !inApp()) {
                         let baseurl = encodeURIComponent(location.href);
                         let loginpage = URL.login.replace('{baseurl}', baseurl);
                         location.href = loginpage;
                     }
-                    Toast(r.msg);
-                    return Promise.reject('error');
+                    Toast(msg);
+                    return Promise.reject(msg);
                 }
+            }, err => {
+                console.log(err);
+                return Promise.reject(err);
             }
         )
     }
@@ -63,6 +80,9 @@ class Fetch {
             })
                 .then(response => {
                     resolve(response);
+                }).catch(err => {
+                    console.log(err);
+                    reject(err);
                 });
         })
 
@@ -84,6 +104,9 @@ class Fetch {
             })
                 .then(response => {
                     resolve(response);
+                }).catch(err => {
+                    console.log(err);
+                    reject(err);
                 });
         })
     }
