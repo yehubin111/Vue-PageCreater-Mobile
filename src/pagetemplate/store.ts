@@ -18,6 +18,9 @@ const state: State = {
 const mutations: MutationTree<State> = {
     SETSTATE(state, { key, value }: SetParams) {
         state[key] = value;
+    },
+    OUTTOAST(state, value) {
+        (<any>this._vm).$toast(value);
     }
 };
 const actions = {};

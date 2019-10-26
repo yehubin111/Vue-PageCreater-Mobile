@@ -19,9 +19,20 @@ export function getUserTokenFromUA(urlname: string) {
         } else {
             if (!jumpCtrl()) return;
             location.href = loginpage;
+            // 阻塞2s
+            barrageTime(2000);
         }
     }
     return userToken;
+}
+
+// 阻塞延时
+export function barrageTime(time: number) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve('wait');
+        }, time);
+    })
 }
 
 // 判断是否在云仓app内部, 云仓app ua后32位为token

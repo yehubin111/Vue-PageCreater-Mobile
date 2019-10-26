@@ -1,8 +1,8 @@
 import { inApp, jumpCtrl } from '@/packages/common';
-import { setSearch } from '@/assets/common';
+// import { setSearch } from '@/assets/common';
 import { URL } from '@/assets/url';
 import store from '@/pagetemplate/store';
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 
 /* 客户端交互 */
 let DeviceType = '';
@@ -239,7 +239,8 @@ export function openApp(name: AppPageName, params?: any) {
         'card': '请至APP——我的——我的会员卡中查看哦～',
         'cloud': '请至APP—我的——我的云朵中查看收入信息哦～'
     };
-    Toast(startType[name]);
+    store.commit('OUTTOAST', startType[name]);
+    // Toast(startType[name]);
     // let startType = {
     //     'taskcenter': '105',
     //     'coupon': '106',
