@@ -1,11 +1,8 @@
 <template>
   <div class="floatnav" :ref="ref" :id="ref">
     <div class="floatbox" :style="{height: $px2vw(baseInfo.height)}">
-      <!-- <div class="floatbox" :style="{}"> -->
-        <ul
-          class="float"
-          :style="{position: navfloat? 'fixed':'inherit', 'background-color': baseInfo.backgroundColor}"
-        >
+      <div class="floatbox" :style="{position: navfloat? 'fixed':'inherit'}">
+        <ul class="float" :style="{'background-color': baseInfo.backgroundColor}">
           <li
             v-for="(nav, index) in navlist"
             :key="index"
@@ -20,7 +17,7 @@
           }"
           >{{nav.name}}</li>
         </ul>
-      <!-- </div> -->
+      </div>
     </div>
     <div class="slot-area" ref="slotarea">
       <slot :topicid="topicid"></slot>
@@ -254,37 +251,36 @@ export default {
   width: 100%;
   // height: 38px;
   background-color: #fff;
-  // .floatbox {
-  //   top: 0;
-  //   left: 0;
-  //   z-index: 99;
-  //   height: 100%;
-  //   width: 100%;
-  // }
-  .float {
+  .floatbox {
     top: 0;
     left: 0;
     z-index: 99;
     // height: 100%;
     width: 100%;
-    background-color: #fff;
-    flex-direction: row;
-    // overflow-x: auto;
-    // height: 100%;
-    display: flex;
-    // &::-webkit-scrollbar {
-    //   display: none;
-    // }
-    li {
-      height: 100%;
-      // flex: 0 0 22%;
-      // flex-grow: 1;
-      flex: 1;
-      font-size: 14px;
-      text-align: center;
-      // &.on {
-      //   background: linear-gradient(to right, #f4e7d0, #e2cfaa);
-      // }
+    .float {
+      // top: 0;
+      // left: 0;
+      z-index: 99;
+      // height: 100%;
+      // width: 100%;
+      background-color: #fff;
+      flex-direction: row;
+      overflow-x: auto;
+      display: flex;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      li {
+        height: 100%;
+        flex: 0 0 22%;
+        flex-grow: 1;
+        // flex: 1;
+        font-size: 14px;
+        text-align: center;
+        // &.on {
+        //   background: linear-gradient(to right, #f4e7d0, #e2cfaa);
+        // }
+      }
     }
   }
 }
