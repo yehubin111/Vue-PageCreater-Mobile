@@ -233,10 +233,10 @@ type AppPageName = 'taskcenter' | 'coupon' | 'card' | 'cloud';
 // 浏览器中H5唤起APP并打开商品详情页面
 export function openApp(name: AppPageName, params?: any) {
     let startType = {
-        'taskcenter': '请至APP——首页——任务中心做任务获得哦～',
-        'coupon': '请至APP——我的——我的优惠券中查看哦～',
-        'card': '请至APP——我的——我的会员卡中查看哦～',
-        'cloud': '请至APP—我的——我的云朵中查看收入信息哦～'
+        'taskcenter': '请至APP—首页—任务中心做任务获得哦～',
+        'coupon': '请至APP—我的—我的优惠券中查看哦～',
+        'card': '请至APP—我的—我的会员卡中查看哦～',
+        'cloud': '请至APP—我的—我的云朵中查看收入信息哦～'
     };
     store.commit('OUTTOAST', startType[name]);
     // Toast(startType[name]);
