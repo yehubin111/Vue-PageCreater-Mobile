@@ -2,7 +2,6 @@ import { inApp, jumpCtrl } from '@/packages/common';
 // import { setSearch } from '@/assets/common';
 import { URL } from '@/assets/url';
 import store from '@/pagetemplate/store';
-// import { Toast } from 'vant'
 
 /* 客户端交互 */
 let DeviceType = '';
