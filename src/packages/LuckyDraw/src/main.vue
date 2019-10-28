@@ -251,7 +251,8 @@ export default {
     },
     validCheck() {
       // 获取token
-      this.header.headers.Authorization = getUserTokenFromUA();
+      let token = getUserTokenFromUA();
+      this.header.headers.Authorization = token[1];
 
       let params = {
         id: this.luckId
