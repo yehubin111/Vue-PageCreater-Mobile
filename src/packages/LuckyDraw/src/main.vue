@@ -37,7 +37,7 @@
         <p class="toast-info ff-l">{{errmsg}}</p>
         <div class="toast-button row-flex jc ac">
           <p class="toast-button-cancel ff-l" @click="errordialog = false" v-show="errtype == 1">取消</p>
-          <p class="toast-button-go ff-l" @click="prepareAward" v-show="errtype == 1">立即抽奖</p>
+          <p class="toast-button-go ff-l" @click="getAward" v-show="errtype == 1">立即抽奖</p>
           <p class="toast-button-ok ff-l" @click="errordialog = false" v-show="errtype != 1">我知道了</p>
         </div>
       </div>
@@ -260,6 +260,7 @@ export default {
       };
       return _axios.post(URL.luckycheck, params, this.header).then(res => {
         let r = res.data;
+        console.log(r);
         // 弹窗
         if (r.code == 1002) {
           if (r.data == 2) {
@@ -314,6 +315,7 @@ export default {
       this.getAward();
     },
     getAward() {
+      this.runlock = false;
       this.errordialog = false;
 
       let params = {
