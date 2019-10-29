@@ -21,6 +21,9 @@ export default {
   components: {
     Module
   },
+  provide: {
+    pv_inviteCode: ""
+  },
   data() {
     return {
       editstatus: false,
@@ -42,11 +45,6 @@ export default {
     },
     initComponent(info) {
       console.log(`%cinit ${this.index}`, "color: red");
-      // // 排除删除引起的组件重置
-      // if(this.deltime) {
-      //   this.deltime = false;
-      //   return;
-      // }
       if (this.index == -1) return;
       let obj = this.$iLocal(this.componentsconfig, this.index);
       obj.info = info;
@@ -55,6 +53,7 @@ export default {
         { type: "initComponent", info: info, index: this.index },
         this.fatherurl
       );
+      // console.log(obj);
 
       this.editstatus = false;
     },

@@ -41,12 +41,17 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsListOther",
+  inject: {
+    pv_inviteCode: {
+      type: String
+    }
+  },
   props: {
     linecount: {
       type: String,
@@ -72,7 +77,7 @@ export default {
   data() {
     return {
       list: [],
-      url: URL.goodslist,
+      // url: URL.goodslist,
       pageOffset: 0,
       keyOption: {
         bothPadding: { name: "左右边距", type: "input" },
@@ -107,17 +112,18 @@ export default {
       }, 1000);
     })(),
     getData() {
-      let url = this.url
-        .replace("{topicId}", this.topicid.trim())
-        .replace("{pageOffset}", this.pageOffset)
-        .replace("{count}", this.linecount * 2);
-      axios.get(url).then(res => {
+      let params = {
+        topicId: this.tpid.trim(),
+        pageSize: this.linecount * 2,
+        pageOffset: this.pageOffset
+      };
+      Fetch.get('goodslist', params).then(res => {
         console.log(res);
         this.list = res.data.productsList;
       });
     },
     toGoodsDetialPage(productId) {
-      toGoodsDetial(productId);
+      toGoodsDetial(productId, this.pv_inviteCode);
     }
   },
   watch: {

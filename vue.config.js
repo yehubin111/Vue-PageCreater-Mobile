@@ -6,7 +6,7 @@ function resolve(dir) {
 }
 module.exports = {
   lintOnSave: false,
-  // publicPath: '/h5activity/', // 部署应用包时的基本 URL
+  publicPath: '/h5activity/', // 部署应用包时的基本 URL
   pages: {
     pagetemplate: {
       entry: "./src/pagetemplate/index.ts",

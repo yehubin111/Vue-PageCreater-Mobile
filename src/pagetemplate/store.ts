@@ -3,22 +3,30 @@ import Vuex, { MutationTree } from "vuex";
 
 Vue.use(Vuex);
 
+type StateName = 'openSafari';
 interface State {
-    usertoken: string;
+    openSafari: boolean
+}
+interface SetParams {
+    key: StateName
+    value: any
 }
 
 const state: State = {
-    usertoken: ""
+    openSafari: false
 };
 const mutations: MutationTree<State> = {
-    SETUSERTOEKN(state, token) {
-        state.usertoken = token;
+    SETSTATE(state, { key, value }: SetParams) {
+        state[key] = value;
+    },
+    OUTTOAST(state, value) {
+        (<any>this._vm).$toast(value);
     }
 };
 const actions = {};
 
 export default new Vuex.Store({
-  state,
-  mutations,
-  actions
+    state,
+    mutations,
+    actions
 });

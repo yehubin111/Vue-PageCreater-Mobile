@@ -7,11 +7,13 @@ import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
 // import { Dialog, Toast } from 'vant';
 import Dialog from 'vant/lib/dialog';
+import Overlay from 'vant/lib/overlay';
 import 'vant/lib/index.css';
-
+ 
 Vue.use(Plugins);
 Vue.use(HsModule);
 Vue.use(Dialog);
+Vue.use(Overlay);
 // Vue.use(Toast);
 
 let observer: any = null;
@@ -33,8 +35,8 @@ Vue.directive('load', {
 })
 
 new Vue({
-    router,
     store,
+    router,
     template: '<App/>',
     components: { App },
 }).$mount('#app');

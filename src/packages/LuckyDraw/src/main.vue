@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import _axios from "axios";
 import Toast from "vant/lib/toast";
 import { URL } from "@/assets/url";
@@ -80,9 +80,10 @@ import {
   toScheme,
   toMyCoupon,
   toMyCloud,
-  toMyCard,
-  getUserToken
+  toMyCard
 } from "@/packages/phonePlugins";
+import { debounceFc } from "@/assets/common";
+import { getUserTokenFromUA } from '@/packages/common';
 import { mapState } from "vuex";
 
 export default {
@@ -150,6 +151,7 @@ export default {
       listindex: [0, 1, 2, 5, 8, 7, 6, 3],
       listlength: 9,
       present: -1,
+      // lock: true, // 防止反复抽奖
       presentindex: 0,
       speedorigin: 300,
       speed: 0, // 转动速度，越小越快
@@ -186,15 +188,12 @@ export default {
     while (this.list.length < this.listlength) {
       this.list.push(null);
     }
-    // 初始化获取token
-    this.getUserToken();
     // 初始化奖品数据
     if (this.luckId) {
       this.infoInit();
     }
   },
   computed: {
-    ...mapState(["usertoken"]),
     countStyle() {
       return {
         color: this.font.color,
@@ -217,13 +216,6 @@ export default {
     }
   },
   methods: {
-    getUserToken() {
-      getUserToken();
-      window.jsGetAppToken = token => {
-        this.header.headers.Authorization = token;
-        resolve();
-      };
-    },
     toLookOver() {
       // 跳转  我的优惠券, 会员卡...
       // 1 优惠券  2云朵 3会员卡  4实物
@@ -244,7 +236,7 @@ export default {
       let params = {
         id: this.luckId
       };
-      return axios.post(URL.luckydraw, params).then(res => {
+      return Fetch.post("luckydraw", params).then(res => {
         let r = res.data;
         this.list = r.lotteryRewardVos;
         this.list.splice(this.buttonIndex, 0, null);
@@ -259,11 +251,16 @@ export default {
       });
     },
     validCheck() {
+      // 获取token
+      let token = getUserTokenFromUA();
+      this.header.headers.Authorization = token[1];
+
       let params = {
         id: this.luckId
       };
       return _axios.post(URL.luckycheck, params, this.header).then(res => {
         let r = res.data;
+        console.log(r);
         // 弹窗
         if (r.code == 1002) {
           if (r.data == 2) {
@@ -305,18 +302,26 @@ export default {
       return true;
     },
     async prepareAward() {
+      if (!this.runlock) return;
+      this.runlock = false;
       // 抽奖检查
-      if (!(await this.validCheck())) return;
+      let check = await this.validCheck();
+      if (!check) {
+        // 重新开启抽奖
+        this.runlock = true;
+        return;
+      }
       // 去抽奖
       this.getAward();
     },
     getAward() {
+      this.runlock = false;
       this.errordialog = false;
 
       let params = {
         id: this.luckId
       };
-      axios.post(URL.getaward, params).then(res => {
+      Fetch.post("getaward", params).then(res => {
         let r = res.data;
         let idx = this.list.find((v, i) => {
           if (v && v.id == r.id) {
@@ -340,8 +345,6 @@ export default {
         };
 
         this.starttime = Date.now();
-
-        if (!this.runlock) return;
         // 动画参数初始化
         this.runInit();
         // 开始动画
@@ -359,7 +362,7 @@ export default {
       }
     },
     runInit() {
-      this.runlock = false;
+      // this.runlock = false;
       this.speed = this.speedorigin;
       // this.present = -1;
       // this.presentindex = 0;
@@ -393,14 +396,19 @@ export default {
         }
       }, this.speed);
     },
-    debounceFunc() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = setTimeout(() => {
+    debounceFunc: (() => {
+      return debounceFc(function() {
         this.infoInit();
       }, 300);
-    }
+    })()
+    // debounceFunc() {
+    //   if (this.timeout) {
+    //     clearTimeout(this.timeout);
+    //   }
+    //   this.timeout = setTimeout(() => {
+    //     this.infoInit();
+    //   }, 300);
+    // }
   },
   watch: {
     luckId(n, o) {
@@ -540,6 +548,7 @@ export default {
 }
 
 .luckydraw {
+  position: relative;
   /deep/ .van-dialog {
     overflow: inherit;
   }

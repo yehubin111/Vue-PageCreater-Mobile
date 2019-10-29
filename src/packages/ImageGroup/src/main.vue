@@ -16,13 +16,18 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
+import Fetch from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
-import { toGoodsDetial, toTopic, getUserToken, toScheme } from "@/packages/phonePlugins";
+import { toGoodsDetial, toTopic, toScheme } from "@/packages/phonePlugins";
+import { inApp } from "@/assets/common";
 import AlertModule from "@/packages/components/AlertModule";
-import { URL } from "@/assets/url";
 export default {
   name: "HsImageGroup",
+  inject: {
+    pv_inviteCode: {
+      type: String
+    }
+  },
   props: {
     count: {
       type: Number | String,
@@ -66,7 +71,6 @@ export default {
       alertimg: "",
       alertwidth: "",
       alertstatus: false,
-      userToken: "",
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
         count: { name: "数量", type: "radio", bind: ["list"] },
@@ -139,23 +143,16 @@ export default {
       return arr.join(" ");
     }
   },
-  mounted() {
-    // if (this.clickEvent == "couponid") {
-    //   getUserToken();
-    //   window.jsGetAppToken = token => {
-    //     this.userToken = token; // Android可以获取到, IOS获取为空
-    //   };
-    // }
-  },
+  mounted() {},
   methods: {
     getCoupon(code) {
       let params = new FormData();
       params.append("cpBatchNumber", code);
-      axios
-        .post(URL.coupon, params)
-        .then(res => {
-          Toast(res.msg);
-        });
+      Fetch.post("coupon", params).then(res => {
+        Toast(res.msg);
+      }).catch(err => {
+        console.log(err);
+      });
     },
     clickCallback(i) {
       switch (this.clickEvent) {
@@ -165,10 +162,10 @@ export default {
           this.alertwidth = i.alertwidth;
           break;
         case "topic":
-          toTopic(i.topic.trim());
+          toTopic(i.topic.trim(), this.pv_inviteCode);
           break;
         case "goodsdetail":
-          toGoodsDetial(i.goodsdetail.trim());
+          toGoodsDetial(i.goodsdetail.trim(), this.pv_inviteCode);
           break;
         case "h5link":
           location.href = i.h5link;
@@ -177,7 +174,7 @@ export default {
           this.getCoupon(i.couponid.trim());
           break;
         case "weex":
-          toScheme(URL[i.weexpage]);
+          toScheme(i.weexpage, this.pv_inviteCode);
           break;
       }
     }

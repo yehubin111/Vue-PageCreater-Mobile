@@ -96,12 +96,17 @@
 </template>
 
 <script>
-import axios from "@/packages/axiosPack";
-// import { debounceFc } from "@/assets/common";
+import Fetch from "@/packages/axiosPack";
+import { debounceFc } from "@/assets/common";
 import { toGoodsDetial } from "@/packages/phonePlugins";
 import { URL } from "@/assets/url.ts";
 export default {
   name: "HsGoodsSlide",
+  inject: {
+    pv_inviteCode: {
+      type: String
+    }
+  },
   props: {
     count: {
       type: String,
@@ -187,7 +192,7 @@ export default {
   data() {
     return {
       list: [],
-      url: URL.goodslist,
+      // url: URL.goodslist,
       pageOffset: 0,
       keyOption: {
         padding: { name: "边距（上 左右 下）", type: "padding" },
@@ -275,26 +280,26 @@ export default {
     console.log("destroyed");
   },
   methods: {
-    // debounceFunc: (() => {
-    //   return debounceFc(function() {
-    //     this.getData();
-    //   }, 1000);
-    // })(),
-    debounceFunc() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.timeout = setTimeout(() => {
+    debounceFunc: (() => {
+      return debounceFc(function() {
         this.getData();
       }, 300);
-    },
+    })(),
+    // debounceFunc() {
+    //   if (this.timeout) {
+    //     clearTimeout(this.timeout);
+    //   }
+    //   this.timeout = setTimeout(() => {
+    //     this.getData();
+    //   }, 300);
+    // },
     getData() {
-      let url = this.url
-        .replace("{pageOffset}", this.pageOffset)
-        .replace("{topicId}", this.topicid.trim())
-        .replace("{count}", this.count.trim());
-      axios.get(url).then(res => {
-        console.log(res);
+      let params = {
+        topicId: this.topicid.trim(),
+        pageSize: this.count.trim(),
+        pageOffset: this.pageOffset
+      };
+      Fetch.get('goodslist', params).then(res => {
         this.list = res.data.productsList;
         this.list.forEach(v => {
           v.mainPicAddress += '?imageView2/0/w/400';
@@ -302,7 +307,7 @@ export default {
       });
     },
     toGoodsDetialPage(productId) {
-      toGoodsDetial(productId);
+      toGoodsDetial(productId, this.pv_inviteCode);
     }
   },
   watch: {

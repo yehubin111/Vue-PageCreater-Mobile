@@ -7,6 +7,12 @@ import { Info } from '@/pagecreater/types';
 // 全局配置
 export const globalInfo: Info = {
   title: { name: "标题", default: "", type: "input" },
+  subhead: { name: '副标题', default: "", type: "input" },
+  share: {
+    name: '开启分享',
+    default: false,
+    type: "switch"
+  },
   styles: {
     name: "样式",
     child: {
@@ -44,13 +50,13 @@ export const radioSelect: RadioSelect = {
     { key: 'taskcenter', value: "任务中心" },
     { key: 'secklist', value: "秒杀列表" }
   ],
-  navcount: [
-    { key: 1, value: "1项" },
-    { key: 2, value: "2项" },
-    { key: 3, value: "3项" },
-    { key: 4, value: "4项" },
-    { key: 5, value: "5项" }
-  ],
+  // navcount: [
+  //   { key: 1, value: "1项" },
+  //   { key: 2, value: "2项" },
+  //   { key: 3, value: "3项" },
+  //   { key: 4, value: "4项" },
+  //   { key: 5, value: "5项" }
+  // ],
   columnCount: [
     { key: "three", value: "一行三列" },
     { key: "double", value: "一行两列" },

@@ -1,24 +1,23 @@
 <template>
   <div class="floatnav" :ref="ref" :id="ref">
     <div class="floatbox" :style="{height: $px2vw(baseInfo.height)}">
-      <ul
-        class="float"
-        :style="{position: navfloat? 'fixed':'inherit', 'background-color': baseInfo.backgroundColor}"
-      >
-        <li
-          v-for="(nav, index) in navlist"
-          :key="index"
-          :class="{on: listindex == index}"
-          @click="toChange(index)"
-          :style="{
+      <div class="floatbox" :style="{position: navfloat? 'fixed':'inherit'}">
+        <ul class="float" :style="{'background-color': baseInfo.backgroundColor}">
+          <li
+            v-for="(nav, index) in navlist"
+            :key="index"
+            :class="{on: listindex == index}"
+            @click="toChange(index)"
+            :style="{
             'line-height': $px2vw(baseInfo.height),
             'height': $px2vw(baseInfo.height),
             'font-size': listindex == index ? $px2vw(baseInfo.focusFontSize) : $px2vw(baseInfo.fontSize),
             'background-color': listindex == index ? baseInfo.focusBackgroundColor:'inherit',
             'color': listindex == index ? baseInfo.focusColor: baseInfo.color
           }"
-        >{{nav.name}}</li>
-      </ul>
+          >{{nav.name}}</li>
+        </ul>
+      </div>
     </div>
     <div class="slot-area" ref="slotarea">
       <slot :topicid="topicid"></slot>
@@ -85,7 +84,7 @@ export default {
       scrollarr: [],
       // {navcount: '', list: [{name: ''}, ]}
       keyOption: {
-        navcount: { name: "数量", type: "radio", bind: ["list"] },
+        navcount: { name: "数量", type: "number", bind: ["list"] },
         pattern: { name: "模式", type: "radio", bind: ["tabtopicid"] },
         baseInfo: {
           name: "基本信息",
@@ -178,7 +177,7 @@ export default {
     this.scrolltag = this.scrolltag.slice(0, this.list.length);
     setTimeout(() => {
       this.initScrolltop();
-    }, 1000)
+    }, 1000);
 
     let me = this;
     window.addEventListener("scroll", function() {
@@ -216,7 +215,7 @@ export default {
       return this.list.slice(0, this.navcount);
     },
     topicid() {
-      return this.pattern == 'tab' && this.list[this.listindex]
+      return this.pattern == "tab" && this.list[this.listindex]
         ? this.list[this.listindex].tabtopicid
         : "";
     }
@@ -252,22 +251,36 @@ export default {
   width: 100%;
   // height: 38px;
   background-color: #fff;
-  .float {
-    width: 100%;
-    background-color: #fff;
+  .floatbox {
     top: 0;
     left: 0;
     z-index: 99;
-    display: flex;
-    flex-direction: row;
-    li {
-      height: 100%;
-      flex: 1;
-      font-size: 14px;
-      text-align: center;
-      // &.on {
-      //   background: linear-gradient(to right, #f4e7d0, #e2cfaa);
-      // }
+    // height: 100%;
+    width: 100%;
+    .float {
+      // top: 0;
+      // left: 0;
+      z-index: 99;
+      // height: 100%;
+      // width: 100%;
+      background-color: #fff;
+      flex-direction: row;
+      overflow-x: auto;
+      display: flex;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      li {
+        height: 100%;
+        flex: 0 0 22%;
+        flex-grow: 1;
+        // flex: 1;
+        font-size: 14px;
+        text-align: center;
+        // &.on {
+        //   background: linear-gradient(to right, #f4e7d0, #e2cfaa);
+        // }
+      }
     }
   }
 }

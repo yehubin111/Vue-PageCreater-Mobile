@@ -1,65 +1,115 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import Toast from 'vant/lib/toast';
-// import { getUserToken } from "@/packages/phonePlugins";
+import { getUserTokenFromUA, inApp } from "@/packages/common";
+import { URL, WHITELIST } from "@/assets/url";
 
-const AXIOS = axios.create({
-    // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
-    timeout: 10000,
-    headers: {
-        // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
-    }
-})
-
-// const getToken = (function () {
-//     let token = "";
-//     return function () {
-//         return new Promise((resolve, reject) => {
-//             if (token)
-//                 resolve(token);
-//             else {
-//                 getUserToken();
-//                 (window as any).jsGetAppToken = (usertoken: string) => {
-//                     token = usertoken;
-//                     resolve(token);
-//                 }
-//             }
-//         })
-//     }
-// })();
-
-// token
-export const userToken = process.env.VUE_APP_URLBASE == "production"
-    ? "989c594b138a1ac42325706180f49010"
-    : "0db0242aad6b5266fa7b61857ba34b22";
-// request拦截器
-AXIOS.interceptors.request.use(
-    async config => {
-        let token = navigator.userAgent.substr(-32);
-        if(token.indexOf('/') != -1) 
-            token = userToken;
-            
-        config.headers.Authorization = token;
-        // 获取token
-        // if (config.token && !config.headers.Authorization) {
-        //     config.headers.Authorization = await getToken();
-        // }
-        // config.headers.Authorization = await getToken();
-
-        return config;
-    }
-)
-
-// response拦截器
-AXIOS.interceptors.response.use(
-    res => {
-        let r = res.data;
-        if (r.code && r.code != 0) {
-            // Toast(r.msg);
-            return Promise.reject('error');
-        } else {
-            return r;
+interface FetchData {
+    [propName: string]: any
+}
+class Fetch {
+    private axios: AxiosInstance = axios.create({
+        // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
+        timeout: 10000,
+        headers: {
+            // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
         }
+    });
+    constructor() {
+        // 初始化axios拦截器
+        this.init();
     }
-)
+    private init() {
+        let me = this;
+        // request拦截器
+        this.axios.interceptors.request.use(
+            config => {
+                let urlname = config.params.urlname;
+                /**
+                 * token获取规则
+                 * 1、不在白名单中的要先获取token
+                 * 2、在灰名单中的如果获取不到token依然可以发送请求
+                 * 3、获取不到token的则跳转登录，取消请求
+                 */
+                if (!WHITELIST.includes(urlname)) {
+                    let token = getUserTokenFromUA(urlname);
+                    config.headers.Authorization = token[1];
+                    if (token[0]) {
+                        return Promise.reject(new Error('no Authorization'))
+                    }
+                }
+                delete config.params.urlname;
+                return config;
+            }, err => {
+                console.log(err);
+                return Promise.reject(err)
+            }
+        )
 
-export default AXIOS;
+        // response拦截器
+        this.axios.interceptors.response.use(
+            res => {
+                let r = res.data;
+                if (r.code == '0') {
+                    return r;
+                } else {
+                    let msg = r.msg;
+                    // 1003 token失效情况，跳转登录
+                    if (r.code == 1003 && !inApp()) {
+                        let baseurl = encodeURIComponent(location.href);
+                        let loginpage = URL.login.replace('{baseurl}', baseurl);
+                        location.href = loginpage;
+                    }
+                    Toast(msg);
+                    return Promise.reject(msg);
+                }
+            }, err => {
+                console.log(err);
+                return Promise.reject(err);
+            }
+        )
+    }
+    post(urlname: string, params: FetchData) {
+        let url = URL[urlname];
+
+        return new Promise((resolve, reject) => {
+            this.axios({
+                url,
+                data: params,
+                method: 'post',
+                params: { urlname }
+            })
+                .then(response => {
+                    resolve(response);
+                }).catch(err => {
+                    console.log(err);
+                    reject(err);
+                });
+        })
+
+    }
+    get(urlname: string, params: FetchData) {
+        let url = URL[urlname];
+        let str = '';
+        Object.keys(params).forEach(v => {
+            str += `&${v}=${params[v]}`;
+        });
+        url = `${URL[urlname]}?${str.substr(1)}`;
+
+        return new Promise((resolve, reject) => {
+            this.axios({
+                url,
+                data: {},
+                method: 'get',
+                params: { urlname }
+            })
+                .then(response => {
+                    resolve(response);
+                }).catch(err => {
+                    console.log(err);
+                    reject(err);
+                });
+        })
+    }
+}
+
+export default new Fetch();

@@ -8,8 +8,13 @@
 import axios from "axios";
 import { getSearch } from "@/assets/common";
 import Module from "./Module";
-import { hsChangeTitle } from "@/packages/phonePlugins";
+import { hsChangeTitle, activeShare, isWeixin, openApp } from "@/packages/phonePlugins";
 export default {
+  provide() {
+    return {
+      pv_inviteCode: this.$route.query.inviteCode
+    };
+  },
   data() {
     return {
       // href: location.href,
@@ -21,15 +26,19 @@ export default {
     Module
   },
   created() {
-    let pageid = getSearch('pageid');
+    // let toapp = this.$route.query.toapp;
+    // // 如果不是微信环境，打开页面跳转toapp地址
+    // if(!isWeixin() && toapp) {
+    //   openApp(toapp);
+    // }
+    let pageid = getSearch("pageid");
+    // let pageid = this.$route.query.pageid;
     let url = `${this.baseurl}/${pageid}`;
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
     });
   },
-  mounted() {
-    
-  },
+  mounted() {},
   computed: {
     globalConfigs() {
       return this.configs.globalconfig;
@@ -45,7 +54,14 @@ export default {
   watch: {
     globalConfigs(n, o) {
       document.title = n.title;
+      // 页面标题
       hsChangeTitle(n.title);
+      // 是否开启分享
+      if (n.share) {
+        // 去掉#后面的内容
+        let spl = location.href.indexOf('#');
+        activeShare(n.title, n.subhead || "", location.href.substring(0, spl));
+      }
     }
   }
 };

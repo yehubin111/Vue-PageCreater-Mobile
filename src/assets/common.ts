@@ -1,5 +1,7 @@
 import Clipboard from 'clipboard';
 import { Msgsuccess } from './plugins';
+import { URL } from '@/assets/url';
+
 export function getSearch(key: string, url?: string) {
     let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : '';
     let _sh = urlsearch ? urlsearch[0].substr(1) : decodeURIComponent(location.search.substr(1));
@@ -8,6 +10,16 @@ export function getSearch(key: string, url?: string) {
 
     let _search = new URLSearchParams(_sh);
     return _search.get(key);
+}
+
+export function setSearch(key: string, val: string, url?: string) {
+    console.log(key, val, url);
+    let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : location.search.match(/(?:\?)[^\#]*/g);
+    let _sh = urlsearch ? urlsearch[0].substr(1) : "";
+
+    let _search = new URLSearchParams(_sh);
+    _search.set(key, val)
+    return _search.toString();
 }
 
 export function typeJudge(data: any, type?: string) {

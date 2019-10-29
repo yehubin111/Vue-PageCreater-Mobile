@@ -11,8 +11,8 @@
       :on-progress="onProgress"
     >
       <div class="imageshow">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-        <el-progress class="circle" v-else-if="progress" type="circle" :percentage="percent"></el-progress>
+        <el-progress class="circle" v-if="progress" type="circle" :percentage="percent"></el-progress>
+        <img v-else-if="imageUrl" :src="imageUrl" class="avatar" />
         <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height: 178px;"></i>
       </div>
     </el-upload>
