@@ -151,7 +151,7 @@ export default {
       listindex: [0, 1, 2, 5, 8, 7, 6, 3],
       listlength: 9,
       present: -1,
-      lock: true, // 防止反复抽奖
+      // lock: true, // 防止反复抽奖
       presentindex: 0,
       speedorigin: 300,
       speed: 0, // 转动速度，越小越快
@@ -301,13 +301,13 @@ export default {
       return true;
     },
     async prepareAward() {
-      if(!this.lock) return;
-      this.lock = false;
+      if (!this.runlock) return;
+      this.runlock = false;
       // 抽奖检查
       let check = await this.validCheck();
       if (!check) {
         // 重新开启抽奖
-        this.lock = true;
+        this.runlock = true;
         return;
       }
       // 去抽奖
@@ -343,8 +343,6 @@ export default {
         };
 
         this.starttime = Date.now();
-
-        if (!this.runlock) return;
         // 动画参数初始化
         this.runInit();
         // 开始动画
@@ -362,7 +360,7 @@ export default {
       }
     },
     runInit() {
-      this.runlock = false;
+      // this.runlock = false;
       this.speed = this.speedorigin;
       // this.present = -1;
       // this.presentindex = 0;
@@ -394,8 +392,6 @@ export default {
           if (this.speed > 50) this.speed -= this.accelerated;
           this.runStart();
         }
-        // 重新开启抽奖
-        this.lock = true;
       }, this.speed);
     },
     debounceFunc: (() => {
