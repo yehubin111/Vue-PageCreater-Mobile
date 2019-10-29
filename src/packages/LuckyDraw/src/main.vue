@@ -37,7 +37,7 @@
         <p class="toast-info ff-l">{{errmsg}}</p>
         <div class="toast-button row-flex jc ac">
           <p class="toast-button-cancel ff-l" @click="errordialog = false" v-show="errtype == 1">取消</p>
-          <p class="toast-button-go ff-l" @click="getAward" v-show="errtype == 1">立即抽奖</p>
+          <p class="toast-button-go ff-l" @click="prepareAward" v-show="errtype == 1">立即抽奖</p>
           <p class="toast-button-ok ff-l" @click="errordialog = false" v-show="errtype != 1">我知道了</p>
         </div>
       </div>
@@ -151,6 +151,7 @@ export default {
       listindex: [0, 1, 2, 5, 8, 7, 6, 3],
       listlength: 9,
       present: -1,
+      lock: true, // 防止反复抽奖
       presentindex: 0,
       speedorigin: 300,
       speed: 0, // 转动速度，越小越快
@@ -300,8 +301,15 @@ export default {
       return true;
     },
     async prepareAward() {
+      if(!this.lock) return;
+      this.lock = false;
       // 抽奖检查
-      if (!(await this.validCheck())) return;
+      let check = await this.validCheck();
+      if (!check) {
+        // 重新开启抽奖
+        this.lock = true;
+        return;
+      }
       // 去抽奖
       this.getAward();
     },
@@ -386,6 +394,8 @@ export default {
           if (this.speed > 50) this.speed -= this.accelerated;
           this.runStart();
         }
+        // 重新开启抽奖
+        this.lock = true;
       }, this.speed);
     },
     debounceFunc: (() => {
