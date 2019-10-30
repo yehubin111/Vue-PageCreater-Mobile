@@ -33,7 +33,7 @@ export function toGoodsDetial(productId: string, inviteCode: string) {
         }
     else {
         if (!jumpCtrl()) return;
-
+        
         let url = URL.productdetail.replace('{productId}', productId)
             .replace('{inviteCode}', inviteCode)
             .replace('{activeId}', '');

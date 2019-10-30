@@ -12,7 +12,7 @@ import { hsChangeTitle, activeShare, isWeixin, openApp } from "@/packages/phoneP
 export default {
   provide() {
     return {
-      pv_inviteCode: this.$route.query.inviteCode
+      pv_inviteCode: getSearch("inviteCode")
     };
   },
   data() {
