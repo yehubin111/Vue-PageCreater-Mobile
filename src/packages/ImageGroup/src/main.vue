@@ -19,7 +19,7 @@
 import Fetch from "@/packages/axiosPack";
 import Toast from "vant/lib/toast";
 import { toGoodsDetial, toTopic, toScheme } from "@/packages/phonePlugins";
-import { inApp } from "@/assets/common";
+import { inApp, setSearch } from "@/assets/common";
 import AlertModule from "@/packages/components/AlertModule";
 export default {
   name: "HsImageGroup",
@@ -148,11 +148,13 @@ export default {
     getCoupon(code) {
       let params = new FormData();
       params.append("cpBatchNumber", code);
-      Fetch.post("coupon", params).then(res => {
-        Toast(res.msg);
-      }).catch(err => {
-        console.log(err);
-      });
+      Fetch.post("coupon", params)
+        .then(res => {
+          Toast(res.msg);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     clickCallback(i) {
       switch (this.clickEvent) {
@@ -168,7 +170,14 @@ export default {
           toGoodsDetial(i.goodsdetail.trim(), this.pv_inviteCode);
           break;
         case "h5link":
-          location.href = i.h5link;
+          // 特殊情况处理，如果链接为另外一个活动页，把邀请码带过去
+          let url = i.h5link;
+          if (url.indexOf("pagetemplate") != -1) {
+            let search = setSearch("inviteCode", this.pv_inviteCode, url);
+            let sidx = url.indexOf("?");
+            url = url.substring(0, sidx) + "?" + search;
+          }
+          location.href = url;
           break;
         case "couponid":
           this.getCoupon(i.couponid.trim());

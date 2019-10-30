@@ -13,7 +13,6 @@ export function getSearch(key: string, url?: string) {
 }
 
 export function setSearch(key: string, val: string, url?: string) {
-    console.log(key, val, url);
     let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : location.search.match(/(?:\?)[^\#]*/g);
     let _sh = urlsearch ? urlsearch[0].substr(1) : "";
 
