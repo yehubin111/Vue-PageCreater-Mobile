@@ -11,6 +11,7 @@ class Fetch {
         // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
         timeout: 10000,
         headers: {
+            Platform: 'web'
             // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
         }
     });

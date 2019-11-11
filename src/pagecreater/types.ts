@@ -23,7 +23,7 @@ export interface Config {
     name: string; // 显示名
     moduleName: string; // 模块名 
     component?: Config[]; // 包含组件列表
-    show?: boolean; // 是否显示到左槽列表
+    show?: boolean; // 是否显示到左边列表
     props?: Props; // 实际参数
     info?: Info; // info
 }
