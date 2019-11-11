@@ -33,7 +33,7 @@
               @click="toGoodsDetialPage(g.productId.toString())"
             >
               <div class="img ac jc">
-                <img v-load :data-src="g.mainPicAddress" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
+                <img v-load :data-src="g.mainPicAddress | listPic" src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX" alt />
                 <div
                   class="tag"
                   :class="tagPosition"
@@ -301,9 +301,6 @@ export default {
       };
       Fetch.get('goodslist', params).then(res => {
         this.list = res.data.productsList;
-        this.list.forEach(v => {
-          v.mainPicAddress += '?imageView2/0/w/400';
-        })
       });
     },
     toGoodsDetialPage(productId) {
