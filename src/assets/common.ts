@@ -1,8 +1,8 @@
 import Clipboard from 'clipboard';
 import { Msgsuccess } from './plugins';
-import { URL } from '@/assets/url';
+import * as Common from './type';
 
-export function getSearch(key: string, url?: string) {
+export const getSearch: Common.GetSearch = (key, url) => {
     let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : '';
     let _sh = urlsearch ? urlsearch[0].substr(1) : decodeURIComponent(location.search.substr(1));
     if (!_sh)
@@ -12,7 +12,7 @@ export function getSearch(key: string, url?: string) {
     return _search.get(key);
 }
 
-export function setSearch(key: string, val: string, url?: string) {
+export const setSearch: Common.SetSearch = (key, val, url) => {
     let urlsearch = url ? url.match(/(?:\?)[^\#]*/g) : location.search.match(/(?:\?)[^\#]*/g);
     let _sh = urlsearch ? urlsearch[0].substr(1) : "";
 
@@ -21,7 +21,7 @@ export function setSearch(key: string, val: string, url?: string) {
     return _search.toString();
 }
 
-export function typeJudge(data: any, type?: string) {
+export const typeJudge: Common.TypeJudge = (data, type) => {
     if (!type)
         return Object.prototype.toString.call(data).slice(8, -1)
     else
@@ -48,9 +48,6 @@ export function textCopy(target: string) {
     });
 }
 
-interface Func {
-
-}
 export function debounceFc(func: any, wait: number) {
     let timeout: any;
     return function (this: any) {

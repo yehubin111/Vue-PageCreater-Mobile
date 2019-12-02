@@ -1,5 +1,5 @@
 
-import { Config } from '@/pagecreater/types';
+import { Config } from '@/pagecreater/type';
 
 const components: Config[] = [
     {

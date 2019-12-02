@@ -1,9 +1,9 @@
 
 import { typeJudge } from './common';
-import { Info, Props, Config, InfoObject, InfoArray } from '@/pagecreater/types';
-import { Vue as _Vue } from 'vue/types/vue'
+import { Info, Props, Config, InfoObject, InfoArray } from '@/pagecreater/type';
+import { VueConstructor } from 'vue'
 export default {
-    install(Vue: typeof _Vue) {
+    install(Vue: VueConstructor) {
         // info to config
         Vue.prototype.$i2c = function(info: InfoObject, type?: string): Props {
             let config = type == 'Array' ? [] : {};

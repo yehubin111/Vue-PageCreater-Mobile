@@ -2,6 +2,7 @@ import { inApp, jumpCtrl } from '@/packages/common';
 // import { setSearch } from '@/assets/common';
 import { URL } from '@/assets/url';
 import Toast from "vant/lib/toast";
+import { StartType, AppPageName } from './type';
 // import store from '@/pagetemplate/store';
 
 /* 客户端交互 */
@@ -230,10 +231,9 @@ export function isWeixin() {
     return (agent as any).match(/MicroMessenger/i) == 'micromessenger';
 }
 
-type AppPageName = 'taskcenter' | 'coupon' | 'card' | 'cloud';
 // 浏览器中H5唤起APP并打开商品详情页面
 export function openApp(name: AppPageName, params?: any) {
-    let startType = {
+    let startType: StartType = {
         'taskcenter': '请至APP—首页—任务中心做任务获得哦～',
         'coupon': '请至APP—我的—我的优惠券中查看哦～',
         'card': '请至APP—我的—我的会员卡中查看哦～',

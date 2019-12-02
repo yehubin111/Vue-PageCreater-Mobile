@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex, { MutationTree } from "vuex";
-import { Config } from '@/pagecreater/types';
+import { Config } from '@/pagecreater/type';
 // import VuexPersistence from "vuex-persist";
 // const vuexLocal: any = new VuexPersistence({
 //   storage: window.localStorage
