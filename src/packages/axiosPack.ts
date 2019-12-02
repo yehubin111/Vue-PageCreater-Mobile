@@ -32,7 +32,6 @@ class Fetch {
                 if (!WHITELIST.includes(urlname)) {
                     let token = getUserTokenFromUA(urlname);
                     config.headers.Authorization = token[1];
-                    Toast(token[1]);
                     if (token[0]) {
                         return Promise.reject(new Error('no Authorization'))
                     }
