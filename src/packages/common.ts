@@ -39,7 +39,6 @@ export const barrageTime: Tp.BarrageTime = time => {
 
 // 判断是否在云仓app内部, 云仓app ua后32位为token
 export const inApp: Tp.InApp = () => {
-    Toast(navigator.userAgent);
     let token = navigator.userAgent.substr(-32);
     return token.indexOf('/') == -1 ? token : false;
 }
