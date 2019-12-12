@@ -83,7 +83,7 @@ import {
   toMyCard
 } from "@/packages/phonePlugins";
 import { debounceFc } from "@/assets/common";
-import { getUserTokenFromUA } from '@/packages/common';
+import { getUserTokenFromUA, inApp } from "@/packages/common";
 import { mapState } from "vuex";
 
 export default {
@@ -274,7 +274,13 @@ export default {
         } else if (r.code == 0)
           // 云朵次数判断
           return this.luckyCheck();
-        else {
+        else if (r.code == 1003 && !inApp()) {
+          // 1003 token失效情况，跳转登录
+          let baseurl = encodeURIComponent(location.href);
+          let loginpage = URL.login.replace("{baseurl}", baseurl);
+          location.href = loginpage;
+          return false;
+        } else {
           Toast(r.msg);
           return false;
         }

@@ -5,6 +5,7 @@ import store from './store';
 import ElmentUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import HsModule from '@/packages';
+import Filters from '@/packages/filters';
 import Mixins from './mixins';
 import Plugins from '@/assets/installPlugins';
 import { lazyLoad } from '@/assets/common';
@@ -39,6 +40,10 @@ Vue.directive('load', {
             el.setAttribute('src', img!);
         }
     }
+})
+// 过滤器
+Object.keys(Filters).forEach(key => {
+    Vue.filter(key, Filters[key])
 })
 
 new Vue({

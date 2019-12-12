@@ -1,4 +1,4 @@
-import { Info } from '@/pagecreater/types';
+import { Info } from '@/pagecreater/type';
 
 // 一些需要补充单位的属性 key: unit
 // export const unitKey: UnitKey = {

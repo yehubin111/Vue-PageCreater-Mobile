@@ -30,7 +30,7 @@
         <div class="img">
           <img
             v-load
-            :data-src="g.mainPicAddress"
+            :data-src="g.mainPicAddress | listPic"
             src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX"
             alt
           />
@@ -107,7 +107,7 @@
         <div class="img">
           <img
             v-load
-            :data-src="g.mainPicAddress"
+            :data-src="g.mainPicAddress | listPic"
             src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX"
             alt
           />
@@ -184,7 +184,7 @@
         <div class="img">
           <img
             v-load
-            :data-src="g.mainPicAddress"
+            :data-src="g.mainPicAddress | listPic"
             src="http://p7.highstreet.top/FqKVW8g19S87vqKepWTLdq6S16eX"
             alt
           />
@@ -522,9 +522,6 @@ export default {
       };
       Fetch.get('goodslist', params).then(res => {
         let r = res.data.productsList;
-        r.forEach(v => {
-          v.mainPicAddress += "?imageView2/0/w/400";
-        });
         this.list = this.list.concat(r);
         this.pageOffset += parseInt(this.pageSize);
         if (res.count <= this.pageOffset) {

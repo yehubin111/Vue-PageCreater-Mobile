@@ -1,15 +1,15 @@
 <template>
   <div class="floatnav" :ref="ref" :id="ref">
     <div class="floatbox" :style="{height: $px2vw(baseInfo.height)}">
-      <div class="floatbox" :style="{position: navfloat? 'fixed':'inherit'}">
+      <div class="floatbox" :style="{position: navfloat? 'fixed':'inherit', 'height': $px2vw(baseInfo.height)}">
         <ul class="float" :style="{'background-color': baseInfo.backgroundColor}">
           <li
             v-for="(nav, index) in navlist"
             :key="index"
+            class="row-flex ac jc"
             :class="{on: listindex == index}"
             @click="toChange(index)"
             :style="{
-            'line-height': $px2vw(baseInfo.height),
             'height': $px2vw(baseInfo.height),
             'font-size': listindex == index ? $px2vw(baseInfo.focusFontSize) : $px2vw(baseInfo.fontSize),
             'background-color': listindex == index ? baseInfo.focusBackgroundColor:'inherit',
@@ -257,6 +257,7 @@ export default {
     z-index: 99;
     // height: 100%;
     width: 100%;
+    overflow: hidden;
     .float {
       // top: 0;
       // left: 0;
@@ -267,6 +268,8 @@ export default {
       flex-direction: row;
       overflow-x: auto;
       display: flex;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 6px;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -277,6 +280,7 @@ export default {
         // flex: 1;
         font-size: 14px;
         text-align: center;
+        line-height: 14px;
         // &.on {
         //   background: linear-gradient(to right, #f4e7d0, #e2cfaa);
         // }

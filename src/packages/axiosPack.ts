@@ -3,18 +3,17 @@ import Toast from 'vant/lib/toast';
 import { getUserTokenFromUA, inApp } from "@/packages/common";
 import { URL, WHITELIST } from "@/assets/url";
 
-interface FetchData {
-    [propName: string]: any
-}
+type FetchData = Record<string, any>;
 class Fetch {
     private axios: AxiosInstance = axios.create({
         // baseURL: baseurl[process.env.VUE_APP_URLBASE].BASE_URL,
         timeout: 10000,
         headers: {
+            Platform: 'web'
             // Authorization: "0db0242aad6b5266fa7b61857ba34b22"
         }
     });
-    constructor() {
+    public constructor() {
         // 初始化axios拦截器
         this.init();
     }
@@ -68,7 +67,7 @@ class Fetch {
             }
         )
     }
-    post(urlname: string, params: FetchData) {
+    public post(urlname: string, params: FetchData) {
         let url = URL[urlname];
 
         return new Promise((resolve, reject) => {
@@ -87,7 +86,7 @@ class Fetch {
         })
 
     }
-    get(urlname: string, params: FetchData) {
+    public get(urlname: string, params: FetchData) {
         let url = URL[urlname];
         let str = '';
         Object.keys(params).forEach(v => {
