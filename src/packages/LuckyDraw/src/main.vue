@@ -260,7 +260,6 @@ export default {
       };
       return _axios.post(URL.luckycheck, params, this.header).then(res => {
         let r = res.data;
-        console.log(r);
         // 弹窗
         if (r.code == 1002) {
           if (r.data == 2) {
@@ -355,6 +354,9 @@ export default {
         this.runInit();
         // 开始动画
         this.runStart();
+      }).catch(err => {
+        // 抽奖失败重新开启抽奖
+        this.runlock = true;
       });
     },
     awardResult() {
