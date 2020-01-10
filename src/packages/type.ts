@@ -14,6 +14,10 @@ export interface InApp {
 export interface JumpCtrl {
     (): boolean;
 }
+// 判断是否第三方app登录
+export interface InThirdParty {
+    (): boolean | string
+}
 // 图片
 export interface Pic {
     (pic: string, size?: number): string;

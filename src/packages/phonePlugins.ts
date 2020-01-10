@@ -1,4 +1,4 @@
-import { inApp, jumpCtrl } from '@/packages/common';
+import { inApp, jumpCtrl, inThirdParty } from '@/packages/common';
 // import { setSearch } from '@/assets/common';
 import { URL } from '@/assets/url';
 import Toast from "vant/lib/toast";
@@ -35,9 +35,10 @@ export function toGoodsDetial(productId: string, inviteCode: string) {
     else {
         if (!jumpCtrl()) return;
         
+        let source = inThirdParty();
         let url = URL.productdetail.replace('{productId}', productId)
             .replace('{inviteCode}', inviteCode)
-            .replace('{activeId}', '');
+            .replace('{activeId}', '') + source ? `&source=1` : "";;
         location.href = url;
     }
 }
@@ -60,8 +61,9 @@ export function toTopic(topicId: string, inviteCode: string) {
     else {
         if (!jumpCtrl()) return;
 
+        let source = inThirdParty();
         let url = URL.topic.replace('{topicid}', topicId)
-            .replace('{inviteCode}', inviteCode)
+            .replace('{inviteCode}', inviteCode) + source ? `&source=1` : "";
         location.href = url;
     }
 }
@@ -149,12 +151,14 @@ export function toScheme(weex: string, inviteCode: string) {
     } else {
         if (!jumpCtrl()) return;
 
+        let source = inThirdParty();
         switch (weex) {
             case 'secklist':
-                let url = URL.msecklist.replace('{inviteCode}', inviteCode);
+                let url = URL.msecklist.replace('{inviteCode}', inviteCode) + source ? `&source=1` : "";
                 location.href = url;
                 break;
             case 'taskcenter':
+                if (source) return;
                 openApp(weex);
                 break;
         }
@@ -177,7 +181,7 @@ export function toMyCoupon() {
             console.log(e);
         }
     else {
-        if (!jumpCtrl()) return;
+        if (!jumpCtrl() || inThirdParty()) return;
         openApp('coupon');
     }
 }
@@ -198,7 +202,7 @@ export function toMyCloud() {
             console.log(e);
         }
     else {
-        if (!jumpCtrl()) return;
+        if (!jumpCtrl() || inThirdParty()) return;
         openApp('cloud');
     }
 }
@@ -219,7 +223,7 @@ export function toMyCard() {
             console.log(e);
         }
     else {
-        if (!jumpCtrl()) return;
+        if (!jumpCtrl() || inThirdParty()) return;
         openApp('card');
     }
 }

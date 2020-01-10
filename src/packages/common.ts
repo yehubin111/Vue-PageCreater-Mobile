@@ -1,4 +1,5 @@
 import { URL, GRAYLIST } from '@/assets/url';
+import { getSearch } from "@/assets/common";
 import * as Tp from './type';
 import Toast from 'vant/lib/toast';
 
@@ -47,4 +48,10 @@ export const inApp: Tp.InApp = () => {
 export const jumpCtrl: Tp.JumpCtrl = () => {
     let local = location.pathname;
     return local.indexOf('pagetemplate') != -1;
+}
+
+// 20200110新增，在根据url上是否带source=1参数，判断是否在第三方app打开
+export const inThirdParty: Tp.InThirdParty = () => {
+    let source = getSearch('source');
+    return source == '1' ? source : false;
 }
