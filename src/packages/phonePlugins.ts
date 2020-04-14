@@ -38,7 +38,7 @@ export function toGoodsDetial(productId: string, inviteCode: string) {
         let source = inThirdParty();
         let url = URL.productdetail.replace('{productId}', productId)
             .replace('{inviteCode}', inviteCode)
-            .replace('{activeId}', '') + source ? `&source=1` : "";;
+            .replace('{activeId}', '') + (source ? `&source=1` : "");
         location.href = url;
     }
 }
