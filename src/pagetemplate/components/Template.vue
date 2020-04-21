@@ -8,7 +8,12 @@
 import axios from "axios";
 import { getSearch } from "@/assets/common";
 import Module from "./Module";
-import { hsChangeTitle, activeShare, isWeixin, openApp } from "@/packages/phonePlugins";
+import {
+  hsChangeTitle,
+  activeShare,
+  isWeixin,
+  openApp
+} from "@/packages/phonePlugins";
 export default {
   provide() {
     return {
@@ -37,6 +42,9 @@ export default {
     axios.get(decodeURIComponent(url)).then(res => {
       this.configs = res.data;
     });
+    // 20200421新增，根据source判断是否在其他app上打开，支付成功页面判断用
+    let source = getSearch("source");
+    if (source) localStorage.setItem("h5source", source);
   },
   mounted() {},
   computed: {
@@ -59,7 +67,7 @@ export default {
       // 是否开启分享
       if (n.share) {
         // 去掉#后面的内容
-        let spl = location.href.indexOf('#');
+        let spl = location.href.indexOf("#");
         activeShare(n.title, n.subhead || "", location.href.substring(0, spl));
       }
     }
