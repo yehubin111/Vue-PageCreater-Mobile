@@ -34,7 +34,7 @@ export function toGoodsDetial(productId: string, inviteCode: string) {
         }
     else {
         if (!jumpCtrl()) return;
-        
+
         let source = inThirdParty();
         let url = URL.productdetail.replace('{productId}', productId)
             .replace('{inviteCode}', inviteCode)
@@ -63,7 +63,7 @@ export function toTopic(topicId: string, inviteCode: string) {
 
         let source = inThirdParty();
         let url = URL.topic.replace('{topicid}', topicId)
-            .replace('{inviteCode}', inviteCode) + source ? `&source=1` : "";
+            .replace('{inviteCode}', inviteCode) + (source ? `&source=1` : "");
         location.href = url;
     }
 }
@@ -92,7 +92,7 @@ export function activeShare(title: string, desc: string, link: string) {
                 (window as any).JSInterface.activeShare(title, desc, link);
                 break;
             case 'IOS':
-                (window as any).webkit.messageHandlers.activeShare.postMessage({title, description: desc, linkUrl: link});
+                (window as any).webkit.messageHandlers.activeShare.postMessage({ title, description: desc, linkUrl: link });
                 break;
         }
     } catch (e) {
@@ -154,7 +154,7 @@ export function toScheme(weex: string, inviteCode: string) {
         let source = inThirdParty();
         switch (weex) {
             case 'secklist':
-                let url = URL.msecklist.replace('{inviteCode}', inviteCode) + source ? `&source=1` : "";
+                let url = URL.msecklist.replace('{inviteCode}', inviteCode) + (source ? `&source=1` : "");
                 location.href = url;
                 break;
             case 'taskcenter':
