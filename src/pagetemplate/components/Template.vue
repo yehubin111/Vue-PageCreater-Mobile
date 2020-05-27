@@ -103,7 +103,7 @@ export default {
               title,
               desc,
               link: location.href,
-              imgUrl: "",
+              imgUrl: "http://p7.highstreet.top/FmUOLdw3Td3WLuzOjIk0eAJLzt1q",
               success: function() {
                 alert("成功");
               },
@@ -116,6 +116,8 @@ export default {
             });
             wx.updateTimelineShareData({
               title,
+              link: location.href,
+              imgUrl: "http://p7.highstreet.top/FmUOLdw3Td3WLuzOjIk0eAJLzt1q",
               success: function() {
                 // 设置成功
               }
