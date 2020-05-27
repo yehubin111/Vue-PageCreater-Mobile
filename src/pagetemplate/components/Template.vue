@@ -83,7 +83,7 @@ export default {
           )}`
         )
         .then(res => {
-          let r = res.data;
+          let r = res.data.data;
           wx.config({
             appId: r.appid, // 必填，公众号的唯一标识
             timestamp: r.timestamp, // 必填，生成签名的时间戳
