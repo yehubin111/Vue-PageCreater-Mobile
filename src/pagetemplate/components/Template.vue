@@ -96,22 +96,14 @@ export default {
               "updateTimelineShareData"
             ] // 必填，需要使用的JS接口列表
           });
-          alert(2);
           wx.ready(function() {
-            alert(1);
             wx.updateAppMessageShareData({
               title,
               desc,
               link: location.href,
               imgUrl: "http://p7.highstreet.top/FmUOLdw3Td3WLuzOjIk0eAJLzt1q",
               success: function() {
-                alert("成功");
-              },
-              complete: function() {
-                alert("完成");
-              },
-              fail: function() {
-                alert("失败");
+                
               }
             });
             wx.updateTimelineShareData({
