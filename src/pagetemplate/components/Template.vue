@@ -85,14 +85,15 @@ export default {
         .then(res => {
           let r = res.data.data;
           wx.config({
-            debug: false,
+            debug: true,
             appId: r.appid, // 必填，公众号的唯一标识
             timestamp: r.timestamp, // 必填，生成签名的时间戳
             nonceStr: r.noncestr, // 必填，生成签名的随机串
             signature: r.sign, // 必填，签名
             jsApiList: [
               // JS接口列表
-              "updateAppMessageShareData"
+              "updateAppMessageShareData",
+              "updateTimelineShareData"
             ] // 必填，需要使用的JS接口列表
           });
           alert(2);
@@ -101,14 +102,22 @@ export default {
             wx.updateAppMessageShareData({
               title,
               desc,
+              link: location.href,
+              imgUrl: "",
               success: function() {
-                alert('成功')
+                alert("成功");
               },
               complete: function() {
-                alert('完成')
+                alert("完成");
               },
               fail: function() {
-                alert('失败')
+                alert("失败");
+              }
+            });
+            wx.updateTimelineShareData({
+              title,
+              success: function() {
+                // 设置成功
               }
             });
           });
