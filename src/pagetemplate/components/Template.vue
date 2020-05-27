@@ -91,11 +91,11 @@ export default {
             signature: r.sign, // 必填，签名
             jsApiList: [
               // JS接口列表
-              "onMenuShareAppMessage"
+              "updateAppMessageShareData"
             ] // 必填，需要使用的JS接口列表
           });
           wx.ready(function() {
-            wx.onMenuShareAppMessage({
+            wx.updateAppMessageShareData({
               title,
               desc
             });
