@@ -69,6 +69,7 @@ const url: Url = {
         luckydraw: '/api_yuncang/lottery/getLottery', // 初始化抽奖
         getaward: '/api_yuncang/lottery/drawLottery', // 获取奖品
         luckycheck: '/api_yuncang/lottery/checkLotteryVaild', // 抽空校验
+        // getWxJsSDKSign: '/api_merchant/wx/getWxJsSDKSign', // 微信sdk签名
     },
     weex: {
         taskcenter: '/taskcenter.js', // 任务中心

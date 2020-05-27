@@ -64,12 +64,24 @@ export default {
       document.title = n.title;
       // 页面标题
       hsChangeTitle(n.title);
+      // 初始化微信分享配置
+      this.initWxJsSDKSign();
       // 是否开启分享
       if (n.share) {
         // 去掉#后面的内容
         let spl = location.href.indexOf("#");
         activeShare(n.title, n.subhead || "", location.href.substring(0, spl));
       }
+    }
+  },
+  methods: {
+    initWxJsSDKSign() {
+      console.log(encodeURIComponent(location.href));
+      axios
+        .get("/api_yuncang/wap/order/getWxJsSDKSign", {
+          pageUrl: encodeURIComponent(location.href)
+        })
+        .then(res => {});
     }
   }
 };
