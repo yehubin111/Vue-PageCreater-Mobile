@@ -85,6 +85,7 @@ export default {
         .then(res => {
           let r = res.data.data;
           wx.config({
+            debug: false,
             appId: r.appid, // 必填，公众号的唯一标识
             timestamp: r.timestamp, // 必填，生成签名的时间戳
             nonceStr: r.noncestr, // 必填，生成签名的随机串
@@ -94,10 +95,21 @@ export default {
               "updateAppMessageShareData"
             ] // 必填，需要使用的JS接口列表
           });
+          alert(2);
           wx.ready(function() {
+            alert(1);
             wx.updateAppMessageShareData({
               title,
-              desc
+              desc,
+              success: function() {
+                alert('成功')
+              },
+              complete: function() {
+                alert('完成')
+              },
+              fail: function() {
+                alert('失败')
+              }
             });
           });
         });
