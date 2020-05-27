@@ -65,7 +65,7 @@ export default {
       // 页面标题
       hsChangeTitle(n.title);
       // 初始化微信分享配置
-      this.initWxJsSDKSign();
+      this.initWxJsSDKSign(n.title, n.subhead);
       // 是否开启分享
       if (n.share) {
         // 去掉#后面的内容
@@ -75,13 +75,32 @@ export default {
     }
   },
   methods: {
-    initWxJsSDKSign() {
-      console.log(encodeURIComponent(location.href));
+    initWxJsSDKSign(title, desc) {
       axios
-        .get("/api_yuncang/wap/order/getWxJsSDKSign", {
-          pageUrl: encodeURIComponent(location.href)
-        })
-        .then(res => {});
+        .get(
+          `/api_yuncang/wap/order/getWxJsSDKSign?pageUrl=${encodeURIComponent(
+            location.href
+          )}`
+        )
+        .then(res => {
+          let r = res.data;
+          wx.config({
+            appId: r.appid, // 必填，公众号的唯一标识
+            timestamp: r.timestamp, // 必填，生成签名的时间戳
+            nonceStr: r.noncestr, // 必填，生成签名的随机串
+            signature: r.sign, // 必填，签名
+            jsApiList: [
+              // JS接口列表
+              "onMenuShareAppMessage"
+            ] // 必填，需要使用的JS接口列表
+          });
+          wx.ready(function() {
+            wx.onMenuShareAppMessage({
+              title,
+              desc
+            });
+          });
+        });
     }
   }
 };
