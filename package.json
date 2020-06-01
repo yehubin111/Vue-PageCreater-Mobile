@@ -18,7 +18,7 @@
     "postcss-px-to-viewport": "^1.1.1",
     "qiniu-js": "^2.5.4",
     "qrcode": "^1.4.1",
-    "vant": "^2.0.9",
+    "vant": "^2.1.8",
     "vue": "^2.6.10",
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.0.3",
